@@ -74,4 +74,6 @@ class Thread extends AppModel
 		
 		$db->commit();
 	}
+
+
 }

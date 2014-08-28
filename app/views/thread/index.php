@@ -1,11 +1,25 @@
-<h1>All threads</h1>
+<!--<br />	
+<h2 class="offset3 span5" align="center">Login</h2>	
+<div class="well span5 offset3" style="padding:25px;">
+	<br />	
+	<form method="post" action="<?php eh(url('')); ?>">
+		<table align="center">
+			<tr>
+				<td align="right">Username: </td>
+		 		<td><input type="text" name="uname"/>
+		 		<font class="text-error">*</font></td>
+		 	</tr>
+		 	<tr>
+				<td align="right">Password: </td>
+		 		<td><input type="password" name="pass" />
+		 		<font class="text-error">*</font></td>
+		 	</tr>
+		 	<tr>
+		 		<td><input type="hidden" name="login" value="loggedin" /></td>
+		 		<td><input type="submit" class="btn btn-inverse span3" name="regbtn" value="Login" /></td>
+		 	</tr>
+		 </table>		
+	</form>	
+</div>
 
-<ul>
-	<?php foreach($threads as $v): ?>
-	<li><a href="<?php eh(url('thread/view', array('thread_id' => $v->id))) ?>">
-	<?php eh($v->title) ?></a>
-	</li>
-	<?php endforeach ?>
-</ul>
-
-<a class="btn btn-large btn-primary" href="<?php eh(url('thread/create')) ?>">Create</a>
+-->

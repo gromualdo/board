@@ -3,6 +3,13 @@
 class ThreadController extends AppController{
 	public function index()
 	{
+
+	}
+
+	public function threads()
+	{
+		$session = $_SESSION['user'];
+		print_r($session);
 		$threads = Thread::getAll();
 		//TODO: Get all threads
 		$this->set(get_defined_vars());
@@ -70,4 +77,5 @@ class ThreadController extends AppController{
 		$this->set(get_defined_vars());
 		$this->render($page);
 	}
+
 }

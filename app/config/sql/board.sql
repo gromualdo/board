@@ -23,3 +23,12 @@ created				DATETIME NOT NULL,
 PRIMARY KEY (id),
 INDEX (thread_id, created)
 )ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS users (
+uid 				INT UNSIGNED NOT NULL AUTO_INCREMENT,
+name 				VARCHAR(255) NOT NULL,
+emailaddress 		VARCHAR(255) NOT NULL,
+username 			VARCHAR(255) NOT NULL,
+password 			VARCHAR(255) NOT NULL,
+created				DATETIME NOT NULL,
+PRIMARY KEY(uid)
+)ENGINE=InnoDB;

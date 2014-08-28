@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>DietCake <?php eh($title) ?></title>
-
+    <link href="/bootstrap/css/own.css" rel="stylesheet">   
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">    
-    <script src="http://code.jquery.com/jquery.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
 
     <style>
@@ -17,10 +19,11 @@
 
   <body>
 
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container" >
-          <a class="brand" href="<?php eh(url('/')); ?>">I don't know what I'm doing cake</a>
+          <a class="brand" href="<?php eh(url('/')); ?>"><i class="icon icon-home icon-white"></i> Home</a>
+          <a class="brand" href="<?php eh(url('user/usersignup')); ?>"><i class="icon icon-user icon-white"></i> Register</a>
         </div>
       </div>
     </div>
@@ -34,6 +37,12 @@
     <script>
     console.log(<?php eh(round(microtime(true) - TIME_START, 3)) ?> + 'sec');
     </script>
+
+    <div class="navbar navbar-fixed-bottom footer">Geno Kim Romualdo
+    </div>
+    
+    </div>
+
 
   </body>
 </html>
