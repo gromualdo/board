@@ -15,22 +15,33 @@
         padding-top: 60px;
       }
     </style>
+    <script>
+        $(function() {
+            $( "#accordion" ).accordion({
+                collapsible: true,
+                heightStyle: "content"
+                });
+            });
+    </script>
   </head>
 
   <body>
-
-    <div class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container" >
           <a class="brand" href="<?php eh(url('/')); ?>"><i class="icon icon-home icon-white"></i> Home</a>
-          <a class="brand" href="<?php eh(url('user/usersignup')); ?>"><i class="icon icon-user icon-white"></i> Register</a>
+            <?php if(!isset($_SESSION['user'])): ?>
+                <a class="brand" href="<?php eh(url('user/usersignup')); ?>"><i class="icon icon-user icon-white"></i> Register</a>
+            <?php else: ?>
+                <a class="brand" href="<?php eh(url('user/logout')); ?>"><i class="icon icon-off icon-white"></i> Logout</a>
+            <?php endif; ?>
         </div>
       </div>
     </div>
 
     <div class="container">
 
-      <?php echo $_content_ ?>
+      <?php echo $_content_;  ?>
 
     </div>
 
@@ -38,7 +49,7 @@
     console.log(<?php eh(round(microtime(true) - TIME_START, 3)) ?> + 'sec');
     </script>
 
-    <div class="navbar navbar-fixed-bottom footer">Geno Kim Romualdo
+    <div class="navbar navbar-fixed-bottom footer">Geno Kim Romualdo TC June 2014 &#0169;
     </div>
     
     </div>

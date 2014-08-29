@@ -1,5 +1,6 @@
 <?php
-
+//start session
+session_start();
 
 // application
 require_once APP_DIR.'app_controller.php';
@@ -10,7 +11,7 @@ require_once APP_DIR.'app_exception.php';
 // helpers
 require_once HELPERS_DIR.'html_helper.php';
 require_once HELPERS_DIR.'validation_helper.php';
-
+require_once HELPERS_DIR.'pagination_helper.php';
 // config
 require_once CONFIG_DIR.'log.php';
 require_once CONFIG_DIR.'router.php';

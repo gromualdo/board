@@ -2,6 +2,7 @@
 <h2 class="offset3">Register a New account</h2>
     <?php if ($register->hasError()): ?>
         <div class="alert alert-danger span5 offset3">
+            <h4 class="alert-heading">Validation error!</h4>
             <?php if (!empty($register->validation_errors['name']['length'])): ?>
                 <div><em>Name</em> must be  between
                     <?php eh($register->validation['name']['length'][1]) ?> and
@@ -23,19 +24,13 @@
                 </div>
             <?php endif ?>
             <?php if (!empty($register->validation_errors['uname']['length'])): ?>
-                <div><em>Username</em> must be between
+                <div><em>Username</em> must be  between
                     <?php eh($register->validation['uname']['length'][1]) ?> and
                     <?php eh($register->validation['uname']['length'][2]) ?> characters in length.
                 </div>
             <?php endif ?>
             <?php if (!empty($register->validation_errors['uname']['validuname'])): ?>
                 <div>Please enter a valid <em>Username</em>
-                </div>
-            <?php endif ?>
-            <?php if (!empty($register->validation_errors['pwd']['length'])): ?>
-                <div><em>Password</em> must be between
-                    <?php eh($register->validation['pwd']['length'][1]) ?> and
-                    <?php eh($register->validation['pwd']['length'][2]) ?> characters in length.
                 </div>
             <?php endif ?>
         </div>
@@ -77,8 +72,8 @@
          </table>       
     </form> 
 </div>
-<!-- 
+<!--
 <div>
-<?php print("<pre>"); print_r($register); print("</pre>");?>
+<?php// print("<pre>"); print_r($register); print("</pre>");?>
 </div>
- -->
+-->
