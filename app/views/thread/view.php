@@ -1,12 +1,14 @@
 <h1><?php eh($thread->title) ?></h1> 
-<div id="accordion" class="span5 offset3">
+<div class=" well span4 offset">  
 <?php foreach ($comments as $k=> $v): ?>
-
-        <h3><?php eh($v->username) ?> <?php eh($v->created) ?></h3>
-        <div>
-            <?php echo readable_text($v->body) ?>
-        </div>
+    <font color='green'><?php eh($v->username) ?> <?php eh($v->created) ?></font>
+    <div>
+        <?php echo readable_text($v->body) ?><hr />
+    </div>
 <?php endforeach ?>
+<div class="center">
+    <?php echo $paged ?>
+</div>
 </div>
 <div class="well offset5">
 <form  method="post" action="<?php eh(url('thread/write')) ?>">

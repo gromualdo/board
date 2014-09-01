@@ -33,12 +33,11 @@ class UserController extends AppController
 
     public function index()
     {
-     
-       $login = new user();
-       $userlogin = Param::get('checklogin', 'index');
-       $errmsg = 0;
-       switch($userlogin) 
-       {
+        $login = new user();
+        $userlogin = Param::get('checklogin', 'index');
+        $errmsg = 0;
+        switch($userlogin) 
+        {
             case 'index':
             break;
             case '/thread/threads':
@@ -63,7 +62,7 @@ class UserController extends AppController
             default:
                 // throw new NotFoundException("{$userlogin}login error")   ;
             break;
-       }
+        }
 
        $this->set(get_defined_vars());
 

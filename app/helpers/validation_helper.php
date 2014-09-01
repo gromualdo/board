@@ -32,3 +32,4 @@ function same_password($pwd1, $pwd2)
         return 1;
     }
 }
+

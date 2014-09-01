@@ -13,37 +13,16 @@ class ThreadController extends AppController{
         }
         $session = $_SESSION['user'];
 
-        ################## start pagination try 1.1 ###########################
-        $threadobj = new Thread();
-        $totalpages = $threadobj->threadsrows();
-        
+        $totalpages = Thread::threadsrows();
+        $page = pagination::pagevalidator($totalpages);
 
-		if(isset($_GET['currentpage']) && is_numeric($_GET['currentpage']))
-		{
-			$currentpage = (int) $_GET['currentpage'];
-		}
-		else
-		{
-			$currentpage = 1;
-		}
-
-		if($currentpage > $totalpages)
-		{
-			$currentpage = $totalpages;
-		}
-		if($currentpage < 1)
-		{
-			$currentpage = 1;
-		}
 		$rowsperpage = 5;
-        $threads = Thread::getAll($currentpage, $rowsperpage);
+        $threads = Thread::getAll($page['currentpage'], $rowsperpage);
      
-		$paged = new pagination($totalpages, $rowsperpage, $currentpage);
+		$paged = new pagination($page['totalpages'], $rowsperpage, $page['currentpage']);
 		$this->set(get_defined_vars());
-		
-		############### end pagination try 1.1 #####################3
-
     }
+
     public function view()
     {
         if(session_shield($_SESSION['user'])){
@@ -52,12 +31,15 @@ class ThreadController extends AppController{
         $session = $_SESSION['user'];
         $username = $session[0]['username'];
 
-        $thread = Thread::get(Param::get('thread_id'));
-        $comments = $thread->getComments();
+        $totalpages = Thread::commentsrows();
+        $page = pagination::pagevalidator($totalpages);
 
-        // print("<pre>");
-        // print_r($comments);
-        // print("</pre>");
+        $rowsperpage = 5;
+        $thread_id = Param::get('thread_id');
+        $thread = Thread::get($thread_id);
+
+        $comments = Thread::getComments($page['currentpage'], $rowsperpage, $thread_id);
+        $paged = new pagination($page['totalpages'], $rowsperpage, $page['currentpage'], array("thread_id=$thread_id"));
 
 
         $this->set(get_defined_vars());
@@ -103,7 +85,7 @@ class ThreadController extends AppController{
         }
         $session = $_SESSION['user'];
         $username = $session[0]['username'];
-        
+
         $thread = new Thread;
         $comment = new Comment;
         $page = Param::get('page_next', 'create');
@@ -129,5 +111,8 @@ class ThreadController extends AppController{
         $this->set(get_defined_vars());
         $this->render($page);
     }
+
+
+
 
 }

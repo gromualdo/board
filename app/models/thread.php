@@ -13,7 +13,7 @@ class Thread extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row('SELECT * FROM thread WHERE id = ?', array($id));
+        $row = $db->row('SELECT * FROM thread WHERE id = ? ORDER BY id', array($id));
 
         return new self($row);
     }
@@ -22,8 +22,8 @@ class Thread extends AppModel
         $threads = array();
 
         $db = DB::conn();
-        $lowerlimit = ($currentpage - 1) * $rowsperpage;
- 
+        
+ 		$lowerlimit = ($currentpage - 1) * $rowsperpage;
         $rows = $db->rows("SELECT * FROM thread ORDER BY id DESC LIMIT $lowerlimit, $rowsperpage");
         foreach ($rows as $row)
         {
@@ -31,31 +31,21 @@ class Thread extends AppModel
         }
         return $threads;
     }
-    public function getComments()
+    public static function getComments($currentpage, $rowsperpage, $thread_id)
     {
         $comments = array();
-        $rowsperpage = 4;
-        $db = DB::conn();
+ 		$db = DB::conn();
 
-        $sqlrowcount = $db->row(
-            "SELECT COUNT(*) as num FROM comment"
-            );
-        $numrows = $sqlrowcount['num'];
-        echo $numrows;
-
+ 		$lowerlimit = ($currentpage - 1) * $rowsperpage;
         $limitrows= $db->rows(
-            "SELECT * FROM comment"
-            );
+            "SELECT * FROM comment ORDER BY id DESC LIMIT $lowerlimit, $rowsperpage");
         foreach($limitrows as $limitrow)
         {
             $comments[] = new Thread($limitrow);
         }
         // $showpages = pagination($numrows, $rowsperpage);
         // $comments[] = $showpages;
-        return $comments;
-        
-
-       
+        return $comments; 
     }
 
     public function write(Comment $comment)
@@ -88,18 +78,27 @@ class Thread extends AppModel
         $db->commit();
     }
 
-    public function threadsrows()
+    public static function threadsrows()
 	{
-	//$rowsperpage = 3;
+		$db = DB::conn();
 
-	$db = DB::conn();
+		$sqlrowcount = $db->row(
+			"SELECT COUNT(*) as num FROM thread"
+			);
+		$numrows = $sqlrowcount['num'];
 
-	$sqlrowcount = $db->row(
-		"SELECT COUNT(*) as num FROM thread"
-		);
-	$numrows = $sqlrowcount['num'];
+		return $numrows;
+	}
 
-	return $numrows;
+	public static function commentsrows()
+	{
+		$db = DB::conn();
+
+        $sqlrowcount = $db->row(
+            "SELECT COUNT(*) as num FROM comment"
+            );
+        $numrows = $sqlrowcount['num'];
+        return $numrows;
 	}
 
 }
