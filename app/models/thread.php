@@ -41,10 +41,11 @@ class Thread extends AppModel
             );
         $numrows = $sqlrowcount['num'];
 
-        $lowerlimit = ($_GET['currentpage'] - 1) * $rowsperpage;
+        // $lowerlimit = ($_GET['currentpage'] - 1) * $rowsperpage;
 
         $limitrows= $db->rows(
-            "SELECT * FROM comment ORDER BY id DESC LIMIT $lowerlimit, $rowsperpage"
+            // "SELECT * FROM comment ORDER BY id DESC LIMIT $lowerlimit, $rowsperpage"
+            "SELECT * FROM comment"
             );
         foreach($limitrows as $limitrow)
         {

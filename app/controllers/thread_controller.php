@@ -15,9 +15,9 @@ class ThreadController extends AppController{
         //TODO: Get all threads
         $this->set(get_defined_vars());
         $session = $_SESSION['user'];
-        print("<pre>");
-        print_r($session);
-        print("</pre>");
+        // print("<pre>");
+        // print_r($session);
+        // print("</pre>");
 
 
     }
@@ -32,9 +32,9 @@ class ThreadController extends AppController{
 
         $username = $session[0]['username'];
 
-        print("<pre>");
-        print_r($comments);
-        print("</pre>");
+        // print("<pre>");
+        // print_r($comments);
+        // print("</pre>");
 
 
         $this->set(get_defined_vars());
