@@ -11,14 +11,37 @@ class ThreadController extends AppController{
         if(session_shield($_SESSION['user'])){
             header("location: /");
         }
-        $threads = Thread::getAll();
-        //TODO: Get all threads
-        $this->set(get_defined_vars());
         $session = $_SESSION['user'];
-        // print("<pre>");
-        // print_r($session);
-        // print("</pre>");
 
+        ################## start pagination try 1.1 ###########################
+        $threadobj = new Thread();
+        $totalpages = $threadobj->threadsrows();
+        
+
+		if(isset($_GET['currentpage']) && is_numeric($_GET['currentpage']))
+		{
+			$currentpage = (int) $_GET['currentpage'];
+		}
+		else
+		{
+			$currentpage = 1;
+		}
+
+		if($currentpage > $totalpages)
+		{
+			$currentpage = $totalpages;
+		}
+		if($currentpage < 1)
+		{
+			$currentpage = 1;
+		}
+		$rowsperpage = 5;
+        $threads = Thread::getAll($currentpage, $rowsperpage);
+     
+		$paged = new pagination($totalpages, $rowsperpage, $currentpage);
+		$this->set(get_defined_vars());
+		
+		############### end pagination try 1.1 #####################3
 
     }
     public function view()
@@ -27,10 +50,10 @@ class ThreadController extends AppController{
             header("location: /");
         }
         $session = $_SESSION['user'];
+        $username = $session[0]['username'];
+
         $thread = Thread::get(Param::get('thread_id'));
         $comments = $thread->getComments();
-
-        $username = $session[0]['username'];
 
         // print("<pre>");
         // print_r($comments);
@@ -79,7 +102,8 @@ class ThreadController extends AppController{
             header("location: /");
         }
         $session = $_SESSION['user'];
-
+        $username = $session[0]['username'];
+        
         $thread = new Thread;
         $comment = new Comment;
         $page = Param::get('page_next', 'create');

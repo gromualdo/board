@@ -1,92 +1,65 @@
 <?php
-function pagination($rowcount, $rowsperpage)
+
+class pagination
 {
-    ##################          START  MODEL                    #########################
-    // $sql = "SELECT COUNT(*) FROM comment";
-    // $result = mysql_query($sql);
-    // $r = mysql_fetch_row($result);
-    // $numrows = $rowcount[0];
-    ##################           END   MODEL                    #########################
-    $pagectrl = "";
-
-
-    // $rowsperpage = 5;
-    $totalpages = ceil($rowcount / $rowsperpage);
-
-
-    if (isset($_GET['currentpage']) && is_numeric($_GET['currentpage']))
+    public $rowcount;
+    public $rowsperpage;
+    public $currentpage;
+    public $pagecount;
+    public $addedquery;
+    public function __construct ($rowcount = null, $rowsperpage = null, $currentpage = null, $addedquery ="&#")
     {
-        $currentpage = (int) $_GET['currentpage'];
-    }
-    else
-    {
-        $currentpage = 1;
-    }
-
-    if ($currentpage > $totalpages)
-    {
-        $currentpage = $totalpages;
-    }
-
-    if ($currentpage < 1)
-    {
-        $currentpage = 1;
-    }
-
-
-    ##################          START  MODEL                    #########################
-    // $lowerlimit = ($currentpage - 1) * $rowsperpage;
-    // $sql = "SELECT * FROM comment ORDER BY id DESC LIMIT $lowerlimit, $rowsperpage";
-    // $result = mysql_query($sql);
-    // if(mysql_num_rows($result)>0)
-    // {
-    //     while ($rows = mysql_fetch_array($result))
-    //     {
-    //         $id             = $rows['id'];
-    //         $uname          = $rows['username'] ;
-    //         $body           = $rows['body'];
-    //         $datecreated    = $rows['created'];
-
-    //         $lists[]    = "$id - $uname - $datecreated";
-    //     }
-    // }
-    ##################           END   MODEL                    #########################
-
-
-    $range = 2;
-    if ($currentpage > 1)
-    {
-    $pagectrl .= " <a href='{$_SERVER['PHP_SELF']}?currentpage=1'> First</a>";
-    $prevpage = $currentpage - 1;
-    $pagectrl .= " <a href='{$_SERVER['PHP_SELF']}?currentpage=$prevpage'> Previous</a> ";
-    }
-
-    for ($x = ($currentpage - $range); $x < (($currentpage + $range) + 1); $x++)
-    {
-        if (($x > 0) && ($x <= $totalpages))
+        if(!is_null($rowcount) && !is_null($rowsperpage) && !is_null($currentpage))
         {
-            if ($x == $currentpage)
-            {
-                $pagectrl .= "$x ";
-            }
-            else
-            {
-                $pagectrl .= "<a href='{$_SERVER['PHP_SELF']}?currentpage=$x'>$x</a> ";
-            } 
-        } 
-    } 
-
-    if ($currentpage != $totalpages)
-    {
-        $nextpage = $currentpage + 1;
-        $pagectrl .= "<a href='?currentpage=$nextpage'>Next</a> ";
-        $pagectrl .= "<a href='{$_SERVER['PHP_SELF']}?currentpage=$totalpages'>Last</a> ";
+            $this->rowcount     = $rowcount;
+            $this->rowsperpage  = $rowsperpage;
+            $this->currentpage  = $currentpage;
+            $this->addedquery   = $addedquery;
+            $this->run();
+        }
     }
 
+
+    public function run()
+        {
+            $this->pagecount    = ceil($this->rowcount / $this->rowsperpage);
+            $this->currentpage  = max($this->currentpage, 1);
+            $this->currentpage  = min($this->currentpage, $this->pagecount);
+            $this->lowerlimit   = ($this->currentpage -1) * $this->rowsperpage;
+        }
+
+    public function __toString()
+    {
+        $pagerange =2;
+        $pagectrl = "";
+        if($this->currentpage > 1)
+        {
+            $pagectrl .= " <a href='?currentpage=1{$this->addedquery}' title='Go to First Page' class='btn btn-mini btn-inverse ''> << </a>";
+            $prevpage = $this->currentpage - 1;
+            $pagectrl .= " <a href='?currentpage=$prevpage{$this->addedquery}' title='Go to Previous Page' class='btn btn-mini btn-inverse '> < </a> "; 
+            }
+        for($i = ($this->currentpage - $pagerange); $i <= ($this->currentpage + $pagerange); $i++)
+        {
+            if(($i > 0) && ($i <= $this->pagecount))
+            {
+                if($i == $this->currentpage)
+                {
+                    $pagectrl .= "<font class='btn-mini btn-inverse'>$i</font>";
+                }
+                else
+                {
+                    $pagectrl .= " <a href='?currentpage=$i{$this->addedquery}' class='btn btn-mini btn-inverse'>$i</a> ";
+                }
+            }       
+        }
+        if($this->currentpage != $this->pagecount)
+        {
+            $nextpage = $this->currentpage + 1;
+            $pagectrl .= "<a href='?currentpage=$nextpage{$this->addedquery}' title='Go to Next Page' class='btn btn-mini btn-inverse '> > </a> ";
+            $pagectrl .= "<a href='?currentpage=$this->pagecount{$this->addedquery}' title='Go to Last Page' class='btn btn-mini btn-inverse '> >> </a> ";
+        }
     return $pagectrl;
+    }
+
 }
 
-function getvalidator()
-{
-    
-}

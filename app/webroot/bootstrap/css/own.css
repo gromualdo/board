@@ -16,3 +16,6 @@ body,html{
  text-align: center;
  vertical-align: center;
 }
+.padded{
+    padding: 15px;
+}

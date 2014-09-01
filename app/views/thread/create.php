@@ -27,7 +27,7 @@
     <label>Title</label>
     <input type="text" class="span2" name="title" value="<?php eh(Param::get('title')) ?>">
     <label>Your name</label>
-    <input type="text" class="span2" name="username" value="<?php eh(Param::get('username')) ?>">
+    <input type="text" class="span2" name="username" value="<?php echo $username; ?>" readonly>
     <label>Comment</label>
     <textarea name="body"><?php eh(Param::get('body')) ?></textarea>
     <br />

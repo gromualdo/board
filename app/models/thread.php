@@ -17,17 +17,18 @@ class Thread extends AppModel
 
         return new self($row);
     }
-    public static function getAll()
+    public static function getAll($currentpage, $rowsperpage)
     {
         $threads = array();
 
         $db = DB::conn();
-        $rows = $db->rows('SELECT * FROM thread');
+        $lowerlimit = ($currentpage - 1) * $rowsperpage;
+ 
+        $rows = $db->rows("SELECT * FROM thread ORDER BY id DESC LIMIT $lowerlimit, $rowsperpage");
         foreach ($rows as $row)
         {
             $threads[] = new Thread($row);
         }
-
         return $threads;
     }
     public function getComments()
@@ -40,19 +41,17 @@ class Thread extends AppModel
             "SELECT COUNT(*) as num FROM comment"
             );
         $numrows = $sqlrowcount['num'];
-
-        // $lowerlimit = ($_GET['currentpage'] - 1) * $rowsperpage;
+        echo $numrows;
 
         $limitrows= $db->rows(
-            // "SELECT * FROM comment ORDER BY id DESC LIMIT $lowerlimit, $rowsperpage"
             "SELECT * FROM comment"
             );
         foreach($limitrows as $limitrow)
         {
             $comments[] = new Thread($limitrow);
         }
-        $showpages = pagination($numrows, $rowsperpage);
-        $comments[] = $showpages;
+        // $showpages = pagination($numrows, $rowsperpage);
+        // $comments[] = $showpages;
         return $comments;
         
 
@@ -89,6 +88,18 @@ class Thread extends AppModel
         $db->commit();
     }
 
+    public function threadsrows()
+	{
+	//$rowsperpage = 3;
 
+	$db = DB::conn();
+
+	$sqlrowcount = $db->row(
+		"SELECT COUNT(*) as num FROM thread"
+		);
+	$numrows = $sqlrowcount['num'];
+
+	return $numrows;
+	}
 
 }
