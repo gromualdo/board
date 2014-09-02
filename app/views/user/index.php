@@ -11,7 +11,7 @@
     <?php endif ?>
 <div class="well span5 offset3 center" style="padding:25px;">
     <br />  
-    <form method="post" action="<?php eh(url('')); ?>">
+    <form method="post" action="<?php output(url('')); ?>">
         <table align="center">
             <tr>
                 <td align="right">Username: </td>

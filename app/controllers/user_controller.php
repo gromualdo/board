@@ -15,7 +15,7 @@ class UserController extends AppController
                 $register->email    = Param::get('email');
                 $register->uname    = Param::get('uname');
                 $register->pwd      = Param::get('pwd');
-                $register->pwd2     = Param::get('pwd2');
+                $register->pwd     .= " ".Param::get('pwd2');
                 try{
                     $register->adduser();
                 } catch (ValidationException $e){

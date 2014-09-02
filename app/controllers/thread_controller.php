@@ -1,25 +1,21 @@
 <?php
 
 class ThreadController extends AppController{
-    public function index()
-    {
-
-    }
-
-    public function threads()
+     public function threads()
     {
         if(session_shield($_SESSION['user'])){
             header("location: /");
         }
         $session = $_SESSION['user'];
 
-        $totalpages = Thread::threadsrows();
-        $page = pagination::pagevalidator($totalpages);
-
-		$rowsperpage = 5;
-        $threads = Thread::getAll($page['currentpage'], $rowsperpage);
-     
-		$paged = new pagination($page['totalpages'], $rowsperpage, $page['currentpage']);
+        ####### start paginated threads ##########
+        $rowsperpage= 5;
+        $totalrows 	= Thread::threadsrows();
+        $page = pagination::pagevalidator($totalrows, $rowsperpage);
+        $threads = Thread::getAll($page, $rowsperpage);
+		$paged = new pagination($totalrows, $rowsperpage, $page);
+		####### end paginated threads  ###########
+		
 		$this->set(get_defined_vars());
     }
 
@@ -28,19 +24,22 @@ class ThreadController extends AppController{
         if(session_shield($_SESSION['user'])){
             header("location: /");
         }
-        $session = $_SESSION['user'];
-        $username = $session[0]['username'];
+        $thread_id 	= Param::get('thread_id');
+        $thread 	= Thread::get($thread_id);
+        if(!$thread)
+        {
+        	header("location: /thread/pagenotfound");
+        }
 
-        $totalpages = Thread::commentsrows();
-        $page = pagination::pagevalidator($totalpages);
-
-        $rowsperpage = 5;
-        $thread_id = Param::get('thread_id');
-        $thread = Thread::get($thread_id);
-
-        $comments = Thread::getComments($page['currentpage'], $rowsperpage, $thread_id);
-        $paged = new pagination($page['totalpages'], $rowsperpage, $page['currentpage'], array("thread_id=$thread_id"));
-
+        ####### start paginated comments ##########
+        $rowsperpage= 5;
+        $session 	= $_SESSION['user'];
+        $username	= $session[0]['username'];        
+        $totalrows 	= Thread::commentsrows($thread_id);
+        $page 		= pagination::pagevalidator($totalrows, $rowsperpage);
+        $comments 	= Thread::getComments($page, $rowsperpage, $thread_id);
+        $paged 		= new pagination($totalrows, $rowsperpage, $page, array("thread_id=$thread_id"));
+        ####### end paginated comments  ###########
 
         $this->set(get_defined_vars());
     }
@@ -50,7 +49,6 @@ class ThreadController extends AppController{
             header("location: /");
         }
         $session = $_SESSION['user'];
-
         $thread = Thread::get(Param::get('thread_id'));
         $comment = new Comment;
         $page = Param::get('page_next', 'write');
@@ -73,7 +71,6 @@ class ThreadController extends AppController{
                 throw new NotFoundException("{$page} is not found");
                 break;
         }
-
         $this->set(get_defined_vars());
         $this->render($page);
     }
@@ -111,8 +108,7 @@ class ThreadController extends AppController{
         $this->set(get_defined_vars());
         $this->render($page);
     }
-
-
-
-
+    public function pagenotfound()
+    {
+    }
 }

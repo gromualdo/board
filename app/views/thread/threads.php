@@ -3,14 +3,15 @@
     <div class="well" style="margin:-23px">
             <?php foreach($threads as $v): ?>
             <div>
-                <a href="<?php eh(url('thread/view', array('thread_id' => $v->id))) ?>">
-                <?php eh($v->title) ?></a>
+                <a href="<?php output(url('thread/view', array('thread_id' => $v->id))) ?>">
+                <?php output($v->title) ?></a>
             </div>
             <?php endforeach ?>
         <br />
         <div class="padded">
             <?php echo $paged; ?>
         </div>
-        <a class="btn btn-primary" href="<?php eh(url('thread/create')) ?>">Create</a>
+        <a class="btn btn-primary" href="<?php output(url('thread/create')) ?>">Create</a>
     </div>
 </div>
+

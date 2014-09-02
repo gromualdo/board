@@ -27,11 +27,13 @@ class User extends AppModel
         ),
     'pwd' => array(
         'length'=> array(
-            'validate_between', 5,30,
+            'validate_between', 12,30,
             ),
-        // 'pwd_match' => array(
-        //  'same_password', '',
-        //  ),
+        'pwd_match' => array(
+            'same_password', '',
+            ),
+        'validpwd' => array(
+            'pwd_format'),
         ),
     );
     public function adduser()
@@ -56,7 +58,15 @@ class User extends AppModel
                 md5($this->pwd)
             )
         );
-        $db->commit();
+        // if($this->pwd === $this->pwd2)
+        // {
+            $db->commit();   
+        // }
+        // else
+        // {
+        //     echo "error";
+        // }
+        
     }
     public function checklogin()
     {

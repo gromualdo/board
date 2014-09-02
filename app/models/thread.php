@@ -14,7 +14,9 @@ class Thread extends AppModel
         $db = DB::conn();
 
         $row = $db->row('SELECT * FROM thread WHERE id = ? ORDER BY id', array($id));
-
+        if(!$row){
+        	return false;
+        }
         return new self($row);
     }
     public static function getAll($currentpage, $rowsperpage)
@@ -37,14 +39,13 @@ class Thread extends AppModel
  		$db = DB::conn();
 
  		$lowerlimit = ($currentpage - 1) * $rowsperpage;
+
         $limitrows= $db->rows(
-            "SELECT * FROM comment ORDER BY id DESC LIMIT $lowerlimit, $rowsperpage");
+            "SELECT * FROM comment WHERE thread_id = ? ORDER BY id DESC LIMIT $lowerlimit, $rowsperpage", array($thread_id));
         foreach($limitrows as $limitrow)
         {
             $comments[] = new Thread($limitrow);
         }
-        // $showpages = pagination($numrows, $rowsperpage);
-        // $comments[] = $showpages;
         return $comments; 
     }
 
@@ -54,7 +55,7 @@ class Thread extends AppModel
             throw new ValidationException('invalid comment');
         }
         $db = DB::conn();
-        $db->query("INSERT INTO comment SET thread_id = ?, username = ?, body = ?, created = NOW()", array($this->id, $comment->username, $comment->body)
+        $db->query("INSERT INTO comment SET thread_id = ?, username = ?, body = ?", array($this->id, $comment->username, $comment->body)
             );
     }
 
@@ -69,7 +70,7 @@ class Thread extends AppModel
         $db = DB::conn();
         $db->begin();
 
-        $db->query('INSERT INTO thread SET title = ?, created = NOW()', array($this->title));
+        $db->query('INSERT INTO thread SET title = ?', array($this->title));
         $this->id = $db->lastInsertId();
 
         // write first comment at the same time
@@ -90,13 +91,11 @@ class Thread extends AppModel
 		return $numrows;
 	}
 
-	public static function commentsrows()
+	public static function commentsrows($thread_id)
 	{
 		$db = DB::conn();
 
-        $sqlrowcount = $db->row(
-            "SELECT COUNT(*) as num FROM comment"
-            );
+        $sqlrowcount = $db->row("SELECT COUNT(*) as num FROM comment WHERE thread_id = ?", array($thread_id));
         $numrows = $sqlrowcount['num'];
         return $numrows;
 	}

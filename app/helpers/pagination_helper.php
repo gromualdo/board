@@ -26,9 +26,9 @@ class pagination
         $this->currentpage  = min($this->currentpage, $this->pagecount);
     }
 
-    public static function pagevalidator($totalpages)
+    public static function pagevalidator($totalrows, $rowsperpage)
     {
-
+        $totalpages = ceil($totalrows/$rowsperpage);
         if(isset($_GET['currentpage']) && is_numeric($_GET['currentpage']))
         {
             $currentpage = (int) $_GET['currentpage'];
@@ -46,8 +46,7 @@ class pagination
         {
             $currentpage = 1;
         }
-        $pages['totalpages']    = $totalpages;
-        $pages['currentpage']   = $currentpage;
+        $pages = $currentpage;
         return $pages;
     }
 
@@ -60,12 +59,12 @@ class pagination
         }
 
         $pagerange =2;
-        $pagectrl = "";
+        $pagectrl = "<div  class='pagination pagination-centered'><ul>";
         if($this->currentpage > 1)
         {
-            $pagectrl .= " <a href='?currentpage=1{$addedquery}' title='Go to First Page' class='btn btn-mini btn-inverse ''> << </a>";
+            $pagectrl .= " <li><a href='?currentpage=1{$addedquery}' title='Go to First Page' class='btn btn-mini  ''> << </a></li>";
             $prevpage = $this->currentpage - 1;
-            $pagectrl .= " <a href='?currentpage=$prevpage{$addedquery}' title='Go to Previous Page' class='btn btn-mini btn-inverse '> < </a> "; 
+            $pagectrl .= " <li><a href='?currentpage=$prevpage{$addedquery}' title='Go to Previous Page' class='btn btn-mini  '> < </a></li> "; 
             }
  
         for($i = ($this->currentpage - $pagerange); $i <= ($this->currentpage + $pagerange); $i++)
@@ -74,11 +73,11 @@ class pagination
             {
                 if($i == $this->currentpage)
                 {
-                    $pagectrl .= "<font class='btn-mini btn-inverse'>$i</font>";
+                    $pagectrl .= "<li class='disabled'><a class='btn btn-mini ' href=#>$i</a></li>";
                 }
                 else
                 {
-                    $pagectrl .= " <a href='?currentpage=$i{$addedquery}' class='btn btn-mini btn-inverse'>$i</a> ";
+                    $pagectrl .= " <li><a href='?currentpage=$i{$addedquery}' class='btn btn-mini '>$i</a></li> ";
                 }
             }       
         }
@@ -86,10 +85,10 @@ class pagination
         if($this->currentpage != $this->pagecount)
         {
             $nextpage = $this->currentpage + 1;
-            $pagectrl .= "<a href='?currentpage=$nextpage{$addedquery}' title='Go to Next Page' class='btn btn-mini btn-inverse '> > </a> ";
-            $pagectrl .= "<a href='?currentpage=$this->pagecount{$addedquery}' title='Go to Last Page' class='btn btn-mini btn-inverse '> >> </a> ";
+            $pagectrl .= "<li><li><a href='?currentpage=$nextpage{$addedquery}' title='Go to Next Page' class='btn btn-mini  '> > </a></li> </li>";
+            $pagectrl .= "<li><a href='?currentpage=$this->pagecount{$addedquery}' title='Go to Last Page' class='btn btn-mini  '> >> </a></li> ";
         }
+    $pagectrl .="</ul></div>";
     return $pagectrl;
     }
 }
-

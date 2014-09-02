@@ -26,10 +26,15 @@ function uname_format($string)
     return (ctype_alnum($string));
 }
 
-function same_password($pwd1, $pwd2)
+function same_password($string)
 {
-    if($pwd1 == $pwd2){
-        return 1;
-    }
+    $exploded = explode(" ", $string);
+    if($exploded[0] === $exploded[1])
+    {
+        return 1; 
+    } 
 }
-
+function pwd_format($string)
+{
+    return (preg_match('/^[^ ]+$/', $string));
+}
