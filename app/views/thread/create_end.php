@@ -2,6 +2,6 @@
 <p class="alert alert-success">
     You successfully created.
 </p>
-<a href="<?php output(url('thread/threads', array('thread_id' => $thread->id))) ?>">
+<a href="<?php output(url('thread/view', array('thread_id' => $thread->id))) ?>">
     &larr; Go to thread
 </a>

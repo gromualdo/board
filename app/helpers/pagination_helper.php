@@ -1,16 +1,16 @@
 <?php
-class pagination
+class pagination 
 {
     public $rowcount;
     public $rowsperpage;
     public $currentpage;
     public $pagecount;
-    public $addedquery;
+    public $qs;
 
-    public function __construct ($rowcount = null, $rowsperpage = null, $currentpage = null, array $querystrings = null)
+    public function __construct ($rowcount = null, $rowsperpage = null, 
+        $currentpage = null, array $querystrings = null)
     {
-        if(!is_null($rowcount) && !is_null($rowsperpage) && !is_null($currentpage))
-        {
+        if (!is_null($rowcount) && !is_null($rowsperpage) && !is_null($currentpage)) {
             $this->rowcount     = $rowcount;
             $this->rowsperpage  = $rowsperpage;
             $this->currentpage  = $currentpage;
@@ -26,67 +26,56 @@ class pagination
         $this->currentpage  = min($this->currentpage, $this->pagecount);
     }
 
-    public static function pagevalidator($totalrows, $rowsperpage)
+    //validates the user input via GET method
+    public static function pageValidator($totalrows, $rowsperpage)
     {
         $totalpages = ceil($totalrows/$rowsperpage);
-        if(isset($_GET['currentpage']) && is_numeric($_GET['currentpage']))
-        {
-            $currentpage = (int) $_GET['currentpage'];
+        if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+            $currentpage = (int) $_GET['page'];
         }
-        else
-        {
+        else {
             $currentpage = 1;
         }
 
-        if($currentpage > $totalpages)
-        {
+        if ($currentpage > $totalpages) {
             $currentpage = $totalpages;
         }
-        if($currentpage < 1)
-        {
+        if ($currentpage < 1) {
             $currentpage = 1;
         }
         $pages = $currentpage;
         return $pages;
     }
 
+    //outputs the pagination control buttons
     public function __toString()
     {
-        $addedquery = "";
-        foreach((array) $this->querystrings as $querystring)
-        {
-            $addedquery .= "&{$querystring}";
+        $qs = "";       //additional querystring
+        foreach((array) $this->querystrings as $querystring) {
+            $qs .= "&{$querystring}";
         }
-
         $pagerange =2;
-        $pagectrl = "<div  class='pagination pagination-centered'><ul>";
-        if($this->currentpage > 1)
-        {
-            $pagectrl .= " <li><a href='?currentpage=1{$addedquery}' title='Go to First Page' class='btn btn-mini  ''> << </a></li>";
+        $pagectrl = "<div class='pagination pagination-centered'><ul>";
+        if ($this->currentpage > 1) {
+            $pagectrl .= "<li><a href='?page=1{$qs}' class='btn '> << </a></li>";
             $prevpage = $this->currentpage - 1;
-            $pagectrl .= " <li><a href='?currentpage=$prevpage{$addedquery}' title='Go to Previous Page' class='btn btn-mini  '> < </a></li> "; 
+            $pagectrl .= "<li><a href='?page=$prevpage{$qs}' class='btn '> < </a></li> "; 
             }
  
-        for($i = ($this->currentpage - $pagerange); $i <= ($this->currentpage + $pagerange); $i++)
-        {
-            if(($i > 0) && ($i <= $this->pagecount))
-            {
-                if($i == $this->currentpage)
-                {
-                    $pagectrl .= "<li class='disabled'><a class='btn btn-mini ' href=#>$i</a></li>";
+        for($i = ($this->currentpage - $pagerange); $i <= ($this->currentpage + $pagerange); $i++) {
+            if (($i > 0) && ($i <= $this->pagecount)) {
+                if ($i == $this->currentpage) {
+                    $pagectrl .= "<li class='disabled'><a class='btn '>$i</a></li>";
                 }
-                else
-                {
-                    $pagectrl .= " <li><a href='?currentpage=$i{$addedquery}' class='btn btn-mini '>$i</a></li> ";
+                else {
+                    $pagectrl .= "<li><a href='?page=$i{$qs}' class='btn '>$i</a></li> ";
                 }
             }       
         }
-
-        if($this->currentpage != $this->pagecount)
-        {
+        if ($this->currentpage != $this->pagecount) {
             $nextpage = $this->currentpage + 1;
-            $pagectrl .= "<li><li><a href='?currentpage=$nextpage{$addedquery}' title='Go to Next Page' class='btn btn-mini  '> > </a></li> </li>";
-            $pagectrl .= "<li><a href='?currentpage=$this->pagecount{$addedquery}' title='Go to Last Page' class='btn btn-mini  '> >> </a></li> ";
+            $pagectrl .= "<li><a href='?page=$nextpage{$qs}' class='btn '> > </a></li>";
+            $pagectrl .= "<li><a href='?page=$this->pagecount{$qs}' class='btn '> >> </a></li>";
         }
     $pagectrl .="</ul></div>";
     return $pagectrl;

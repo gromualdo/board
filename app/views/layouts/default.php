@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>DietCake <?php output($title) ?></title>
+    <title>DayetKEK <?php output($title) ?></title>
     <link href="/bootstrap/css/own.css" rel="stylesheet">   
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">

@@ -33,7 +33,8 @@ class Controller
         if (!method_exists($this, '__call')) {
             if (!method_exists($this, $this->action)) {
                 // アクションがコントローラに存在しないとき
-                throw new DCException('action does not exist');
+                // throw new DCException('action does not exist');
+                header("location: /thread/pagenotfound");
             }
             $method = new ReflectionMethod($this, $this->action);
             if (!$method->isPublic()) {

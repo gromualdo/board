@@ -1,83 +1,77 @@
 <?php
-
-class ThreadController extends AppController{
-     public function threads()
+class ThreadController extends AppController 
+{
+    public function threads() 
     {
-        if(session_shield($_SESSION['user'])){
+    	$title = "Threads";
+    	if (!is_logged('user')) {
             header("location: /");
         }
         $session = $_SESSION['user'];
-
-        ####### start paginated threads ##########
+        // start paginated threads 
         $rowsperpage= 5;
         $totalrows 	= Thread::threadsrows();
         $page = pagination::pagevalidator($totalrows, $rowsperpage);
         $threads = Thread::getAll($page, $rowsperpage);
 		$paged = new pagination($totalrows, $rowsperpage, $page);
-		####### end paginated threads  ###########
-		
+		// end paginated threads  		
 		$this->set(get_defined_vars());
     }
 
-    public function view()
+    public function view() 
     {
-        if(session_shield($_SESSION['user'])){
+    	$title = "Comments";
+        if (!is_logged('user')) {
             header("location: /");
         }
         $thread_id 	= Param::get('thread_id');
         $thread 	= Thread::get($thread_id);
-        if(!$thread)
-        {
+
+        //redirect to 404 page if thread id is not found
+        if (!$thread) {
         	header("location: /thread/pagenotfound");
         }
 
-        ####### start paginated comments ##########
+        // start paginated comments 
         $rowsperpage= 5;
         $session 	= $_SESSION['user'];
         $username	= $session[0]['username'];        
         $totalrows 	= Thread::commentsrows($thread_id);
         $page 		= pagination::pagevalidator($totalrows, $rowsperpage);
         $comments 	= Thread::getComments($page, $rowsperpage, $thread_id);
-        $paged 		= new pagination($totalrows, $rowsperpage, $page, array("thread_id=$thread_id"));
-        ####### end paginated comments  ###########
+        $paged 		= new pagination($totalrows, $rowsperpage, $page, 
+        	array("thread_id=$thread_id"));
+        // end paginated comments  
 
-        $this->set(get_defined_vars());
-    }
-    public function write()
-    {
-        if(session_shield($_SESSION['user'])){
-            header("location: /");
-        }
-        $session = $_SESSION['user'];
-        $thread = Thread::get(Param::get('thread_id'));
         $comment = new Comment;
-        $page = Param::get('page_next', 'write');
+        $page = Param::get('page_next', 'view');
 
-        switch($page){
-            case 'write';
-                break;
-            case 'write_end';
-                $comment->username = Param::get('username');
-                $comment->body = Param::get('body');
-                try{
-                    $thread->write($comment);
-                } catch(ValidationException $e) {
-                    $page = 'write';
-                }
-                break;
+		switch($page) {
+        case 'view';
+            break;
+        case 'write_end';
+            $comment->username = Param::get('username');
+            $comment->body = Param::get('body');
+            try {
                 $thread->write($comment);
-                break;
-            default:
-                throw new NotFoundException("{$page} is not found");
-                break;
+            } catch (ValidationException $e) {
+                $page = 'view';
+            }
+            break;
+            $thread->write($comment);
+            break;
+        default:
+            throw new NotFoundException("{$page} is not found");
+            break;
         }
         $this->set(get_defined_vars());
         $this->render($page);
     }
 
-    public function create()
+    public function create() 
     {
-        if(session_shield($_SESSION['user'])){
+    	$title = "Create Thread";
+        if (!is_logged('user')) {
             header("location: /");
         }
         $session = $_SESSION['user'];
@@ -96,7 +90,7 @@ class ThreadController extends AppController{
             $comment->body = Param::get('body');
             try {
                 $thread->create($comment);
-            } catch (ValidationException $e){
+            } catch (ValidationException $e) {
                 $page = 'create';
             }
             break;
@@ -104,11 +98,12 @@ class ThreadController extends AppController{
             throw new NotFoundException("{$page} is not found");
             break;
         }
-
         $this->set(get_defined_vars());
         $this->render($page);
     }
-    public function pagenotfound()
+
+    public function pagenotfound() 
     {
+    	$title = "404";
     }
 }

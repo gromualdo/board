@@ -1,6 +1,6 @@
 <br />
 <h2 class="offset3 center span5">Register a New account</h2>
-<?php if ($register->hasError()): ?>
+<?php if ($register->hasError() || !$register->same_password): ?>
     <div class="alert alert-danger span5 offset3">
         <h4 class="alert-heading">Validation error!</h4>
         <?php if (!empty($register->validation_errors['name']['length'])): ?>
@@ -8,18 +8,18 @@
             <?php output($register->validation['name']['length'][1]) ?> and
             <?php output($register->validation['name']['length'][2]) ?> characters in length.
             </div>
-        <?php endif ?>
-        <?php if (!empty($register->validation_errors['name']['validname'])): ?>
+        <?php// endif ?>
+        <?php elseif (!empty($register->validation_errors['name']['validname'])): ?>
             <div>Please enter a valid <em>Name</em>
             </div>
-            <?php endif ?>
+        <?php endif ?>
         <?php if (!empty($register->validation_errors['email']['length'])): ?>
             <div><em>Email</em> must be between
             <?php output($register->validation['email']['length'][1]) ?> and
             <?php output($register->validation['email']['length'][2]) ?> characters in length.
             </div>
-        <?php endif ?>
-            <?php if (!empty($register->validation_errors['email']['validemail'])): ?>
+        <?php //endif ?>
+            <?php elseif (!empty($register->validation_errors['email']['validemail'])): ?>
             <div>Please enter a valid <em>Email</em>
             </div>
         <?php endif ?>
@@ -28,22 +28,22 @@
             <?php output($register->validation['uname']['length'][1]) ?> and
             <?php output($register->validation['uname']['length'][2]) ?> characters in length.
             </div>
-        <?php endif ?>
-        <?php if (!empty($register->validation_errors['uname']['validuname'])): ?>
+        <?php //endif ?>
+        <?php elseif (!empty($register->validation_errors['uname']['validuname'])): ?>
             <div>Please enter a valid <em>Username</em>
             </div>
             <?php endif ?>
-        <?php if (!empty($register->validation_errors['pwd']['length'])): ?>
+        <?php if (!empty($register->validation_errors['pwd1']['length'])): ?>
             <div><em>Password</em> must be  between
-            <?php output(($register->validation['pwd']['length'][1])/2) ?> and
-            <?php output(($register->validation['pwd']['length'][2])/2) ?> characters in length.
+            <?php output(($register->validation['pwd1']['length'][1])) ?> and
+            <?php output(($register->validation['pwd1']['length'][2])) ?> characters in length.
             </div>
-        <?php endif ?>
-            <?php if (!empty($register->validation_errors['pwd']['validpwd'])): ?>
+        <?php // endif ?>
+        <?php elseif (!empty($register->validation_errors['pwd1']['validpwd'])): ?>
             <div><em>Password</em> should not contain spaces
             </div>
-        <?php endif ?>
-        <?php if(!empty($register->validation_errors['pwd']['pwd_match'])): ?>
+        <?php //endif ?>
+        <?php elseif (!$register->same_password): ?>
             <div>The <em>Passwords</em> do not match. 
             </div>
         <?php endif ?>

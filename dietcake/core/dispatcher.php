@@ -26,7 +26,8 @@ class Dispatcher
         $action = explode('/', $action);
 
         if (count($action) < 2) {
-            throw new DCException('invalid url format');
+            // throw new DCException('invalid url format');
+            header("location: /thread/pagenotfound");
         }
         $action_name = array_pop($action);
         $controller_name = join("_", $action);

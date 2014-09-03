@@ -1,10 +1,11 @@
 <?php 
 class User extends AppModel
 {
+    public $same_password = true;
     public $validation = array(
     'name' => array(
         'length' => array(
-            'validate_between', 5, 30,
+            'validate_between', MAX_LENGTH, MIN_LENGTH
             ),
         'validname' => array(
             'name_format'
@@ -13,24 +14,21 @@ class User extends AppModel
 
     'email' => array(
         'length' => array(
-            'validate_between', 7, 30,
+            'validate_between', MAX_LENGTH, MIN_LENGTH
             ),
         'validemail' => array(
             'email_format'),
         ),
     'uname' => array(
         'length' => array(
-            'validate_between', 6, 20,
+            'validate_between', MAX_LENGTH, MIN_LENGTH
             ),
         'validuname' => array(
             'uname_format'),
         ),
-    'pwd' => array(
+    'pwd1' => array(
         'length'=> array(
-            'validate_between', 12,30,
-            ),
-        'pwd_match' => array(
-            'same_password', '',
+            'validate_between', MAX_LENGTH, MIN_LENGTH
             ),
         'validpwd' => array(
             'pwd_format'),
@@ -38,11 +36,10 @@ class User extends AppModel
     );
     public function adduser()
     {
-        if(!$this->validate())
-        {
+        $this->same_password = is_equal($this->pwd1, $this->pwd2);
+        if (!$this->validate() || !$this->same_password ) {
             throw new ValidationException('invalid name');
         }
-
         $db = DB::conn();
         $db->begin();
         $db->query("INSERT INTO users SET 
@@ -55,23 +52,14 @@ class User extends AppModel
                 $this->name, 
                 $this->email, 
                 $this->uname, 
-                md5($this->pwd)
+                md5($this->pwd1)
             )
         );
-        // if($this->pwd === $this->pwd2)
-        // {
-            $db->commit();   
-        // }
-        // else
-        // {
-        //     echo "error";
-        // }
-        
+            $db->commit();           
     }
     public function checklogin()
     {
-        if(!$this->validate())
-        {
+        if (!$this->validate()) {
             throw new ValidationException('invalid name');
         }
 
@@ -85,10 +73,9 @@ class User extends AppModel
             md5($this->password)
             )
         );
-        if($result){
+        if ($result) {
             return $result;
         }
         $db->commit();
     }
-
 }

@@ -9,7 +9,7 @@ class Comment extends AppModel
         ),
         'body' => array(
             'length' => array(
-                'validate_between', 1, 100,
+                'validate_between', 1, 500,
             ),
         ),
     );

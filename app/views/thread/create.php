@@ -8,12 +8,6 @@
                 <?php output($thread->validation['title']['length'][2]) ?> characters in length.
             </div>
         <?php endif ?>
-        <?php if (!empty($comment->validation_errors['username']['length'])): ?>
-            <div><em>Your name</em> must be between
-                <?php output($comment->validation['username']['length'][1]) ?> and
-                <?php output($comment->validation['username']['length'][2]) ?> characters in length.
-            </div>
-        <?php endif ?>
         <?php if (!empty($comment->validation_errors['body']['length'])): ?>
             <div><em>Comment</em> must be between
                 <?php output($comment->validation['body']['length'][1]) ?> and
@@ -25,11 +19,11 @@
 
 <form class="well" method="post" action="<?php output(url('')) ?>">
     <label>Title</label>
-    <input type="text" class="span2" name="title" value="<?php output(Param::get('title')) ?>">
+    <input type="text" class="span6" name="title" value="<?php output(Param::get('title')) ?>">
     <label>Your name</label>
-    <input type="text" class="span2" name="username" value="<?php echo $username; ?>" readonly>
+    <input type="text" class="span6" name="username" value="<?php echo $username; ?>" readonly>
     <label>Comment</label>
-    <textarea name="body"><?php output(Param::get('body')) ?></textarea>
+    <textarea name="body" style="resize:none" class="span11"></textarea>
     <br />
     <input type="hidden" name="page_next" value="create_end">
     <button type="submit" class="btn btn-primary">Submit</button>

@@ -1,3 +1,5 @@
+ErrorDocument 404 /pagenotfound
+
 RewriteEngine On
 
 # App routing

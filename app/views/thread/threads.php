@@ -1,3 +1,9 @@
+<?php if(Param::get('m')): ?>
+     <div class="alert alert-error center">
+            <?php output(Param::get("m")); ?>
+    </div>
+
+<?php endif ?>
 <h1 class="span5 offset3 center">All<img src="/img/homer.gif" />Threads</h1>
 <div class="span5 offset3 center">
     <div class="well" style="margin:-23px">
