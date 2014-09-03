@@ -1,6 +1,6 @@
 <?php
 class UserController extends AppController {
-    public function usersignup() 
+    public function userSignup() 
     {
         logouterror('user');
         $title = "Signup";
@@ -9,8 +9,8 @@ class UserController extends AppController {
 
         switch($adduser) {
         case 'usersignup':
-        break;
-        case 'yesadded':
+            break;
+        case 'signupsuccess':
             $register->name     = Param::get('name');
             $register->email    = Param::get('email');
             $register->uname    = Param::get('uname');
@@ -22,18 +22,13 @@ class UserController extends AppController {
             catch (ValidationException $e) {
                 $adduser='usersignup';
             }           
-        break;
+            break;
         default:
             throw new NotFoundException("{$adduser} is not found");
-        break;
+            break;
         }
         $this->set(get_defined_vars());
         $this->render($adduser);
-    }
-
-    public function yesadded()
-    {
-        logouterror('user');
     }
 
     public function index() 
@@ -45,27 +40,26 @@ class UserController extends AppController {
         $errmsg = 0;
         switch($userlogin) {
         case 'index':
-        break;
+            break;
         case '/thread/threads':
             $login->username    = Param::get('uname');
             $login->password    = Param::get('pwd');
             try {
                 $vname =$login->checklogin();
-                if($vname) {
-                $_SESSION['user'] = $vname;
-                header("location: /thread/threads");
-                }
-                else {
-                $errmsg = "1";
+                if ($vname) {
+                    $_SESSION['user'] = $vname;
+                    redirect('/thread/threads');
+                } else {
+                    $errmsg = "1";
                 }
             } 
             catch (ValidationException $e) {
                 $userlogin="index";
             }
-        break;
+            break;
         default:
             throw new NotFoundException("{$userlogin}login error");
-        break;
+            break;
         }
        $this->set(get_defined_vars());
     }

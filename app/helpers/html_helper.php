@@ -20,6 +20,13 @@ function logoutError($string)
 {
     if(is_logged($string)) {
         $logouterror ="You need to logout first"; 
-        header("location: /thread/threads?m=$logouterror");
+        $url = url("thread/threads", array('m'=>$logouterror));
+        echo $url;
+        redirect($url);        
     }
+}
+
+function redirect($url)
+{
+    header("location:".$url);
 }

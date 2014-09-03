@@ -18,7 +18,7 @@ class Thread extends AppModel
         	array($id)
         	);
         if (!$row) {
-        	return false;	//will be redirected to pagenotfound if $row=0
+        	return false;			//will be redirected to pagenotfound if $row=0
         }
         return new self($row);
     }
@@ -66,6 +66,7 @@ class Thread extends AppModel
         	'body'		=> $comment->body
         	);
         $db->insert("comment", $params);
+        $db->commit();
         
     }
 
