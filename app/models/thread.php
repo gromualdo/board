@@ -13,12 +13,12 @@ class Thread extends AppModel
     {
         $db = DB::conn();
         $row = $db->row("SELECT * FROM thread 
-        	WHERE id = ? 
-        	ORDER BY id", 
-        	array($id)
-        	);
+            WHERE id = ? 
+            ORDER BY id", 
+            array($id)
+            );
         if (!$row) {
-        	return false;			//will be redirected to pagenotfound if $row=0
+            return false;           //will be redirected to pagenotfound if $row=0
         }
         return new self($row);
     }
@@ -29,9 +29,9 @@ class Thread extends AppModel
         $db = DB::conn();
         $lowerlimit = ($currentpage - 1) * $rowsperpage;
         $rows = $db->rows("SELECT * FROM thread 
-        	ORDER BY id DESC 
-        	LIMIT $lowerlimit, $rowsperpage"
-        	);
+            ORDER BY id DESC 
+            LIMIT $lowerlimit, $rowsperpage"
+            );
         foreach ($rows as $row) {
             $threads[] = new Thread($row);
         }
@@ -40,8 +40,8 @@ class Thread extends AppModel
     public static function getComments($currentpage, $rowsperpage, $thread_id)
     {
         $comments = array();
- 		$db = DB::conn();
- 		$lowerlimit = ($currentpage - 1) * $rowsperpage;
+        $db = DB::conn();
+        $lowerlimit = ($currentpage - 1) * $rowsperpage;
         $limitrows= $db->rows("SELECT * FROM comment 
             WHERE thread_id = ? 
             ORDER BY id DESC 
@@ -61,10 +61,10 @@ class Thread extends AppModel
         }
         $db = DB::conn();
         $params = array(
-        	'thread_id' => $this->id, 
-        	'username'	=> $comment->username, 
-        	'body'		=> $comment->body
-        	);
+            'thread_id' => $this->id, 
+            'username'  => $comment->username, 
+            'body'      => $comment->body
+            );
         $db->insert("comment", $params);
         $db->commit();
         
@@ -80,8 +80,8 @@ class Thread extends AppModel
         $db = DB::conn();
         $db->begin();
         $params = array(
-        	'title' => $this->title
-        	);
+            'title' => $this->title
+            );
         $db->insert("thread", $params);
         $this->id = $db->lastInsertId();
         $this->write($comment);     
@@ -89,23 +89,23 @@ class Thread extends AppModel
     }
 
     public static function threadsrows()
-	{
-		$db = DB::conn();
-		$sqlrowcount = $db->row(
-			"SELECT COUNT(*) AS num FROM thread"
-			);
-		$numrows = $sqlrowcount['num'];
-		return $numrows;
-	}
-
-	public static function commentsrows($thread_id)
-	{
-		$db = DB::conn();
-        $sqlrowcount = $db->row("SELECT COUNT(*) AS num FROM comment 
-        	WHERE thread_id = ?", 
-        	array($thread_id)
-        	);
+    {
+        $db = DB::conn();
+        $sqlrowcount = $db->row(
+            "SELECT COUNT(*) AS num FROM thread"
+            );
         $numrows = $sqlrowcount['num'];
         return $numrows;
-	}
+    }
+
+    public static function commentsrows($thread_id)
+    {
+        $db = DB::conn();
+        $sqlrowcount = $db->row("SELECT COUNT(*) AS num FROM comment 
+            WHERE thread_id = ?", 
+            array($thread_id)
+            );
+        $numrows = $sqlrowcount['num'];
+        return $numrows;
+    }
 }

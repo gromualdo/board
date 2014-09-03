@@ -1,6 +1,6 @@
 <br />  
 <h2 class="offset3 span5 center">Login</h2> 
-    <?php if ($errmsg): ?>
+    <?php if ($loginError): ?>
         <div class="alert alert-danger span5 offset3 center" >
             <?php if (empty($login->username) || empty($login->password)): ?>
                 <div>Please fill up all the fields</div>

@@ -34,7 +34,7 @@ class User extends AppModel
             'pwd_format'),
         ),
     );
-    public function adduser()
+    public function addUser()
     {
         $this->same_password = is_equal($this->pwd1, $this->pwd2);
         if (!$this->validate() || !$this->same_password ) {
@@ -57,7 +57,7 @@ class User extends AppModel
         );
             $db->commit();           
     }
-    public function checklogin()
+    public function checkLogin()
     {
         if (!$this->validate()) {
             throw new ValidationException('invalid name');

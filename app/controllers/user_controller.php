@@ -37,7 +37,7 @@ class UserController extends AppController {
         $title = "Login";
         $login = new user();
         $userlogin = Param::get('checklogin', 'index');
-        $errmsg = 0;
+        $loginError = false;
         switch($userlogin) {
         case 'index':
             break;
@@ -45,12 +45,12 @@ class UserController extends AppController {
             $login->username    = Param::get('uname');
             $login->password    = Param::get('pwd');
             try {
-                $vname =$login->checklogin();
-                if ($vname) {
-                    $_SESSION['user'] = $vname;
+                $uname =$login->checklogin();
+                if ($uname) {
+                    $_SESSION['user'] = $uname;
                     redirect('/thread/threads');
                 } else {
-                    $errmsg = "1";
+                    $loginError = true;
                 }
             } 
             catch (ValidationException $e) {
