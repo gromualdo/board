@@ -1,36 +1,75 @@
 <?php 
-function validate_between($check, $min, $max)
+/**
+ * Validates the length of the inputted string
+ * @param $check
+ * @param $min
+ * @param $max
+ * @return bool
+ */
+function validateBetween($check, $min, $max)
 {
     $n = mb_strlen($check);
     return $min <= $n && $n <= $max;
 }
 
-function email_format($string)
+/**
+ * Validates the format of email
+ * will only accept formats:
+ * me@facebook.com and
+ * me@yahoo.com.ph
+ * @param $string
+ * @return bool
+ */
+function emailFormat($string)
 {
-    return (preg_match('/[\w._]+@[A-z]+.[A-z]{3}$/', $string) ||        //me@facebook.com
-       preg_match('/[\w._]+@[A-z]+.[A-z]{3}.?[A-z]{2}?$/', $string));   //me@yahoo.com.ph
+    return (preg_match('/[\w._]+@[A-z]+.[A-z]{3}$/', $string) ||        
+       preg_match('/[\w._]+@[A-z]+.[A-z]{3}.?[A-z]{2}?$/', $string));   
 }
 
-function not_empty($string)
-{
-    return (isset($string));
-}
-
-function name_format($string)
+/**
+ * Validates the inputted name
+ * will only accept string that
+ * begins with a char,
+ * accepts spaces and hyphen in the middle
+ * and ends with a char
+ * @param $string
+ * @return bool
+ */
+function nameFormat($string)
 {
     return (preg_match('/^[A-z]+[A-z  -]+[A-z]+$/', $string));  //should start and end with a letter, accepts hyphen and spaces
 }
 
-function uname_format($string)
+/**
+ * Validates the username
+ * will only accept numbers
+ * and letters
+ * without spaces
+ * @param $string
+ */
+function unameFormat($string)
 {
     return (ctype_alnum($string));
 }
 
-function is_equal($string1, $string2)
+/**
+ * Checks if two inputted strings are equal
+ * @param $string1
+ * @param $string2
+ * @return bool
+ */
+function isEqual($string1, $string2)
 {
   return ($string1 === $string2);
 }
-function pwd_format($string)
+
+/**
+ * Checks if the password contains spaces
+ * return false if it has any
+ * @param $string
+ * @return bool
+ */
+function pwdFormat($string)
 {
-    return (preg_match('/^[^ ]+$/', $string)); //will reject spaces
+    return (preg_match('/^[^ ]+$/', $string)); 
 }

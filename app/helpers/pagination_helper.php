@@ -1,4 +1,7 @@
 <?php
+/**
+ * Class Pagination
+ */
 class pagination 
 {
     public $rowcount;
@@ -8,6 +11,15 @@ class pagination
     public $qs;
     const PAGE_RANGE = 2;
 
+    /**
+     * Class Constructor
+     * Assigns parameter to public variables if not null
+     * Performs the run() function
+     * @param $rowcount
+     * @param $rowsperpage
+     * @param $currentpage
+     * @param $querystrings
+     */
     public function __construct ($rowcount = null, $rowsperpage = null, 
         $currentpage = null, array $querystrings = null)
     {
@@ -20,6 +32,10 @@ class pagination
         }
     }
 
+    /**
+     * Checks the number of pages
+     * Validates the value of $currentpage variable
+     */
     public function run()
     {
         $this->pagecount    = ceil($this->rowcount / $this->rowsperpage);
@@ -27,7 +43,12 @@ class pagination
         $this->currentpage  = min($this->currentpage, $this->pagecount);
     }
 
-    //validates the user input via GET method
+    /**
+     * Validates the user input via GET method
+     * @param $totalrows
+     * @param $rowsperpage
+     * @return $pages
+     */
     public static function pageValidator($totalrows, $rowsperpage)
     {
         $totalpages = ceil($totalrows/$rowsperpage);
@@ -49,7 +70,11 @@ class pagination
         return $pages;
     }
 
-    //outputs the pagination control buttons
+    //
+    /**
+     * Outputs the pagination control buttons
+     * @return $pagectrl
+     */
     public function __toString()
     {
         $qs = "";       //additional querystring

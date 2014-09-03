@@ -1,13 +1,4 @@
 <?php
-/**
- * DBI class for DietCake
- *
- * @license MIT License
- * @author Tatsuya Tsuruoka <http://github.com/ttsuruoka>
- * @link https://github.com/dietcake/dietcake-showcase
- */
-//vendor
-require_once VENDOR_DIR.'SimpleDBI/src/SimpleDBI.php';
 class DB extends SimpleDBI
 {
     public static function getConnectSettings($destination = null)

@@ -4,11 +4,17 @@ class Thread extends AppModel
     public $validation = array(
         'title' => array(
             'length' => array(
-                'validate_between', 1, 30,
+                'validatebetween', 1, 30,
                 ),
             ),
         );
 
+    /**
+     * Displays the Thread selected by the 
+     * SQL query
+     * @param $id
+     * @return new obj
+     */
     public static function get($id)
     {
         $db = DB::conn();
@@ -23,6 +29,13 @@ class Thread extends AppModel
         return new self($row);
     }
 
+    /**
+     * Displays all threads with Limit and Offsets
+     * in descending order
+     * @param $currentpage
+     * @param $rowsperpage
+     * @return $threads array
+     */
     public static function getAll($currentpage, $rowsperpage)
     {
         $threads = array();
@@ -37,6 +50,16 @@ class Thread extends AppModel
         }
         return $threads;
     }
+
+    /**
+     * Displays all the comments on a
+     * specific thread with Limits and Offsets
+     * in descending order
+     * @param $currentpage
+     * @param $rowsperpage
+     * @param $thread_id
+     * @return $comments array
+     */
     public static function getComments($currentpage, $rowsperpage, $thread_id)
     {
         $comments = array();
@@ -54,6 +77,10 @@ class Thread extends AppModel
         return $comments; 
     }
 
+    /**
+     * Insert new comment
+     * @param $comment Object
+     */
     public function write(Comment $comment)
     {
         if (!$comment->validate()) {
@@ -70,6 +97,10 @@ class Thread extends AppModel
         
     }
 
+    /**
+     * Create new Thread
+     * @param $comment Object
+     */
     public function create(Comment $comment)
     {
         $this->validate();
@@ -88,6 +119,11 @@ class Thread extends AppModel
         $db->commit();
     }
 
+    /**
+     * Returns the number of rows
+     * of thread table
+     * @return $numrows
+     */
     public static function threadsrows()
     {
         $db = DB::conn();
@@ -98,6 +134,11 @@ class Thread extends AppModel
         return $numrows;
     }
 
+    /**
+     * Returns the number of rows
+     * of comment table
+     * @return $numrows
+     */
     public static function commentsrows($thread_id)
     {
         $db = DB::conn();

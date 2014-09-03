@@ -5,38 +5,43 @@ class User extends AppModel
     public $validation = array(
     'name' => array(
         'length' => array(
-            'validate_between', MAX_LENGTH, MIN_LENGTH
+            'validateBetween', MAX_LENGTH, MIN_LENGTH
             ),
         'validname' => array(
-            'name_format'
+            'nameFormat'
             ),
         ),
 
     'email' => array(
         'length' => array(
-            'validate_between', MAX_LENGTH, MIN_LENGTH
+            'validateBetween', MAX_LENGTH, MIN_LENGTH
             ),
         'validemail' => array(
-            'email_format'),
+            'emailFormat'
+            ),
         ),
     'uname' => array(
         'length' => array(
-            'validate_between', MAX_LENGTH, MIN_LENGTH
+            'validateBetween', MAX_LENGTH, MIN_LENGTH
             ),
         'validuname' => array(
-            'uname_format'),
+            'unameFormat'),
         ),
     'pwd1' => array(
         'length'=> array(
-            'validate_between', MAX_LENGTH, MIN_LENGTH
+            'validateBetween', MAX_LENGTH, MIN_LENGTH
             ),
         'validpwd' => array(
-            'pwd_format'),
+            'pwdFormat'),
         ),
     );
+
+    /**
+     * Adds new user
+     */
     public function addUser()
     {
-        $this->same_password = is_equal($this->pwd1, $this->pwd2);
+        $this->same_password = isEqual($this->pwd1, $this->pwd2);
         if (!$this->validate() || !$this->same_password ) {
             throw new ValidationException('invalid name');
         }
@@ -57,6 +62,11 @@ class User extends AppModel
         );
             $db->commit();           
     }
+
+    /**
+     * Checks the username and password
+     * @return $result
+     */
     public function checkLogin()
     {
         if (!$this->validate()) {

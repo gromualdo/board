@@ -1,5 +1,9 @@
 <?php
 class UserController extends AppController {
+
+    /**
+     * Registration page
+     */
     public function userSignup() 
     {
         logouterror('user');
@@ -31,6 +35,9 @@ class UserController extends AppController {
         $this->render($adduser);
     }
 
+    /**
+     * Login page
+     */
     public function index() 
     {
         logouterror('user');
@@ -64,6 +71,10 @@ class UserController extends AppController {
        $this->set(get_defined_vars());
     }
 
+    /**
+     * Logout function,
+     * will be redirected to homepage afterwards
+     */
     public function logout() 
     {
         session_destroy();

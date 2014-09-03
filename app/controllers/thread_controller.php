@@ -5,7 +5,11 @@
 class ThreadController extends AppController 
 {
     const ROWS_PER_PAGE = 5;
+    
 
+    /**
+     * Display all threads with pagination
+     */
     public function threads() 
     {
         $title = "Threads";
@@ -22,6 +26,10 @@ class ThreadController extends AppController
         $this->set(get_defined_vars());
     }
 
+    /**
+     * View all comments with pagination
+     * form for adding comments
+     */
     public function view() 
     {
         $title = "Comments";
@@ -71,6 +79,9 @@ class ThreadController extends AppController
         $this->render($page);
     }
 
+    /**
+     * Creating new thread
+     */
     public function create() 
     {
         $title = "Create Thread";
@@ -105,6 +116,9 @@ class ThreadController extends AppController
         $this->render($page);
     }
 
+    /**
+     * Catch page when user types in invalid URL
+     */
     public function pagenotfound() 
     {
         $title = "404";

@@ -15,10 +15,13 @@ require_once HELPERS_DIR.'pagination_helper.php';
 // config
 require_once CONFIG_DIR.'log.php';
 require_once CONFIG_DIR.'router.php';
-require_once CONFIG_DIR.'database.php';
 
 //vendor
 require_once VENDOR_DIR.'SimpleDBI/src/SimpleDBI.php';
+
+require_once CONFIG_DIR.'database.php';
+
+
 
 spl_autoload_register(function($name) {
     $filename = Inflector::underscore($name) . '.php';
