@@ -38,9 +38,9 @@ class Dispatcher
     {
         $controller_class = Inflector::camelize($controller_name) . 'Controller';
        
-        if (!class_exists($controller_class)) {
-            throw new DCException("{$controller_class} is not found");
-        }
+        // if (!class_exists($controller_class)) {
+        //     throw new DCException("{$controller_class} is not found");
+        // }
 
         return new $controller_class($controller_name);
     }

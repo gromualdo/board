@@ -2,7 +2,7 @@
 /**
  * Renamed DietCake's eh() function
  */
-function output($string) 
+function clean_output($string) 
 {
     if (!($string)) return;
     echo htmlspecialchars($string, ENT_QUOTES);

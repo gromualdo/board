@@ -1,6 +1,7 @@
+<?php $title = "Threads"; ?>
 <?php if(Param::get('m')): ?>
      <div class="alert alert-error center">
-            <?php output(Param::get("m")); ?>
+            <?php clean_output(Param::get("m")); ?>
     </div>
 
 <?php endif ?>
@@ -9,15 +10,15 @@
     <div class="well" style="margin:-23px">
             <?php foreach($threads as $v): ?>
             <div>
-                <a href="<?php output(url('thread/view', array('thread_id' => $v->id))) ?>">
-                <?php output($v->title) ?></a>
+                <a href="<?php clean_output(url('thread/view', array('thread_id' => $v->id))) ?>">
+                <?php clean_output($v->title) ?></a>
             </div>
             <?php endforeach ?>
         <br />
         <div class="padded">
             <?php echo($paged); ?>
         </div>
-        <a class="btn btn-primary" href="<?php output(url('thread/create')) ?>">Create</a>
+        <a class="btn btn-primary" href="<?php clean_output(url('thread/create')) ?>">Create</a>
     </div>
 </div>
 

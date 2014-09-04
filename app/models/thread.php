@@ -24,7 +24,7 @@ class Thread extends AppModel
             array($id)
             );
         if (!$row) {
-            return false;           //will be redirected to pagenotfound if $row=0
+            throw new DCException("Cannot find Thread_ID $thread_id");           //will be redirected to pagenotfound if $row=0
         }
         return new self($row);
     }
@@ -97,6 +97,8 @@ class Thread extends AppModel
         $db->commit();
         
     }
+
+        //redirect to 404 page if thread id is not found
 
     /**
      * Create new Thread

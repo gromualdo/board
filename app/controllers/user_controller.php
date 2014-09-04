@@ -4,31 +4,30 @@ class UserController extends AppController {
     /**
      * Registration page
      */
-    public function userSignup() 
+    public function register() 
     {
-        needLogoutError('user_session');
-        $title = "Signup";
-        $register = new user();
-        $add_user = Param::get('added', 'usersignup');
+        needLogoutError('user');
+        $user     = new User();
+        $add_user = Param::get('added', 'register');
 
         switch($add_user) {
-        case 'usersignup':
+        case 'register':
             break;
         case 'signupsuccess':
-            $register->name     = Param::get('name');
-            $register->email    = Param::get('email');
-            $register->uname    = Param::get('uname');
-            $register->pwd1     = Param::get('pwd1');           
-            $register->pwd2     = Param::get('pwd2');
+            $user->name      = Param::get('name');
+            $user->email     = Param::get('email');
+            $user->username  = Param::get('uname');
+            $user->password  = Param::get('pwd1');           
+            $user->password2 = Param::get('pwd2');
             try {
-                $register->addUser();
+                $user->addUser();
             } 
             catch (ValidationException $e) {
-                $adduser='usersignup';
+                $add_user='register';
             }           
             break;
         default:
-            throw new NotFoundException("{$add_user} is not found");
+            throw new NotFoundException("{$adduser} is not found");
             break;
         }
         $this->set(get_defined_vars());
@@ -41,10 +40,9 @@ class UserController extends AppController {
     public function index() 
     {
         needLogoutError('user_session');
-        $title = "Login";
-        $login = new user();
+        $login = new User();
         $user_login = Param::get('checklogin', 'index');
-        $login_error = false;
+        $login_error = true;
         switch($user_login) {
         case 'index':
             break;
@@ -52,13 +50,13 @@ class UserController extends AppController {
             $login->username    = Param::get('username');
             $login->password    = Param::get('password');
             try {
-                $uname =$login->checkLogin();
+                $uname = $login->checklogin();
                 if ($uname) {
                     $_SESSION['user_session'] = $uname;
                     redirect('/thread/threads');
-                } else {
+                 } else {
                     $login_error = true;
-                }
+                 }
             } 
             catch (ValidationException $e) {
                 $user_login="index";

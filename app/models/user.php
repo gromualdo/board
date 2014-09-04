@@ -11,6 +11,7 @@ class User extends AppModel
             'is_name'
             ),
         ),
+
     'email' => array(
         'length' => array(
             'is_between', MAX_LENGTH, MIN_LENGTH
@@ -19,14 +20,14 @@ class User extends AppModel
             'is_email'
             ),
         ),
-    'uname' => array(
+    'username' => array(
         'length' => array(
             'is_between', MAX_LENGTH, MIN_LENGTH
             ),
         'validuname' => array(
-            'is_name'),
+            'is_username'),
         ),
-    'pwd1' => array(
+    'password' => array(
         'length'=> array(
             'is_between', MAX_LENGTH, MIN_LENGTH
             ),
@@ -40,7 +41,7 @@ class User extends AppModel
      */
     public function addUser()
     {
-        $this->same_password = is_equal($this->pwd1, $this->pwd2);
+        $this->same_password = is_equal($this->password, $this->password2);
         if (!$this->validate() || !$this->same_password ) {
             throw new ValidationException('invalid name');
         }
@@ -48,9 +49,9 @@ class User extends AppModel
         $db->begin();
         $params = array(
             'name'          => $this->name, 
-            'emailaddress'  =>$this->email, 
-            'username'      =>$this->uname, 
-            'password'      =>md5($this->pwd1)
+            'emailaddress'  => $this->email, 
+            'username'      => $this->username, 
+            'password'      => md5($this->password)
             );
         $db->insert("users", $params); 
         $db->commit();           
@@ -65,7 +66,6 @@ class User extends AppModel
         if (!$this->validate()) {
             throw new ValidationException('invalid name');
         }
-
         $db = DB::conn();
         $db->begin();
         $result = $db->rows("SELECT * FROM users WHERE 

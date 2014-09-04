@@ -4,12 +4,12 @@
  */
 class pagination 
 {
+    const PAGE_RANGE = 2;
     public $row_count;
     public $rows_per_page;
     public $current_page;
     public $page_count;
     public $query_string;
-    const PAGE_RANGE = 2;
 
     /**
      * Class Constructor

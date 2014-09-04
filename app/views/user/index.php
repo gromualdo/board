@@ -1,17 +1,18 @@
+<?php $title = "Login Page"; ?>
 <br />  
 <h2 class="offset3 span5 center">Login</h2> 
-    <?php if ($login_error): ?>
+    <?php if ($login->hasError()): ?>
         <div class="alert alert-danger span5 offset3 center" >
             <?php if (empty($login->username) || empty($login->password)): ?>
                 <div>Please fill up all the fields</div>
-            <?php elseif ($errmsg): ?>
+            <?php elseif ($login_error): ?>
                 <div>Incorrect Username/Password</div>    
             <?php endif ?>
         </div>
     <?php endif ?>
 <div class="well span5 offset3 center" style="padding:25px;">
     <br />  
-    <form method="post" action="<?php output(url('')); ?>">
+    <form method="post" action="<?php clean_output(url('')); ?>">
         <table align="center">
             <tr>
                 <td align="right">Username: </td>
