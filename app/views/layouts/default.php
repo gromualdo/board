@@ -30,11 +30,11 @@
       <div class="navbar-inner">
         <div class="container" >
             <span class="pull-right">
-                <?php if(!isset($_SESSION['user'])): ?>
+                <?php if(!isset($_SESSION['user_session'])): ?>
                     <a class="brand" href="<?php output(url('/')); ?>"><i class="icon icon-home icon-white"></i> Home</a>
                     <a class="brand" href="<?php output(url('user/usersignup')); ?>"><i class="icon icon-user icon-white"></i> Register</a>
                 <?php else: ?>
-                     <a class="brand" href="<?php output(url('thread/threads')); ?>"><i class="icon icon-list-alt icon-white"></i> Threads</a>
+                    <a class="brand" href="<?php output(url('thread/threads')); ?>"><i class="icon icon-list-alt icon-white"></i> Threads</a>
                     <a class="brand" href="<?php output(url('user/logout')); ?>"><i class="icon icon-off icon-white"></i> Logout</a>
                 <?php endif; ?>
             </span>

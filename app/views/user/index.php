@@ -1,6 +1,6 @@
 <br />  
 <h2 class="offset3 span5 center">Login</h2> 
-    <?php if ($loginError): ?>
+    <?php if ($login_error): ?>
         <div class="alert alert-danger span5 offset3 center" >
             <?php if (empty($login->username) || empty($login->password)): ?>
                 <div>Please fill up all the fields</div>
@@ -15,12 +15,12 @@
         <table align="center">
             <tr>
                 <td align="right">Username: </td>
-                <td><input type="text" name="uname"/>
+                <td><input type="text" name="username"/>
                 <font class="text-error">*</font></td>
             </tr>
             <tr>
                 <td align="right">Password: </td>
-                <td><input type="password" name="pwd" />
+                <td><input type="password" name="password" />
                 <font class="text-error">*</font></td>
             </tr>
             <tr>

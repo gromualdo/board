@@ -13,15 +13,15 @@ class ThreadController extends AppController
     public function threads() 
     {
         $title = "Threads";
-        if (!is_logged('user')) {
+        if (!is_logged('user_session')) {
             redirect('/');
         }
-        $session = $_SESSION['user'];
+        // $session = $_SESSION['user_session'];
         // start paginated threads 
-        $totalrows  = Thread::threadsrows();
-        $page       = pagination::pagevalidator($totalrows, self::ROWS_PER_PAGE);
-        $threads    = Thread::getAll($page, self::ROWS_PER_PAGE);
-        $paged      = new pagination($totalrows, self::ROWS_PER_PAGE, $page);
+        $total_rows = Thread::countThreads();
+        $page       = pagination::pagevalidator($total_rows, self::ROWS_PER_PAGE);
+        $threads    = Thread::getAllThreads($page, self::ROWS_PER_PAGE);
+        $paged      = new pagination($total_rows, self::ROWS_PER_PAGE, $page);
         // end paginated threads        
         $this->set(get_defined_vars());
     }
@@ -33,24 +33,24 @@ class ThreadController extends AppController
     public function view() 
     {
         $title = "Comments";
-        if (!is_logged('user')) {
+        if (!is_logged('user_session')) {
             redirect('/');;
         }
         $thread_id  = Param::get('thread_id');
-        $thread     = Thread::get($thread_id);
+        $thread     = Thread::getThread($thread_id);
 
         //redirect to 404 page if thread id is not found
         if (!$thread) {
-            redirect("/thread/pagenotfound");
+            throw new DCException("Cannot find Thread_ID $thread_id");
         }
 
         // start paginated comments 
-        $session    = $_SESSION['user'];
+        $session    = $_SESSION['user_session'];
         $username   = $session[0]['username'];        
-        $totalrows  = Thread::commentsrows($thread_id);
-        $page       = pagination::pagevalidator($totalrows, self::ROWS_PER_PAGE);
+        $total_rows = Thread::countComments($thread_id);
+        $page       = Pagination::pagevalidator($total_rows, self::ROWS_PER_PAGE);
         $comments   = Thread::getComments($page, self::ROWS_PER_PAGE, $thread_id);
-        $paged      = new pagination($totalrows, self::ROWS_PER_PAGE, $page, 
+        $paged      = new Pagination($total_rows, self::ROWS_PER_PAGE, $page, 
             array("thread_id=$thread_id"));
         // end paginated comments  
 
@@ -66,7 +66,7 @@ class ThreadController extends AppController
             try {
                 $thread->write($comment);
             } catch (ValidationException $e) {
-                $page = 'view';
+                $page = 'view?whut';
             }
             break;
             $thread->write($comment);
@@ -85,12 +85,11 @@ class ThreadController extends AppController
     public function create() 
     {
         $title = "Create Thread";
-        if (!is_logged('user')) {
+        if (!is_logged('user_session')) {
             redirect('/');
         }
-        $session    = $_SESSION['user'];
+        $session    = $_SESSION['user_session'];
         $username   = $session[0]['username'];
-
         $thread     = new Thread;
         $comment    = new Comment;
         $page       = Param::get('page_next', 'create');
@@ -103,7 +102,7 @@ class ThreadController extends AppController
             $comment->username  = Param::get('username');
             $comment->body      = Param::get('body');
             try {
-                $thread->create($comment);
+                $thread->createThread($comment);
             } catch (ValidationException $e) {
                 $page = 'create';
             }
@@ -119,8 +118,10 @@ class ThreadController extends AppController
     /**
      * Catch page when user types in invalid URL
      */
-    public function pagenotfound() 
+    public function pageNotFound() 
     {
         $title = "404";
+        $err_msg = Param::get('error_msg');
+        $this->set(get_defined_vars());
     }
 }

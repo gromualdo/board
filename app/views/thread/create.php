@@ -21,7 +21,7 @@
     <label>Title</label>
     <input type="text" class="span6" name="title" value="<?php output(Param::get('title')) ?>">
     <label>Your name</label>
-    <input type="text" class="span6" name="username" value="<?php echo $username; ?>" readonly>
+    <input type="text" class="span6" name="username" value="<?php output($username); ?>" readonly>
     <label>Comment</label>
     <textarea name="body" style="resize:none" class="span11"></textarea>
     <br />

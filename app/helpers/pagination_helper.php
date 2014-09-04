@@ -4,105 +4,105 @@
  */
 class pagination 
 {
-    public $rowcount;
-    public $rowsperpage;
-    public $currentpage;
-    public $pagecount;
-    public $qs;
+    public $row_count;
+    public $rows_per_page;
+    public $current_page;
+    public $page_count;
+    public $query_string;
     const PAGE_RANGE = 2;
 
     /**
      * Class Constructor
      * Assigns parameter to public variables if not null
      * Performs the run() function
-     * @param $rowcount
-     * @param $rowsperpage
-     * @param $currentpage
-     * @param $querystrings
+     * @param $row_count
+     * @param $rows_per_page
+     * @param $current_page
+     * @param $get_vars
      */
-    public function __construct ($rowcount = null, $rowsperpage = null, 
-        $currentpage = null, array $querystrings = null)
+    public function __construct ($row_count = null, $rows_per_page = null, 
+        $current_page = null, array $get_vars = null)
     {
-        if (!is_null($rowcount) && !is_null($rowsperpage) && !is_null($currentpage)) {
-            $this->rowcount     = $rowcount;
-            $this->rowsperpage  = $rowsperpage;
-            $this->currentpage  = $currentpage;
-            $this->querystrings = $querystrings;
+        if (!is_null($row_count) && !is_null($rows_per_page) && !is_null($current_page)) {
+            $this->row_count     = $row_count;
+            $this->rowsperpage  = $rows_per_page;
+            $this->current_page  = $current_page;
+            $this->get_vars = $get_vars;
             $this->run();
         }
     }
 
     /**
      * Checks the number of pages
-     * Validates the value of $currentpage variable
+     * Validates the value of $current_page variable
      */
     public function run()
     {
-        $this->pagecount    = ceil($this->rowcount / $this->rowsperpage);
-        $this->currentpage  = max($this->currentpage, 1);
-        $this->currentpage  = min($this->currentpage, $this->pagecount);
+        $this->page_count    = ceil($this->row_count / $this->rowsperpage);
+        $this->current_page  = max($this->current_page, 1);
+        $this->current_page  = min($this->current_page, $this->page_count);
     }
 
     /**
      * Validates the user input via GET method
      * @param $totalrows
-     * @param $rowsperpage
+     * @param $rows_per_page
      * @return $pages
      */
-    public static function pageValidator($totalrows, $rowsperpage)
+    public static function pageValidator($totalrows, $rows_per_page)
     {
-        $totalpages = ceil($totalrows/$rowsperpage);
+        $totalpages = ceil($totalrows/$rows_per_page);
         if (isset($_GET['page']) && is_numeric($_GET['page'])) {
-            $currentpage = (int) $_GET['page'];
+            $current_page = (int) $_GET['page'];
         } else {
-            $currentpage = 1;
+            $current_page = 1;
         }
 
-        if ($currentpage > $totalpages) {
-            $currentpage = $totalpages;
+        if ($current_page > $totalpages) {
+            $current_page = $totalpages;
         }
 
-        if ($currentpage < 1) {
-            $currentpage = 1;
+        if ($current_page < 1) {
+            $current_page = 1;
         }
 
-        $pages = $currentpage;
+        $pages = $current_page;
         return $pages;
     }
 
     //
     /**
      * Outputs the pagination control buttons
-     * @return $pagectrl
+     * @return $page_btn
      */
     public function __toString()
     {
-        $qs = "";       //additional querystring
-        foreach((array) $this->querystrings as $querystring) {
-            $qs .= "&{$querystring}";
+        $query_string = "";       //additional get_var
+        foreach((array) $this->get_vars as $get_var) {
+            $query_string .= "&{$get_var}";
         }
-        $pagectrl = "<div class='pagination pagination-centered'><ul>";
-        if ($this->currentpage > 1) {
-            $pagectrl .= "<li><a href='?page=1{$qs}' class='btn '> << </a></li>";
-            $prevpage = $this->currentpage - 1;
-            $pagectrl .= "<li><a href='?page=$prevpage{$qs}' class='btn '> < </a></li> "; 
+        $page_btn = "<div class='pagination pagination-centered'><ul>";
+        if ($this->current_page > 1) {
+            $page_btn .= "<li><a href='?page=1{$query_string}' class='btn '> << </a></li>";
+            $prev_page  = $this->current_page - 1;
+            $page_btn .= "<li><a href='?page=$prev_page{$query_string}' class='btn '> < </a></li> "; 
         }
  
-        for($i = ($this->currentpage - self::PAGE_RANGE); $i <= ($this->currentpage + self::PAGE_RANGE); $i++) {
-            if (($i > 0) && ($i <= $this->pagecount)) {
-                if ($i == $this->currentpage) {
-                    $pagectrl .= "<li class='disabled'><a class='btn '>$i</a></li>";
+        for($i = ($this->current_page - self::PAGE_RANGE); $i <= ($this->current_page + self::PAGE_RANGE); $i++) {
+            if (($i > 0) && ($i <= $this->page_count)) {
+                if ($i == $this->current_page) {
+                    $page_btn .= "<li class='disabled'><a class='btn '>$i</a></li>";
                 } else {
-                    $pagectrl .= "<li><a href='?page=$i{$qs}' class='btn '>$i</a></li> ";
+                    $page_btn .= "<li><a href='?page=$i{$query_string}' class='btn '>$i</a></li> ";
                 }
             }       
         }
-        if ($this->currentpage != $this->pagecount) {
-            $nextpage = $this->currentpage + 1;
-            $pagectrl .= "<li><a href='?page=$nextpage{$qs}' class='btn '> > </a></li>";
-            $pagectrl .= "<li><a href='?page=$this->pagecount{$qs}' class='btn '> >> </a></li>";
+        if ($this->current_page != $this->page_count) {
+            $next_page = $this->current_page + 1;
+            $page_btn .= "<li><a href='?page=$next_page{$query_string}' class='btn '> > </a></li>";
+            $page_btn .= "<li><a href='?page=$this->page_count{$query_string}' class='btn '> >> </a></li>";
         }
-    $pagectrl .="</ul></div>";
-    return $pagectrl;
+    $page_btn .="</ul></div>";
+    return $page_btn;
     }
 }

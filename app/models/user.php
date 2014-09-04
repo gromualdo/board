@@ -5,34 +5,33 @@ class User extends AppModel
     public $validation = array(
     'name' => array(
         'length' => array(
-            'validateBetween', MAX_LENGTH, MIN_LENGTH
+            'is_between', MAX_LENGTH, MIN_LENGTH
             ),
         'validname' => array(
-            'nameFormat'
+            'is_name'
             ),
         ),
-
     'email' => array(
         'length' => array(
-            'validateBetween', MAX_LENGTH, MIN_LENGTH
+            'is_between', MAX_LENGTH, MIN_LENGTH
             ),
         'validemail' => array(
-            'emailFormat'
+            'is_email'
             ),
         ),
     'uname' => array(
         'length' => array(
-            'validateBetween', MAX_LENGTH, MIN_LENGTH
+            'is_between', MAX_LENGTH, MIN_LENGTH
             ),
         'validuname' => array(
-            'unameFormat'),
+            'is_name'),
         ),
     'pwd1' => array(
         'length'=> array(
-            'validateBetween', MAX_LENGTH, MIN_LENGTH
+            'is_between', MAX_LENGTH, MIN_LENGTH
             ),
         'validpwd' => array(
-            'pwdFormat'),
+            'is_password'),
         ),
     );
 
@@ -41,26 +40,20 @@ class User extends AppModel
      */
     public function addUser()
     {
-        $this->same_password = isEqual($this->pwd1, $this->pwd2);
+        $this->same_password = is_equal($this->pwd1, $this->pwd2);
         if (!$this->validate() || !$this->same_password ) {
             throw new ValidationException('invalid name');
         }
         $db = DB::conn();
         $db->begin();
-        $db->query("INSERT INTO users SET 
-            name = ?, 
-            emailaddress = ?, 
-            username = ?, 
-            password = ?, 
-            created=NOW()", 
-            array(
-                $this->name, 
-                $this->email, 
-                $this->uname, 
-                md5($this->pwd1)
-            )
-        );
-            $db->commit();           
+        $params = array(
+            'name'          => $this->name, 
+            'emailaddress'  =>$this->email, 
+            'username'      =>$this->uname, 
+            'password'      =>md5($this->pwd1)
+            );
+        $db->insert("users", $params); 
+        $db->commit();           
     }
 
     /**
@@ -86,6 +79,5 @@ class User extends AppModel
         if ($result) {
             return $result;
         }
-        $db->commit();
     }
 }

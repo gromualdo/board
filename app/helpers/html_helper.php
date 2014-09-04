@@ -4,7 +4,7 @@
  */
 function output($string) 
 {
-    if (!isset($string)) return;
+    if (!($string)) return;
     echo htmlspecialchars($string, ENT_QUOTES);
 }
 
@@ -33,12 +33,11 @@ function is_logged($string)
  * login page and registration page
  * while logged in
  */
-function logoutError($string)
+function needLogoutError($string)
 {
     if(is_logged($string)) {
-        $logouterror ="You need to logout first"; 
-        $url = url("thread/threads", array('m'=>$logouterror));
-        echo $url;
+        $logout_error ="You need to logout first"; 
+        $url = url("thread/threads", array('m'=>$logout_error));
         redirect($url);        
     }
 }

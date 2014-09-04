@@ -6,12 +6,12 @@ class UserController extends AppController {
      */
     public function userSignup() 
     {
-        logouterror('user');
+        needLogoutError('user_session');
         $title = "Signup";
         $register = new user();
-        $adduser = Param::get('added', 'usersignup');
+        $add_user = Param::get('added', 'usersignup');
 
-        switch($adduser) {
+        switch($add_user) {
         case 'usersignup':
             break;
         case 'signupsuccess':
@@ -21,18 +21,18 @@ class UserController extends AppController {
             $register->pwd1     = Param::get('pwd1');           
             $register->pwd2     = Param::get('pwd2');
             try {
-                $register->adduser();
+                $register->addUser();
             } 
             catch (ValidationException $e) {
                 $adduser='usersignup';
             }           
             break;
         default:
-            throw new NotFoundException("{$adduser} is not found");
+            throw new NotFoundException("{$add_user} is not found");
             break;
         }
         $this->set(get_defined_vars());
-        $this->render($adduser);
+        $this->render($add_user);
     }
 
     /**
@@ -40,32 +40,32 @@ class UserController extends AppController {
      */
     public function index() 
     {
-        logouterror('user');
+        needLogoutError('user_session');
         $title = "Login";
         $login = new user();
-        $userlogin = Param::get('checklogin', 'index');
-        $loginError = false;
-        switch($userlogin) {
+        $user_login = Param::get('checklogin', 'index');
+        $login_error = false;
+        switch($user_login) {
         case 'index':
             break;
         case '/thread/threads':
-            $login->username    = Param::get('uname');
-            $login->password    = Param::get('pwd');
+            $login->username    = Param::get('username');
+            $login->password    = Param::get('password');
             try {
-                $uname =$login->checklogin();
+                $uname =$login->checkLogin();
                 if ($uname) {
-                    $_SESSION['user'] = $uname;
+                    $_SESSION['user_session'] = $uname;
                     redirect('/thread/threads');
                 } else {
-                    $loginError = true;
+                    $login_error = true;
                 }
             } 
             catch (ValidationException $e) {
-                $userlogin="index";
+                $user_login="index";
             }
             break;
         default:
-            throw new NotFoundException("{$userlogin}login error");
+            throw new NotFoundException("{$user_login}login error");
             break;
         }
        $this->set(get_defined_vars());

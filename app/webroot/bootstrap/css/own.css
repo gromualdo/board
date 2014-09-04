@@ -19,3 +19,9 @@ body,html{
 .padded{
     padding: 15px;
 }
+.clipped{
+    max-width: 1000px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

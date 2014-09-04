@@ -4,8 +4,8 @@
     <?php foreach ($comments as $k=> $v): ?>
         <font color='green'><strong><?php output($v->username) ?></strong><br />
          <?php output($v->created) ?></font>
-        <div>
-            <?php echo readable_text($v->body) ?><hr />
+        <div class="clipped">
+            <?php output(readable_text($v->body)); ?><hr />
         </div>
     <?php endforeach ?>
     <div class="center">
@@ -15,8 +15,8 @@
 <!-- End of List of Comments -->
 
 <!-- Start of Error display -->
-<?php if ($comment->hasError()): ?>
-    <div class="alert alert-block">
+<?php// if ($comment->hasError()): ?>
+<!--     <div class="alert alert-block">
         <h4 class="alert-heading">Validation error!</h4>
         <?php if (!empty($comment->validation_errors['body']['length'])): ?>
             <div><em>Comment</em> must be between
@@ -24,8 +24,8 @@
                 <?php output($comment->validation['body']['length'][2]) ?> characters in length.
             </div>
         <?php endif ?>
-    </div>
-<?php endif ?>
+    </div> -->
+<?php// endif ?>
 <!-- End of Error display -->
 
 <div class="well">

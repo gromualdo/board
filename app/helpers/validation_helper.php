@@ -6,7 +6,7 @@
  * @param $max
  * @return bool
  */
-function validateBetween($check, $min, $max)
+function is_between($check, $min, $max)
 {
     $n = mb_strlen($check);
     return $min <= $n && $n <= $max;
@@ -20,7 +20,7 @@ function validateBetween($check, $min, $max)
  * @param $string
  * @return bool
  */
-function emailFormat($string)
+function is_email($string)
 {
     return (preg_match('/[\w._]+@[A-z]+.[A-z]{3}$/', $string) ||        
        preg_match('/[\w._]+@[A-z]+.[A-z]{3}.?[A-z]{2}?$/', $string));   
@@ -35,7 +35,7 @@ function emailFormat($string)
  * @param $string
  * @return bool
  */
-function nameFormat($string)
+function is_name($string)
 {
     return (preg_match('/^[A-z]+[A-z  -]+[A-z]+$/', $string));  //should start and end with a letter, accepts hyphen and spaces
 }
@@ -47,7 +47,7 @@ function nameFormat($string)
  * without spaces
  * @param $string
  */
-function unameFormat($string)
+function is_username($string)
 {
     return (ctype_alnum($string));
 }
@@ -58,7 +58,7 @@ function unameFormat($string)
  * @param $string2
  * @return bool
  */
-function isEqual($string1, $string2)
+function is_equal($string1, $string2)
 {
   return ($string1 === $string2);
 }
@@ -69,7 +69,7 @@ function isEqual($string1, $string2)
  * @param $string
  * @return bool
  */
-function pwdFormat($string)
+function is_password($string)
 {
     return (preg_match('/^[^ ]+$/', $string)); 
 }

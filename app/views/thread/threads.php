@@ -15,7 +15,7 @@
             <?php endforeach ?>
         <br />
         <div class="padded">
-            <?php echo $paged; ?>
+            <?php echo($paged); ?>
         </div>
         <a class="btn btn-primary" href="<?php output(url('thread/create')) ?>">Create</a>
     </div>

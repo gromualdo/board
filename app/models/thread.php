@@ -4,7 +4,7 @@ class Thread extends AppModel
     public $validation = array(
         'title' => array(
             'length' => array(
-                'validatebetween', 1, 30,
+                'is_between', 1, 30,
                 ),
             ),
         );
@@ -15,7 +15,7 @@ class Thread extends AppModel
      * @param $id
      * @return new obj
      */
-    public static function get($id)
+    public static function getThread($id)
     {
         $db = DB::conn();
         $row = $db->row("SELECT * FROM thread 
@@ -36,7 +36,7 @@ class Thread extends AppModel
      * @param $rowsperpage
      * @return $threads array
      */
-    public static function getAll($currentpage, $rowsperpage)
+    public static function getAllThreads($currentpage, $rowsperpage)
     {
         $threads = array();
         $db = DB::conn();
@@ -87,6 +87,7 @@ class Thread extends AppModel
             throw new ValidationException('invalid comment');
         }
         $db = DB::conn();
+        $db->begin();
         $params = array(
             'thread_id' => $this->id, 
             'username'  => $comment->username, 
@@ -101,7 +102,7 @@ class Thread extends AppModel
      * Create new Thread
      * @param $comment Object
      */
-    public function create(Comment $comment)
+    public function createThread(Comment $comment)
     {
         $this->validate();
         $comment->validate();
@@ -124,7 +125,7 @@ class Thread extends AppModel
      * of thread table
      * @return $numrows
      */
-    public static function threadsrows()
+    public static function countThreads()
     {
         $db = DB::conn();
         $sqlrowcount = $db->row(
@@ -139,7 +140,7 @@ class Thread extends AppModel
      * of comment table
      * @return $numrows
      */
-    public static function commentsrows($thread_id)
+    public static function countComments($thread_id)
     {
         $db = DB::conn();
         $sqlrowcount = $db->row("SELECT COUNT(*) AS num FROM comment 
