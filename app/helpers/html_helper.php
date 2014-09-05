@@ -11,20 +11,11 @@ function clean_output($string)
 /**
  * Formats the text to include enter (nextline)
  */
-function readable_text($s) 
+function readable_text($string) 
 { 
-    $s = htmlspecialchars($s, ENT_QUOTES);
-    $s = nl2br($s);
-    return $s;
-}
-
-/**
- * @param $string
- * Checks if there is an existing Session
- */
-function is_logged($string) 
-{
-    return(isset($_SESSION[$string]));
+    $string = htmlspecialchars($string, ENT_QUOTES);
+    $string = nl2br($string);
+    return $string;
 }
 
 /**
@@ -35,10 +26,9 @@ function is_logged($string)
  */
 function needLogoutError($string)
 {
-    if(is_logged($string)) {
+    if(isset($_SESSION[$string])) {
         $logout_error ="You need to logout first"; 
-        $url = url("thread/threads", array('m'=>$logout_error));
-        redirect($url);        
+        redirect(url("thread/threads", array('m'=>$logout_error)));        
     }
 }
 
@@ -48,5 +38,5 @@ function needLogoutError($string)
  */
 function redirect($url)
 {
-    header("location:".$url);
+    header("location: {$url} ");
 }

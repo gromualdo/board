@@ -1,29 +1,30 @@
 <?php
-class UserController extends AppController {
+class UserController extends AppController 
+{
 
     /**
      * Registration page
      */
     public function register() 
     {
-        needLogoutError('user');
-        $user     = new User();
+        needLogoutError('user_session');
+        $user = new User();
         $add_user = Param::get('added', 'register');
 
-        switch($add_user) {
+        switch ($add_user) {
         case 'register':
             break;
         case 'signupsuccess':
-            $user->name      = Param::get('name');
-            $user->email     = Param::get('email');
-            $user->username  = Param::get('uname');
-            $user->password  = Param::get('pwd1');           
-            $user->password2 = Param::get('pwd2');
+            $user->name = Param::get('name');
+            $user->email = Param::get('email');
+            $user->username = Param::get('username');
+            $user->password = Param::get('password');           
+            $user->password2 = Param::get('password2');
+            $user->combined_password = $user->password." ".$user->password2;
             try {
                 $user->addUser();
-            } 
-            catch (ValidationException $e) {
-                $add_user='register';
+            } catch (ValidationException $e) {
+                $add_user = 'register';
             }           
             break;
         default:
@@ -42,13 +43,13 @@ class UserController extends AppController {
         needLogoutError('user_session');
         $login = new User();
         $user_login = Param::get('checklogin', 'index');
-        $login_error = true;
-        switch($user_login) {
+        $login_error = false;
+        switch ($user_login) {
         case 'index':
             break;
         case '/thread/threads':
-            $login->username    = Param::get('username');
-            $login->password    = Param::get('password');
+            $login->username = Param::get('username');
+            $login->password = Param::get('password');
             try {
                 $uname = $login->checklogin();
                 if ($uname) {
@@ -57,9 +58,9 @@ class UserController extends AppController {
                  } else {
                     $login_error = true;
                  }
-            } 
-            catch (ValidationException $e) {
-                $user_login="index";
+            } catch (ValidationException $e) {
+                $login_error = true;
+                $user_login = "index";
             }
             break;
         default:
@@ -76,7 +77,7 @@ class UserController extends AppController {
     public function logout() 
     {
         session_destroy();
-        header("location: /");
+        redirect("/");
     }
 
 }             

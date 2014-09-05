@@ -3,55 +3,58 @@ class User extends AppModel
 {
     public $same_password = true;
     public $validation = array(
-    'name' => array(
-        'length' => array(
-            'is_between', MAX_LENGTH, MIN_LENGTH
+        'name' => array(
+            'length' => array(
+                'is_between', MAX_LENGTH, MIN_LENGTH
+                ),
+            'validname' => array(
+                'is_valid_name'
+                ),
             ),
-        'validname' => array(
-            'is_name'
-            ),
-        ),
 
-    'email' => array(
-        'length' => array(
-            'is_between', MAX_LENGTH, MIN_LENGTH
+        'email' => array(
+            'length' => array(
+                'is_between', MAX_LENGTH, MIN_LENGTH
+                ),
+            'validemail' => array(
+                'is_valid_email'
+                ),
             ),
-        'validemail' => array(
-            'is_email'
+        'username' => array(
+            'length' => array(
+                'is_between', MAX_LENGTH, MIN_LENGTH
+                ),
+            'validuname' => array(
+                'is_valid_username'),
             ),
-        ),
-    'username' => array(
-        'length' => array(
-            'is_between', MAX_LENGTH, MIN_LENGTH
+        'password' => array(
+            'length'=> array(
+                'is_between', MAX_LENGTH, MIN_LENGTH
+                ),
+            'validpassword' => array(
+                'is_valid_password'),
             ),
-        'validuname' => array(
-            'is_username'),
-        ),
-    'password' => array(
-        'length'=> array(
-            'is_between', MAX_LENGTH, MIN_LENGTH
+        'combined_password' => array(
+            'comparison' => array(
+                'is_password_same'),
             ),
-        'validpwd' => array(
-            'is_password'),
-        ),
-    );
+        );
 
     /**
      * Adds new user
      */
     public function addUser()
     {
-        $this->same_password = is_equal($this->password, $this->password2);
-        if (!$this->validate() || !$this->same_password ) {
+        if (!$this->validate() ) {
             throw new ValidationException('invalid name');
         }
         $db = DB::conn();
         $db->begin();
         $params = array(
-            'name'          => $this->name, 
-            'emailaddress'  => $this->email, 
-            'username'      => $this->username, 
-            'password'      => md5($this->password)
+            'name' => $this->name, 
+            'emailaddress' => $this->email, 
+            'username' => $this->username, 
+            'password' => md5($this->password)
             );
         $db->insert("users", $params); 
         $db->commit();           
@@ -67,8 +70,7 @@ class User extends AppModel
             throw new ValidationException('invalid name');
         }
         $db = DB::conn();
-        $db->begin();
-        $result = $db->rows("SELECT * FROM users WHERE 
+        $row = $db->row("SELECT * FROM users WHERE 
             username = ? AND
             password = ?",
             array(
@@ -76,8 +78,9 @@ class User extends AppModel
             md5($this->password)
             )
         );
-        if ($result) {
-            return $result;
+        if ($row) {
+            return $row;
         }
+
     }
 }

@@ -20,7 +20,7 @@ function is_between($check, $min, $max)
  * @param $string
  * @return bool
  */
-function is_email($string)
+function is_valid_email($string)
 {
     return (preg_match('/[\w._]+@[A-z]+.[A-z]{3}$/', $string) ||        
        preg_match('/[\w._]+@[A-z]+.[A-z]{3}.?[A-z]{2}?$/', $string));   
@@ -35,7 +35,7 @@ function is_email($string)
  * @param $string
  * @return bool
  */
-function is_name($string)
+function is_valid_name($string)
 {
     return (preg_match('/^[A-z]+[A-z  -]+[A-z]+$/', $string));  //should start and end with a letter, accepts hyphen and spaces
 }
@@ -47,29 +47,28 @@ function is_name($string)
  * without spaces
  * @param $string
  */
-function is_username($string)
+function is_valid_username($string)
 {
     return (ctype_alnum($string));
 }
 
 /**
- * Checks if two inputted strings are equal
+ * Checks if two password and re-typed password are equal
  * @param $string1
- * @param $string2
  * @return bool
  */
-function is_equal($string1, $string2)
+function is_password_same($string)
 {
-  return ($string1 === $string2);
+    $split = explode(" ", $string);
+    return ($split[0] === $split[1]);
 }
-
 /**
  * Checks if the password contains spaces
  * return false if it has any
  * @param $string
  * @return bool
  */
-function is_password($string)
+function is_valid_password($string)
 {
     return (preg_match('/^[^ ]+$/', $string)); 
 }

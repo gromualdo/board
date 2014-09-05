@@ -15,16 +15,16 @@ class Thread extends AppModel
      * @param $id
      * @return new obj
      */
-    public static function getThread($id)
+    public static function get($id)
     {
+        $thread_id = Param::get('thread_id');
         $db = DB::conn();
         $row = $db->row("SELECT * FROM thread 
-            WHERE id = ? 
-            ORDER BY id", 
+            WHERE id = ?", 
             array($id)
             );
         if (!$row) {
-            throw new DCException("Cannot find Thread_ID $thread_id");           //will be redirected to pagenotfound if $row=0
+            throw new PageNotFoundException("Cannot find Thread_ID $thread_id");           //will be redirected to pagenotfound if $row=0
         }
         return new self($row);
     }
@@ -36,7 +36,7 @@ class Thread extends AppModel
      * @param $rowsperpage
      * @return $threads array
      */
-    public static function getAllThreads($currentpage, $rowsperpage)
+    public static function getAll($currentpage, $rowsperpage)
     {
         $threads = array();
         $db = DB::conn();
@@ -52,63 +52,14 @@ class Thread extends AppModel
     }
 
     /**
-     * Displays all the comments on a
-     * specific thread with Limits and Offsets
-     * in descending order
-     * @param $currentpage
-     * @param $rowsperpage
-     * @param $thread_id
-     * @return $comments array
-     */
-    public static function getComments($currentpage, $rowsperpage, $thread_id)
-    {
-        $comments = array();
-        $db = DB::conn();
-        $lowerlimit = ($currentpage - 1) * $rowsperpage;
-        $limitrows= $db->rows("SELECT * FROM comment 
-            WHERE thread_id = ? 
-            ORDER BY id DESC 
-            LIMIT $lowerlimit, $rowsperpage",
-            array($thread_id)
-            );
-        foreach($limitrows as $limitrow) {
-            $comments[] = new Thread($limitrow);
-        }
-        return $comments; 
-    }
-
-    /**
-     * Insert new comment
-     * @param $comment Object
-     */
-    public function write(Comment $comment)
-    {
-        if (!$comment->validate()) {
-            throw new ValidationException('invalid comment');
-        }
-        $db = DB::conn();
-        $db->begin();
-        $params = array(
-            'thread_id' => $this->id, 
-            'username'  => $comment->username, 
-            'body'      => $comment->body
-            );
-        $db->insert("comment", $params);
-        $db->commit();
-        
-    }
-
-        //redirect to 404 page if thread id is not found
-
-    /**
      * Create new Thread
      * @param $comment Object
      */
-    public function createThread(Comment $comment)
+    public function create(Comment $comment)
     {
         $this->validate();
         $comment->validate();
-        if ($this->hasError() || $comment->hasError()) {
+        if (!$this->validate() || !$comment->validate()) {
             throw new ValidationException('invalid thread or comment');
         }
         $db = DB::conn();
@@ -118,7 +69,7 @@ class Thread extends AppModel
             );
         $db->insert("thread", $params);
         $this->id = $db->lastInsertId();
-        $this->write($comment);     
+        $comment->write($this->id);     
         $db->commit();
     }
 
@@ -127,29 +78,9 @@ class Thread extends AppModel
      * of thread table
      * @return $numrows
      */
-    public static function countThreads()
+    public static function count()
     {
         $db = DB::conn();
-        $sqlrowcount = $db->row(
-            "SELECT COUNT(*) AS num FROM thread"
-            );
-        $numrows = $sqlrowcount['num'];
-        return $numrows;
-    }
-
-    /**
-     * Returns the number of rows
-     * of comment table
-     * @return $numrows
-     */
-    public static function countComments($thread_id)
-    {
-        $db = DB::conn();
-        $sqlrowcount = $db->row("SELECT COUNT(*) AS num FROM comment 
-            WHERE thread_id = ?", 
-            array($thread_id)
-            );
-        $numrows = $sqlrowcount['num'];
-        return $numrows;
+        return (int) $db->value("SELECT COUNT(*) FROM thread");
     }
 }

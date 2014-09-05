@@ -6,7 +6,7 @@
         <font color='green'><strong><?php clean_output($v->username) ?></strong><br />
          <?php clean_output($v->created) ?></font>
         <div class="clipped">
-            <?php clean_output(readable_text($v->body)); ?><hr />
+            <?php echo(readable_text($v->body)); ?><hr />
         </div>
     <?php endforeach ?>
     <div class="center">
@@ -17,9 +17,9 @@
 
 <!-- Start of Error display -->
 <?php if ($comment->hasError()): ?>
-    <div class="alert alert-block">
+    <div class="alert alert-error">
         <h4 class="alert-heading">Validation error!</h4>
-        <?php if (!empty($comment->validation_errors['body']['length'])): ?>
+        <?php if ($comment->validation_errors['body']['length']): ?>
             <div><em>Comment</em> must be between
                 <?php clean_output($comment->validation['body']['length'][1]) ?> and
                 <?php clean_output($comment->validation['body']['length'][2]) ?> characters in length.

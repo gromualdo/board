@@ -1,15 +1,15 @@
-<?php $title = "Create Thread"; ?>
+<?php $title = "Create thread"; ?>
 <h1>Create a thread</h1>
 <?php if ($thread->hasError() || $comment->hasError()): ?>
-    <div class="alert alert-block">
+    <div class="alert alert-error">
         <h4 class="alert-heading">Validation error!</h4>
-        <?php if (!empty($thread->validation_errors['title']['length'])): ?>
+        <?php if ($thread->validation_errors['title']['length']): ?>
             <div><em>Title</em> must be between
                 <?php clean_output($thread->validation['title']['length'][1]) ?> and
                 <?php clean_output($thread->validation['title']['length'][2]) ?> characters in length.
             </div>
         <?php endif ?>
-        <?php if (!empty($comment->validation_errors['body']['length'])): ?>
+        <?php if ($comment->validation_errors['body']['length']): ?>
             <div><em>Comment</em> must be between
                 <?php clean_output($comment->validation['body']['length'][1]) ?> and
                 <?php clean_output($comment->validation['body']['length'][2]) ?> characters in length.

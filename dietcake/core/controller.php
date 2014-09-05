@@ -38,7 +38,7 @@ class Controller
             $method = new ReflectionMethod($this, $this->action);
             if (!$method->isPublic()) {
                 // アクションが public メソッドではないとき
-                throw new DCException('action is not public');
+                throw new DCException('Action is not Public');
             }
         }
 

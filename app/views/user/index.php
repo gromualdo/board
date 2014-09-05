@@ -1,9 +1,9 @@
 <?php $title = "Login Page"; ?>
 <br />  
 <h2 class="offset3 span5 center">Login</h2> 
-    <?php if ($login->hasError()): ?>
+    <?php if ($login_error || $login->hasError()): ?>
         <div class="alert alert-danger span5 offset3 center" >
-            <?php if (empty($login->username) || empty($login->password)): ?>
+            <?php if (!$login->username || !$login->password): ?>
                 <div>Please fill up all the fields</div>
             <?php elseif ($login_error): ?>
                 <div>Incorrect Username/Password</div>    
