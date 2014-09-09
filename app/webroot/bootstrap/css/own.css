@@ -1,0 +1,27 @@
+body,html{
+ height:93%;
+}
+.container{
+ min-height:100%;
+}
+.footer{
+ height:40px;
+ margin-top:-40px;
+ background-color: black;]
+ color: #ffffff;
+ text-align: center;
+ font-weight: bolder;
+}
+.center{
+ text-align: center;
+ vertical-align: center;
+}
+.padded{
+    padding: 15px;
+}
+.clipped{
+    max-width: 1000px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
