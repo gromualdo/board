@@ -37,7 +37,7 @@ function is_valid_email($string)
  */
 function is_valid_name($string)
 {
-    return (preg_match('/^[A-z]+[A-z  -]+[A-z]+$/', $string));  //should start and end with a letter, accepts hyphen and spaces
+    return (preg_match('/^[A-z]+[A-z  -]+[A-z]+$/', $string)); 
 }
 
 /**

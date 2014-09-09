@@ -89,6 +89,16 @@
     </table>       
     </form> 
 </div>
-
+<div style="float:left;">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <img src="/img/bartnhomer.gif" />
+</div>
 
 

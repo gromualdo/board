@@ -55,14 +55,12 @@ class Comment extends AppModel
             throw new ValidationException('invalid comment');
         }
         $db = DB::conn();
-        // $db->begin();
         $params = array(
             'thread_id' => $thread_id, 
             'username' => $this->username, 
             'body' => $this->body,
             );
         $db->insert("comment", $params);
-        // $db->commit();
         
     }
 
