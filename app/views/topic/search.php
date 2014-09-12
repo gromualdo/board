@@ -1,6 +1,6 @@
 <br /><br />
 <?php if(!Topic::$has_results): ?>
-    <div class="alert alert-error span5 offset3 center">
+    <div class="alert alert-error span9 offset1 center">
         No Results Found
     </div>
 <?php else: ?>
@@ -15,7 +15,6 @@
                     <tr>
                         <td width="100%"><a href="<?php clean_output(url('reply/view', array('topic_id' => $v->topic_id))) ?>">
                             <?php clean_output($v->topic_name) ?></a></td>
-                        <td align="right"><span class="badge" title="# comments">#</span></td>
                     </tr>
                 </table>
             <?php endforeach ?>
