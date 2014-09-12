@@ -3,6 +3,7 @@
     <div class="alert alert-error span9 offset1 center">
         No Results Found
     </div>
+    <img src="/img/maggie.gif" width="85px" height="80px" class="offset4"/>
 <?php else: ?>
     <div class="alert alert-success center span9 offset1">
         <?php clean_output($total_rows); ?> Match(es) Found
