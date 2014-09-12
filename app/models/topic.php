@@ -93,6 +93,12 @@ class Topic extends AppModel
         return (int) $db->value("SELECT COUNT(*) FROM topics");
     }
 
+    /**
+     * Search topic
+     * @param $currentpage
+     * @param $string
+     * @return $searchresult
+     */
     public function search($currentpage, $string)
     {
         $searchresult = array();
@@ -110,6 +116,13 @@ class Topic extends AppModel
             return false;
         }
     }
+
+    /**
+     * Count the number of rows
+     * of search results
+     * @param $string
+     * @return $result_count
+     */
     public function countSearchResults($string)
     {
         $db = DB::conn();

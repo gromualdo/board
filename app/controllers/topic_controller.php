@@ -60,6 +60,9 @@ class TopicController extends AppController
         $this->render($page);
     }
 
+    /**
+     * Search Topic Title
+     */
     public function search()
     {
         $search_item = Param::get('searchbar');
