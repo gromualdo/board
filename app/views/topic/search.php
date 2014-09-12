@@ -1,6 +1,6 @@
 <br /><br />
 <?php if(!Topic::$has_results): ?>
-    <div class="alert alert-error span5 offset3 center">
+    <div class="alert alert-error span9 offset1 center">
         No Results Found
     </div>
 <?php else: ?>
