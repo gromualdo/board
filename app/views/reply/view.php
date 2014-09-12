@@ -2,20 +2,20 @@
 <!-- Start of List of Comments -->
 <div class="container">
 
-<div class="span4 offset freeze" style="float:left; margin-left:0;">
-    <div class="well span4" style="margin-left:0;">
+<div class="span5 offset freeze" style="float:left; margin-left:0;">
+    <div class="well span5" style="margin-left:0;">
         <table width="100%">
             <tr style="border-bottom: solid 1px;">
-                <td align="left" valign="top"><h3><?php clean_output($topic->topic_name); ?></h3></td>
+                <td align="left" valign="top"><p style="max-width:200px;"><strong><?php clean_output($topic->topic_name); ?></strong></p></td>
                 <td align="right" valign="top" class="muted">
                     <?php clean_output($topic->username); ?><br />
                     <?php clean_output($topic->created); ?>
                 </td>
             </tr>
             <tr>
-                <td colspan=2>
+                <td colspan=2 >
                     <br />
-                    <?php echo(readable_text($topic->question)); ?>
+                    <div class="clipped"><p><?php echo(readable_text($topic->question)); ?></p></div>
                 </td>
             </tr>
         </table>
@@ -23,7 +23,7 @@
 
     <!-- Start of Error display -->
     <?php if ($reply->hasError()): ?>
-        <div class="alert alert-error span4" style="margin-left:0; padding: 19px;">
+        <div class="alert alert-error span5" style="margin-left:0; padding: 19px;">
             <h4 class="alert-heading">Validation error!</h4>
             <?php if ($reply->validation_errors['body']['length']): ?>
                 <div><em>Comment</em> must be between
@@ -38,7 +38,7 @@
     <div class="well" style="float:left; margin-left:0;">
     <form  method="post" action="<?php clean_output(url('reply/view')) ?>">
         <label>Your Answer</label>
-        <textarea class="span4" name="body"  style="resize:none" rows="6"></textarea>
+        <textarea class="span5" name="body"  style="resize:none" rows="6"></textarea>
         <br />
         <input type="hidden" name="topic_id" value="<?php clean_output($topic->topic_id) ?>">
         <input type="hidden" name="page_next" value="write_end">
@@ -48,7 +48,7 @@
 </div>
 
 <?php if (!empty($replies)): ?>
-    <div class="well span7" style="float:right;">
+    <div class="well span6" style="float:right;">
         <h3>Answers</h3>
         <?php foreach ($replies as $k=> $v): ?>
             <div class="alert alert-info">
@@ -62,7 +62,7 @@
         <?php echo $paged ?>
     </div>
     <?php else: ?>
-        <div class="alert alert-error offset2 span7" style="padding: 19px; float:right;">
+        <div class="alert alert-error offset2 span6" style="padding: 19px; float:right;">
             This homework is still unanswered.
         </div>
     <?php endif ?>

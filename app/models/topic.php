@@ -5,7 +5,7 @@ class Topic extends AppModel
     public $validation = array(
         'topic_name' => array(
             'length' => array(
-                'is_between', 1, 30,
+                'is_between', 1, 50,
                 ),
             ),
         'question' => array(
@@ -49,8 +49,7 @@ class Topic extends AppModel
         $lowerlimit = ($currentpage - 1) * ROWS_PER_PAGE;
         $limit = "LIMIT $lowerlimit,".ROWS_PER_PAGE;
 
-        $rows = $db->rows("SELECT topics.topic_id,
-            topics.topic_name, topics.created, users.username
+        $rows = $db->rows("SELECT *
             FROM topics, users
             WHERE topics.user_id = users.user_id
             GROUP BY topics.topic_id
@@ -133,5 +132,13 @@ class Topic extends AppModel
         $db = DB::conn();
         $result_count = (int) $db->value("SELECT COUNT(*) FROM topics WHERE topic_name LIKE ?", array("%$string%"));
         return $result_count;
+    }
+
+    public function delete($string)
+    {
+        $db = DB::conn();
+        $db->query("DELETE FROM topics WHERE topic_id = ?",
+            array($string)
+            );
     }
 }

@@ -13,7 +13,13 @@
                 <div class="alert alert-info">
                 <a href="<?php clean_output(url('reply/view', array('topic_id' => $v->topic_id))) ?>">
                     <?php clean_output($v->topic_name) ?></a>
-                    <a href="/topic/delete" class="close" data-dismiss="alert">&times;</a>
+                    <?php if($v->user_id == $session['user_id']): ?>
+                        <a href="<?php clean_output(url('topic/delete', array('topic_id' => $v->topic_id))) ?>"
+                            onclick="return confirm('Are you sure you want to delete this topic?')"
+                            title="Delete this Topic"
+                            class="close" data-dismiss="alert">&times;
+                        </a>
+                    <?php endif ?>
                 </div>
             <?php endforeach ?>
             <?php echo($paged); ?>
@@ -21,4 +27,3 @@
         <br />
     </div>
 </div>
-
