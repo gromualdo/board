@@ -1,6 +1,11 @@
 <?php $title = "Update Profile"; ?>
 <br />
 <h2 class="offset3 center span5">Update Profile</h2>
+<?php if(isset($_GET['m'])): ?>
+    <div class="alert alert-success offset3 span5 center" style="padding:24px;">
+    <?php clean_output($_GET['m']); ?>
+    </div>
+<?php endif ?>
 <?php if ($user->hasError()): ?>
     <div class="alert alert-danger span5 offset3">
         <h4 class="alert-heading">Validation error!</h4>

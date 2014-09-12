@@ -1,7 +1,7 @@
 <?php $title = "Create topic"; ?>
 <h1>Create a topic</h1>
 <?php if ($topic->hasError()): ?>
-    <div class="alert alert-error">
+    <div class="alert alert-error span9" style="padding: 19px;">
         <h4 class="alert-heading">Validation error!</h4>
         <?php if ($topic->validation_errors['topic_name']['length']): ?>
             <div><em>Title</em> must be between
@@ -9,10 +9,10 @@
                 <?php clean_output($topic->validation['topic_name']['length'][2]) ?> characters in length.
             </div>
         <?php endif ?>
-        <?php if ($reply->validation_errors['body']['length']): ?>
+        <?php if ($topic->validation_errors['question']['length']): ?>
             <div><em>Reply</em> must be between
-                <?php clean_output($reply->validation['body']['length'][1]) ?> and
-                <?php clean_output($reply->validation['body']['length'][2]) ?> characters in length.
+                <?php clean_output($topic->validation['question']['length'][1]) ?> and
+                <?php clean_output($topic->validation['question']['length'][2]) ?> characters in length.
             </div>
     <?php endif ?>
 </div>

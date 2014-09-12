@@ -72,6 +72,9 @@ class UserController extends AppController
        $this->set(get_defined_vars());
     }
 
+    /**
+     * Update user profile
+     */
     public function updateProfile()
     {
         if (!isset($_SESSION['user_session'])) {

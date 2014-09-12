@@ -47,17 +47,12 @@
     </div>
 </div>
 
-
-
-
-
-
 <?php if (!empty($replies)): ?>
     <div class="well span7" style="float:right;">
         <h3>Answers</h3>
         <?php foreach ($replies as $k=> $v): ?>
             <div class="alert alert-info">
-                <font color='green'><strong><?php clean_output($v->user_id) ?></strong><br />
+                <font color='green'><strong><?php clean_output($v->username) ?></strong><br />
                  <?php clean_output($v->created) ?></font>
                 <div class="clipped">
                     <?php echo(readable_text($v->reply)); ?>

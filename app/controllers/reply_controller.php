@@ -20,6 +20,7 @@ class ReplyController extends AppController
         // start paginated replies 
         $session = $_SESSION['user_session'];
         $username = $session['username'];    
+        $user_id = $session['user_id'];
         $total_rows = Reply::count($topic_id);
         $page = Pagination::pageValidator($total_rows);
         $replies = Reply::getRepliesByTopicId($page, $topic_id);
@@ -34,6 +35,7 @@ class ReplyController extends AppController
         case 'view';
             break;
         case 'write_end';
+            $reply->user_id = $user_id;
             $reply->username = Param::get('username');
             $reply->body = Param::get('body');
             try {

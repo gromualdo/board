@@ -8,6 +8,11 @@ class Topic extends AppModel
                 'is_between', 1, 30,
                 ),
             ),
+        'question' => array(
+            'length' => array(
+                'is_between', 1, 500,
+                ),
+            ),
         );
 
     /**

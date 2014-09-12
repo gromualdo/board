@@ -82,6 +82,10 @@ class User extends AppModel
         return $row;
     }
 
+    /**
+     * Update user profile
+     * @return $info
+     */
     public function update()
     {
         if (!$this->validate()) {

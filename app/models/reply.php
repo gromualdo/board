@@ -33,12 +33,17 @@ class Reply extends AppModel
         $replies = array();
         $db = DB::conn();
         $lowerlimit = ($currentpage - 1) * ROWS_PER_PAGE;
-        $limit = "$lowerlimit,".ROWS_PER_PAGE;
-        $limitrows = $db->search("replies",
-            "topic_id = ?", array($topic_id), 
-            "reply_id DESC", 
-            "$limit"
-            );
+        $limit = "LIMIT $lowerlimit,".ROWS_PER_PAGE;
+        // $limitrows = $db->search("replies",
+        //     "topic_id = ?", array($topic_id), 
+        //     "reply_id DESC", 
+        //     "$limit"
+        //     );
+        $limitrows = $db->rows("SELECT * FROM replies, users 
+            WHERE topic_id = ? AND replies.user_id = users.user_id
+            ORDER BY reply_id DESC
+            $limit",
+            array($topic_id));
         foreach($limitrows as $limitrow) {
             $replies[] = new Topic($limitrow);
         }
@@ -57,6 +62,7 @@ class Reply extends AppModel
         $db = DB::conn();
         $params = array(
             'topic_id' => $topic_id, 
+            'user_id' => $this->user_id,
             'reply' => $this->body,
             );
         $db->insert("replies", $params);
