@@ -7,7 +7,7 @@ body,html{
 .footer{
  height:40px;
  margin-top:-40px;
- background-color: black;]
+ background-color: black;
  color: #ffffff;
  text-align: center;
  font-weight: bolder;
@@ -24,4 +24,8 @@ body,html{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.freeze{
+    position: fixed;
+
 }

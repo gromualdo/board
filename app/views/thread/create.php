@@ -21,9 +21,17 @@
 <form class="well" method="post" action="<?php clean_output(url('')) ?>">
     <label>Title</label>
     <input type="text" class="span6" name="title" value="<?php clean_output(Param::get('title')) ?>">
-    <label>Your name</label>
-    <input type="text" class="span6" name="username" value="<?php clean_output($username); ?>" readonly>
-    <label>Comment</label>
+    <label>Grade Level</label>
+    <select name="grade">
+
+    </select>
+    <label>Subject</label>
+    <select>
+
+    </select>
+    
+    <input type="hidden" class="span6" name="username" value="<?php clean_output($username); ?>" readonly>
+    <label>Description</label>
     <textarea name="body" style="resize:none" class="span11"></textarea>
     <br />
     <input type="hidden" name="page_next" value="create_end">

@@ -28,7 +28,7 @@ function needLogoutError($string)
 {
     if(isset($_SESSION[$string])) {
         $logout_error ="You need to logout first"; 
-        redirect(url("thread/threads", array('m'=>$logout_error)));        
+        redirect(url("topic/topics", array('m'=>$logout_error)));        
     }
 }
 

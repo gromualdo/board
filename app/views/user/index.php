@@ -1,7 +1,7 @@
-<?php $title = "Login Page"; ?>
+<?php $title = "Login Page";?>
 <br />  
 <h2 class="offset3 span5 center">Login</h2> 
-    <?php if ($login->hasError()): ?>
+    <?php if ($login->hasError() || $login_error): ?>
         <div class="offset3 span5 center">
             <img src="img/bartnlisa.gif" />
         </div> 
@@ -28,7 +28,7 @@
                 <font class="text-error">*</font></td>
             </tr>
             <tr>
-                <td><input type="hidden" name="checklogin" value="/thread/threads" /></td>
+                <td><input type="hidden" name="checklogin" value="/topic/topics" /></td>
                 <td><input type="submit" class="btn btn-inverse span3" name="login" value="Login" /></td>
             </tr>
          </table>       

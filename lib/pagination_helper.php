@@ -6,7 +6,6 @@ class pagination
 {
     const PAGE_RANGE = 2;
     public $row_count;
-    public $rows_per_page;
     public $current_page;
     public $page_count;
     public $query_string;
@@ -16,16 +15,15 @@ class pagination
      * Assigns parameter to public variables if not null
      * Performs the run() function
      * @param $row_count
-     * @param $rows_per_page
+     * @param ROWS_PER_PAGE
      * @param $current_page
      * @param $get_vars
      */
-    public function __construct ($row_count = null, $rows_per_page = null, 
+    public function __construct ($row_count = null, 
         $current_page = null, array $get_vars = null)
     {
-        if (!is_null($row_count) && !is_null($rows_per_page) && !is_null($current_page)) {
+        if (!is_null($row_count) && !is_null($current_page)) {
             $this->row_count     = $row_count;
-            $this->rowsperpage  = $rows_per_page;
             $this->current_page  = $current_page;
             $this->get_vars = $get_vars;
             $this->run();
@@ -38,7 +36,7 @@ class pagination
      */
     public function run()
     {
-        $this->page_count    = ceil($this->row_count / $this->rowsperpage);
+        $this->page_count    = ceil($this->row_count / ROWS_PER_PAGE);
         $this->current_page  = max($this->current_page, 1);
         $this->current_page  = min($this->current_page, $this->page_count);
     }
@@ -46,12 +44,11 @@ class pagination
     /**
      * Validates the user input via GET method
      * @param $totalrows
-     * @param $rows_per_page
      * @return $pages
      */
-    public static function pageValidator($totalrows, $rows_per_page)
+    public static function pageValidator($totalrows)
     {
-        $totalpages = ceil($totalrows/$rows_per_page);
+        $totalpages = ceil($totalrows/ROWS_PER_PAGE);
         if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             $current_page = (int) $_GET['page'];
         } else {

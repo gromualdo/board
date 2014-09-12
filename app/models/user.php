@@ -52,7 +52,8 @@ class User extends AppModel
         $db->begin();
         $params = array(
             'name' => $this->name, 
-            'emailaddress' => $this->email, 
+            'email' => $this->email, 
+            'grade_level' => $this->grade_level,
             'username' => $this->username, 
             'password' => md5($this->password)
             );
@@ -78,9 +79,32 @@ class User extends AppModel
             md5($this->password)
             )
         );
-        if ($row) {
-            return $row;
-        }
+        return $row;
+    }
 
+    public function update()
+    {
+        if (!$this->validate()) {
+            throw new ValidationException('invalid name');
+        }
+        $db = DB::conn();
+        $params = array(
+            'name' => $this->name,
+            'email' => $this->email,
+            'grade_level' => $this->grade_level,
+            'username' => $this->username,
+            'password' => md5($this->password)
+            );
+        $whereparam = array(
+            'user_id' => $this->id
+            );
+        $db->update("users", $params, $whereparam);
+    }
+
+    public function getProfile($string)
+    {
+        $db = DB::conn();
+        $info = $db->row("SELECT * FROM users WHERE user_id = ?", array($string));
+        return $info;
     }
 }

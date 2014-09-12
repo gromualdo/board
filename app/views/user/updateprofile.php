@@ -1,6 +1,6 @@
-<?php $title = "Signup"; ?>
+<?php $title = "Update Profile"; ?>
 <br />
-<h2 class="offset3 center span5">Register a New account</h2>
+<h2 class="offset3 center span5">Update Profile</h2>
 <?php if ($user->hasError()): ?>
     <div class="alert alert-danger span5 offset3">
         <h4 class="alert-heading">Validation error!</h4>
@@ -30,7 +30,7 @@
         <?php elseif ($user->validation_errors['username']['validuname']): ?>
             <div>Please enter a valid <em>Username</em>
             </div>
-            <?php endif ?>
+        <?php endif ?>
         <?php if ($user->validation_errors['password']['length']): ?>
             <div><em>Password</em> must be  between
             <?php clean_output(($user->validation['password']['length'][1])) ?> and
@@ -38,6 +38,7 @@
             </div>
         <?php elseif ($user->validation_errors['password']['validpassword']): ?>
             <div><em>Password</em> should not contain spaces
+            </div>
         <?php elseif ($user->validation_errors['combined_password']['comparison']): ?>
             <div>The <em>Passwords</em> do not match. 
             </div>
@@ -55,19 +56,23 @@
         </tr>
         <tr>
             <td align="right">Name:</td>
-            <td><input type="text" name="name" placeholder="Jet Li"/>
+            <td><input type="text" name="name" value="<?php clean_output($name); ?>"/>
             <font class="text-error">*</font></td>
         </tr>
         <tr>
             <td align="right">Email address:</td>
-            <td><input type="text" name="email" placeholder="karate@hollywood.com"/>
+            <td><input type="text" name="email" value="<?php clean_output($email); ?>"/>
             <font class="text-error">*</font></td>
         </tr>
         <tr>
             <td align="right">Grade Level:</td>
             <td><select name="gradelevel">
                     <?php for($i = 1; $i<=6; $i++): ?>
-                        <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                        <option value="<?php echo $i; ?>"
+                            <?php if ($grade_level == $i): ?>
+                                selected="selected">
+                            <?php endif ?>
+                        <?php echo $i; ?></option>
                     <?php endfor ?>
                 </select>
             </td>
@@ -77,7 +82,7 @@
         </tr>
         <tr>
             <td align="right">Username:</td>
-            <td><input type="text" name="username" placeholder="jetli222"/>
+            <td><input type="text" name="username" value="<?php clean_output($username); ?>"/>
             <font class="text-error">*</font></td>
         </tr>
         <tr>
@@ -91,7 +96,7 @@
             <font class="text-error">*</font></td>
         </tr>
         <tr>
-            <td><input type="hidden" name="added" value="signupsuccess" />
+            <td><input type="hidden" name="update" value="updatesuccess" />
             <input type="submit" class="btn btn-inverse" name="regbtn" /></td>
             <td><font class="text-error">*Required Fields</font></td>
         </tr>

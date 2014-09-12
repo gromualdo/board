@@ -72,3 +72,4 @@ function is_valid_password($string)
 {
     return (preg_match('/^[^ ]+$/', $string)); 
 }
+

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>DayetKEK <?php clean_output($title) ?></title>
+    <title>HomeWork <?php clean_output($title) ?></title>
     <link href="/bootstrap/css/own.css" rel="stylesheet">   
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="/bootstrap/css/jquery-ui.css">
@@ -29,15 +29,32 @@
       <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container" >
-            <span class="pull-right">
                 <?php if(!isset($_SESSION['user_session'])): ?>
-                    <a class="brand" href="<?php clean_output(url('/')); ?>"><i class="icon icon-home icon-white"></i> Home</a>
-                    <a class="brand" href="<?php clean_output(url('user/register')); ?>"><i class="icon icon-user icon-white"></i> Register</a>
+                        <div class="pull-left">
+                            <a  href="<?php clean_output(url('/')); ?>"><img src="/img/logo.png"/></a>
+                        </div>
+                        <div class="pull-right">
+                            <a class="brand" href="<?php clean_output(url('/')); ?>"><i class="icon icon-home icon-white"></i> Home</a>
+                            <a class="brand" href="<?php clean_output(url('user/register')); ?>"><i class="icon icon-user icon-white"></i> Register</a>
+                        </div>
                 <?php else: ?>
-                    <a class="brand" href="<?php clean_output(url('thread/threads')); ?>"><i class="icon icon-list-alt icon-white"></i> Threads</a>
-                    <a class="brand" href="<?php clean_output(url('user/logout')); ?>"><i class="icon icon-off icon-white"></i> Logout</a>
+                    <form method="get" action="/topic/search" class="navbar-form">
+                        <div class="pull-left">
+                            <td class="span3"><a href="<?php clean_output(url('topic/topics')); ?>"><img src="/img/logo.png"/></a>
+                        </div>
+                        <div class="pull-right">
+                            <div class="pull-left" style="margin-top:5px; margin-right:8px;">
+                                <input type="text" name="searchbar" placeholder="Search Thread" style="height:12px;">
+                                <input type="submit" class="btn btn-mini">
+                            </div>
+                            <div class="pull-right">
+                                <a class="brand" href="<?php clean_output(url('user/updateprofile')); ?>"><i class="icon icon-user icon-white"></i>Profile</a>
+                                <a class="brand" href="<?php clean_output(url('topic/topics')); ?>"><i class="icon icon-list-alt icon-white"></i>Topics</a>
+                                <a class="brand" href="<?php clean_output(url('user/logout')); ?>"><i class="icon icon-off icon-white"></i>Logout</a>
+                            </div>
+                        </div>
+                    </form>
                 <?php endif; ?>
-            </span>
         </div>
       </div>
     </div>
