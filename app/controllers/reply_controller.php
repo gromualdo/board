@@ -16,7 +16,7 @@ class ReplyController extends AppController
 
         $topic_id = base64_decode(Param::get('topic_id'));
         $topic = Topic::get($topic_id);
-
+        $encrypted_topic_id = base64_encode($topic_id);
         // start paginated replies 
         $session = $_SESSION['user_session'];
         $username = $session['username'];    
@@ -25,7 +25,7 @@ class ReplyController extends AppController
         $page = Pagination::pageValidator($total_rows);
         $replies = Reply::getRepliesByTopicId($page, $topic_id);
         $paged = new Pagination($total_rows, $page, 
-            array("topic_id=$topic_id"));
+            array("topic_id=$encrypted_topic_id"));
         // end paginated replies  
 
         $reply = new Reply;
@@ -40,7 +40,9 @@ class ReplyController extends AppController
             $reply->body = Param::get('body');
             try {
                 $reply->write($topic_id);
-                redirect("/reply/view?topic_id=$topic_id");
+                
+                echo $encrypted_topic_id;
+                redirect("/reply/view?topic_id=$encrypted_topic_id");
             } catch (ValidationException $e) {
                 $page = 'view';
             }

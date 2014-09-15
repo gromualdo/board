@@ -6,7 +6,7 @@
     <div class="well span5" style="margin-left:0;">
         <table width="100%">
             <tr style="border-bottom: solid 1px;">
-                <td align="left" valign="top"><p style="max-width:200px;"><strong><?php clean_output($topic->topic_name); ?></strong></p></td>
+                <td align="left" valign="top" width="230px;" style="word-wrap:break-word"><p style="max-width:230px;"><strong><?php clean_output($topic->topic_name); ?></strong></p></td>
                 <td align="right" valign="top" class="muted">
                     <?php clean_output($topic->username); ?><br />
                     <?php clean_output($topic->created); ?>
@@ -40,7 +40,7 @@
         <label>Your Answer</label>
         <textarea class="span5" name="body"  style="resize:none" rows="6"></textarea>
         <br />
-        <input type="hidden" name="topic_id" value="<?php clean_output($topic->topic_id) ?>">
+        <input type="hidden" name="topic_id" value="<?php echo base64_encode($topic->topic_id) ?>">
         <input type="hidden" name="page_next" value="write_end">
         <button type="submit" class="btn btn-inverse pull-right">Submit</button>
     </form>
@@ -59,7 +59,7 @@
         <?php foreach ($replies as $k=> $v): ?>
             <div class="alert alert-info">
                 <?php if($session['role'] == 1 || $v->user_id == $session['user_id']): ?>
-                    <a href="<?php clean_output(url('reply/delete', array('topic_id' =>$topic_id, 'reply_id' => base64_encode($v->reply_id)))) ?>"
+                    <a href="<?php clean_output(url('reply/delete', array('topic_id' =>base64_encode($topic_id), 'reply_id' => base64_encode($v->reply_id)))) ?>"
                         onclick="return confirm('Are you sure you want to delete this reply?')"
                         title="Delete this Reply"
                         class="close" data-dismiss="alert">&times;
@@ -67,8 +67,8 @@
                 <?php endif ?>
                 <font color='green'><strong><?php clean_output($v->username) ?></strong><br />
                  <?php clean_output($v->created) ?></font>
-                <div class="clipped">
-                    <?php echo(readable_text($v->reply)); ?>
+                <div style="word-wrap:break-word;">
+                    <p><?php echo(readable_text($v->reply)); ?></p>
                 </div>
             </div>
         <?php endforeach ?>

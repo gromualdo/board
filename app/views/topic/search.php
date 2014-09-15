@@ -9,15 +9,34 @@
         <?php clean_output($total_rows); ?> Match(es) Found
     </div>
     <br /><br /><br /><br />
-    <div class="span5 offset3 center">
+    <div class="span7 offset2">
         <div class="well" style="margin:-23px">
             <?php foreach($results as $v): ?>
-                <table class="table table-striped table-condensed">
-                    <tr>
-                        <td width="100%"><a href="<?php clean_output(url('reply/view', array('topic_id' => base64_encode($v->topic_id)))) ?>">
-                            <?php clean_output($v->topic_name) ?></a></td>
-                    </tr>
-                </table>
+                <div class="alert alert-info">
+                    <?php if($session['role'] == 1 || $v->user_id == $session['user_id']): ?>
+                        <a href="<?php clean_output(url('topic/delete', array('topic_id' => base64_encode($v->topic_id)))) ?>"
+                            onclick="return confirm('Are you sure you want to delete this topic?')"
+                            title="Delete this Topic"
+                            class="close" data-dismiss="alert">&times;
+                        </a>
+                    <?php endif ?>
+                    <?php if ($v->subject_category == "Science"): ?>
+                        <span class="label label-info">
+                            <?php clean_output($v->subject_category); ?>
+                        </span>
+                    <?php elseif ($v->subject_category == "English"): ?>
+                        <span class="label label-warning">
+                            <?php clean_output($v->subject_category); ?>
+                        </span>
+                    <?php elseif ($v->subject_category == "History"): ?>
+                        <span class="label label-important">
+                            <?php clean_output($v->subject_category); ?>
+                        </span>
+                    <?php endif ?>&nbsp;
+                    <font class="muted"><?php clean_output($v->created); ?><br /></font>
+                    <a href="<?php clean_output(url('reply/view', array('topic_id' => base64_encode($v->topic_id)))) ?>">
+                        <?php clean_output($v->topic_name) ?></a>
+                </div>
             <?php endforeach ?>
                 <?php echo($paged); ?>
         </div>

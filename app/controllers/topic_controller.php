@@ -39,23 +39,23 @@ class TopicController extends AppController
         $page = Param::get('page_next', 'create');
 
         switch ($page) {
-        case 'create':
-            break;
-        case 'create_end':
-            $topic->user_id = Param::get('user_id');
-            $topic->topic_name = Param::get('title');
-            $topic->grade_level = Param::get('grade_level');
-            $topic->question = Param::get('questions');
-            $topic->subject_category = Param::get('course_subject');
-            try {
-                $topic->create();
-            } catch (ValidationException $e) {
-                $page = 'create';
-            }
-            break;
-        default:
-            throw new NotFoundException("{$page} is not found");
-            break;
+            case 'create':
+                break;
+            case 'create_end':
+                $topic->user_id = Param::get('user_id');
+                $topic->topic_name = Param::get('title');
+                $topic->grade_level = Param::get('grade_level');
+                $topic->question = Param::get('questions');
+                $topic->subject_category = Param::get('course_subject');
+                try {
+                    $topic->create();
+                } catch (ValidationException $e) {
+                    $page = 'create';
+                }
+                break;
+            default:
+                throw new NotFoundException("{$page} is not found");
+                break;
         }
         $this->set(get_defined_vars());
         $this->render($page);
@@ -66,6 +66,7 @@ class TopicController extends AppController
      */
     public function search()
     {
+        $session = $_SESSION['user_session'];
         $search_item = Param::get('searchbar');
         $topic = new Topic;
         if(!$search_item) {

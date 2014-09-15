@@ -35,7 +35,7 @@
                         </div>
                         <div class="pull-right">
                             <a class="brand" href="<?php clean_output(url('/')); ?>"><i class="icon icon-home icon-white"></i> Home</a>
-                            <a class="brand" href="<?php clean_output(url('user/register')); ?>"><i class="icon icon-user icon-white"></i> Register</a>
+                            <a class="brand" href="<?php clean_output(url('user/register')); ?>"><i class="icon icon-icon-list icon-white"></i> Register</a>
                         </div>
                 <?php else: ?>
                     <form method="get" action="/topic/search" class="navbar-form">
@@ -48,9 +48,16 @@
                                 <input type="submit" class="btn btn-mini">
                             </div>
                             <div class="pull-right">
-                                <a class="brand" href="<?php clean_output(url('user/updateprofile')); ?>"><i class="icon icon-user icon-white"></i>Profile</a>
-                                <a class="brand" href="<?php clean_output(url('topic/topics')); ?>"><i class="icon icon-list-alt icon-white"></i>Topics</a>
-                                <a class="brand" href="<?php clean_output(url('user/logout')); ?>"><i class="icon icon-off icon-white"></i>Logout</a>
+                                <?php if($_SESSION['user_session']['role'] == 1):?>
+                                    <a class="brand" href="<?php clean_output(url('user/users')); ?>">
+                                        <i class="icon icon-user icon-white"></i>Profile</a>  
+                                <?php endif ?>
+                                <a class="brand" href="<?php clean_output(url('user/updateprofile')); ?>">
+                                    <i class="icon icon-list icon-white"></i>Profile</a>
+                                <a class="brand" href="<?php clean_output(url('topic/topics')); ?>">
+                                    <i class="icon icon-list-alt icon-white"></i>Topics</a>
+                                <a class="brand" href="<?php clean_output(url('user/logout')); ?>">
+                                    <i class="icon icon-off icon-white"></i>Logout</a>
                             </div>
                         </div>
                     </form>
