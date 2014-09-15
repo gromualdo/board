@@ -29,3 +29,6 @@ body,html{
     position: fixed;
 
 }
+.linkclipped{
+    display:inline-block;
+}

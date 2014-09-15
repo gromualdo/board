@@ -69,4 +69,12 @@ class Reply extends AppModel
         
     }
 
+    public function delete($string)
+    {
+        $db = DB::conn();
+        $db->query("DELETE FROM replies WHERE reply_id = ?",
+            array($string)
+            );
+    }
+
 }

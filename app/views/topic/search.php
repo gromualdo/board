@@ -14,7 +14,7 @@
             <?php foreach($results as $v): ?>
                 <table class="table table-striped table-condensed">
                     <tr>
-                        <td width="100%"><a href="<?php clean_output(url('reply/view', array('topic_id' => $v->topic_id))) ?>">
+                        <td width="100%"><a href="<?php clean_output(url('reply/view', array('topic_id' => base64_encode($v->topic_id)))) ?>">
                             <?php clean_output($v->topic_name) ?></a></td>
                     </tr>
                 </table>

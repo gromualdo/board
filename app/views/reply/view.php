@@ -47,11 +47,24 @@
     </div>
 </div>
 
+<!-- Start of List of Comments -->
+<?php if(Param::get('m')): ?>
+    <div class="alert alert-success offset6 span6" style="padding: 19px; float:right;">
+            <?php clean_output(Param::get("m")); ?>
+    </div>
+<?php endif ?>
 <?php if (!empty($replies)): ?>
     <div class="well span6" style="float:right;">
         <h3>Answers</h3>
         <?php foreach ($replies as $k=> $v): ?>
             <div class="alert alert-info">
+                <?php if($session['role'] == 1 || $v->user_id == $session['user_id']): ?>
+                    <a href="<?php clean_output(url('reply/delete', array('topic_id' =>$topic_id, 'reply_id' => base64_encode($v->reply_id)))) ?>"
+                        onclick="return confirm('Are you sure you want to delete this reply?')"
+                        title="Delete this Reply"
+                        class="close" data-dismiss="alert">&times;
+                    </a>
+                <?php endif ?>
                 <font color='green'><strong><?php clean_output($v->username) ?></strong><br />
                  <?php clean_output($v->created) ?></font>
                 <div class="clipped">
@@ -62,7 +75,7 @@
         <?php echo $paged ?>
     </div>
     <?php else: ?>
-        <div class="alert alert-error offset2 span6" style="padding: 19px; float:right;">
+        <div class="alert alert-error offset6 span6" style="padding: 19px; float:right;">
             This homework is still unanswered.
         </div>
     <?php endif ?>

@@ -23,7 +23,9 @@ class UserController extends AppController
             $user->password2 = Param::get('password2');
             $user->combined_password = $user->password." ".$user->password2;
             try {
-                $user->addUser();
+                if (!$user->addUser()) {
+                    $add_user = 'register';
+                }
             } catch (ValidationException $e) {
                 $add_user = 'register';
             }           

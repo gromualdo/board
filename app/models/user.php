@@ -1,6 +1,8 @@
 <?php 
 class User extends AppModel
 {
+    public static $is_email_exists = false;
+    public static $is_username_exists = false;
     public $same_password = true;
     public $validation = array(
         'name' => array(
@@ -48,8 +50,23 @@ class User extends AppModel
         if (!$this->validate() ) {
             throw new ValidationException('invalid name');
         }
+
         $db = DB::conn();
-        $db->begin();
+
+        $check_email = $db->row("SELECT * FROM users WHERE email = ?",
+            array($this->email));
+        $check_username = $db->row("SELECT * FROM users WHERE username = ?",
+            array($this->username));
+
+        if ($check_email) {
+            self::$is_email_exists = true;
+        } 
+        if ($check_username) {
+            self::$is_username_exists = true;
+        }
+        if (self::$is_email_exists || self::$is_username_exists) {
+            return false;
+        } else {
         $params = array(
             'name' => $this->name, 
             'email' => $this->email, 
@@ -58,7 +75,8 @@ class User extends AppModel
             'password' => md5($this->password)
             );
         $db->insert("users", $params); 
-        $db->commit();           
+        return true;
+        }
     }
 
     /**

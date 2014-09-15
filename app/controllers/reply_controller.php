@@ -14,7 +14,7 @@ class ReplyController extends AppController
             redirect('/');
         }
 
-        $topic_id = Param::get('topic_id');
+        $topic_id = base64_decode(Param::get('topic_id'));
         $topic = Topic::get($topic_id);
 
         // start paginated replies 
@@ -50,5 +50,16 @@ class ReplyController extends AppController
             break;
         }
         $this->set(get_defined_vars());
+    }
+
+    public function delete()
+    {
+        $topic_id = Param::get('topic_id');
+        $reply_id = base64_decode(Param::get('reply_id'));
+        $reply = new Reply;
+        $reply->delete($reply_id);
+        $this->set(get_defined_vars());
+        $confirmation = "Your Reply has been Deleted";
+        redirect("/reply/view?topic_id=$topic_id&m=$confirmation");
     }
 }

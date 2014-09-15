@@ -86,7 +86,7 @@ class TopicController extends AppController
 
     public function delete()
     {
-        $topic_id = Param::get('topic_id');
+        $topic_id = base64_decode(Param::get('topic_id'));
         $topic = new Topic;
         $topic->delete($topic_id);
         $this->set(get_defined_vars());
