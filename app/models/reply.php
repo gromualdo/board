@@ -4,7 +4,7 @@ class Reply extends AppModel
     public $validation = array(
         'body' => array(
             'length' => array(
-                'is_between', 1, 500,
+                'is_between', 1, 1000,
             ),
         ),
     );
