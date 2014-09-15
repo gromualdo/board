@@ -26,9 +26,16 @@ function readable_text($string)
  */
 function needLogoutError($string)
 {
-    if(isset($_SESSION[$string])) {
+    if (isset($_SESSION[$string])) {
         $logout_error ="You need to logout first"; 
         redirect(url("topic/topics", array('m'=>$logout_error)));        
+    }
+}
+
+function is_not_admin($string)
+{
+    if ($_SESSION[$string]['role'] == 0) {
+        redirect("/user/notallowed");
     }
 }
 

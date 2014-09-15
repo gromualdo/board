@@ -137,8 +137,18 @@ class Topic extends AppModel
     public function delete($string)
     {
         $db = DB::conn();
-        $db->query("DELETE FROM topics WHERE topic_id = ?",
-            array($string)
-            );
+        try {
+            $db->begin();
+            $db->query("DELETE FROM topics WHERE topic_id = ?",
+                array($string)
+                );
+            $db->query("DELETE FROM replies WHERE topic_id = ?",
+                array($string)
+                );
+            $db->commit();
+        } catch(ValidationException $e) {
+            throw $e;
+        }
+
     }
 }

@@ -129,4 +129,40 @@ class User extends AppModel
         $info = $db->row("SELECT * FROM users WHERE user_id = ?", array($string));
         return $info;
     }
+
+    public static function countAll($string)
+    {
+        $db = DB::conn();
+        $result_count = (int) $db->value("SELECT COUNT(*) FROM users WHERE role = ? AND status= ?", array("0", "0"));
+        return $result_count;
+    }
+
+    public function getAll($currentpage, $string)
+    {
+        $db = DB::conn();
+        $lowerlimit = ($currentpage - 1) * ROWS_PER_PAGE;
+        $limit = "LIMIT $lowerlimit,".ROWS_PER_PAGE;
+        $rows = $db->rows("SELECT * from users WHERE role = ? AND status = ? $limit", array("0",$string));
+        if (count($rows)>0) {
+            foreach($rows as $row) {
+                $user[] = new User($row);
+            }
+        return $user;
+        } else {
+            return false;
+        }
+    }
+
+    public function unblock($string,$string2)
+    {
+        $db = DB::conn();
+        $param = array(
+            'status' => $string2 
+            );
+        $whereparam = array(
+            'user_id' => $string
+            );
+        $db->update('users',$param,$whereparam);
+    }
+
 }

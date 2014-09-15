@@ -32,24 +32,24 @@ class ReplyController extends AppController
         $page = Param::get('page_next', 'view');
 
         switch ($page) {
-        case 'view';
-            break;
-        case 'write_end';
-            $reply->user_id = $user_id;
-            $reply->username = Param::get('username');
-            $reply->body = Param::get('body');
-            try {
-                $reply->write($topic_id);
-                
-                echo $encrypted_topic_id;
-                redirect("/reply/view?topic_id=$encrypted_topic_id");
-            } catch (ValidationException $e) {
-                $page = 'view';
-            }
-            break;
-        default:
-            throw new NotFoundException("{$page} is not found");
-            break;
+            case 'view';
+                break;
+            case 'write_end';
+                $reply->user_id = $user_id;
+                $reply->username = Param::get('username');
+                $reply->body = Param::get('body');
+                try {
+                    $reply->write($topic_id);
+                    
+                    echo $encrypted_topic_id;
+                    redirect("/reply/view?topic_id=$encrypted_topic_id");
+                } catch (ValidationException $e) {
+                    $page = 'view';
+                }
+                break;
+            default:
+                throw new NotFoundException("{$page} is not found");
+                break;
         }
         $this->set(get_defined_vars());
     }

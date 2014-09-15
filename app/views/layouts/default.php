@@ -17,10 +17,7 @@
     </style>
     <script>
         $(function() {
-            $( "#accordion" ).accordion({
-                collapsible: true,
-                heightStyle: "content"
-                });
+            $( "#tab" ).tabs();
             });
     </script>
   </head>
@@ -45,12 +42,12 @@
                         <div class="pull-right">
                             <div class="pull-left" style="margin-top:5px; margin-right:8px;">
                                 <input type="text" name="searchbar" placeholder="Search Thread" style="height:12px;">
-                                <input type="submit" class="btn btn-mini">
+                                <input type="submit" class="btn btn-mini" value="Search">
                             </div>
                             <div class="pull-right">
                                 <?php if($_SESSION['user_session']['role'] == 1):?>
                                     <a class="brand" href="<?php clean_output(url('user/users')); ?>">
-                                        <i class="icon icon-user icon-white"></i>Profile</a>  
+                                        <i class="icon icon-user icon-white"></i>Users</a>  
                                 <?php endif ?>
                                 <a class="brand" href="<?php clean_output(url('user/updateprofile')); ?>">
                                     <i class="icon icon-list icon-white"></i>Profile</a>
@@ -75,7 +72,7 @@
     <script>
     console.log(<?php clean_output(round(microtime(true) - TIME_START, 3)) ?> + 'sec');
     </script>
-    <br /><br />
+    <br /><br /><br /><br />
     <div class="navbar navbar-fixed-bottom footer">Geno Kim Romualdo TC June 2014 &#0169;
     </div>
     
