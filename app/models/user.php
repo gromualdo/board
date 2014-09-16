@@ -131,19 +131,26 @@ class User extends AppModel
         return $info;
     }
 
-    public static function countUserByStatus($string, $string2)
+    public static function countUserByStatus($string, $string2, $role = false)
     {
         $db = DB::conn();
-        $result_count = (int) $db->value("SELECT COUNT(*) FROM users WHERE role = 0 AND status= ?", array("0"));
+        $result_count = (int) $db->value("SELECT COUNT(*) FROM users 
+            WHERE role = ? AND status= ?", 
+            array($role, $string2));
         return $result_count;
     }
 
-    public function getUserByStatus($currentpage, $string)
+    public function getUserByStatus($currentpage, $string, $role = false)
     {
         $db = DB::conn();
         $lowerlimit = ($currentpage - 1) * ROWS_PER_PAGE;
         $limit = "LIMIT $lowerlimit,".ROWS_PER_PAGE;
-        $rows = $db->rows("SELECT * from users WHERE role = ? AND status = ? $limit", array("0",$string));
+        $rows = $db->rows("SELECT * from users 
+            WHERE role = ? AND status = ? 
+            $limit", 
+            array($role,$string)
+            );
+
         if (count($rows)>0) {
             foreach($rows as $row) {
                 $user[] = new User($row);

@@ -135,11 +135,22 @@ class UserController extends AppController
         if (isset($_GET['c'])) {
             User::$is_blocked = true;
         }
-        $total_rows = User::countUserByStatus(User::$is_blocked, $user_id);
-        $page = Pagination::pageValidator($total_rows);
+        
         $users = new User();
-        $all_users = $users->getUserByStatus($page,User::$is_blocked);
-        $paged = new Pagination($total_rows, $page);
+
+        if (Param::get('r')) {
+            $is_admin = true;
+            $total_rows = User::countUserByStatus(User::$is_blocked, $user_id, $is_admin);
+            $page = Pagination::pageValidator($total_rows);
+            $all_users = $users->getUserByStatus($page,User::$is_blocked, $is_admin);
+            $paged = new Pagination($total_rows, $page, array("r=admin"));
+        } else {
+            $total_rows = User::countUserByStatus(User::$is_blocked, $user_id);
+            $page = Pagination::pageValidator($total_rows);
+            $all_users = $users->getUserByStatus($page,User::$is_blocked);
+            $paged = new Pagination($total_rows, $page); 
+        }
+        
         $this->set(get_defined_vars());        
     }
 
