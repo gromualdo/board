@@ -1,6 +1,7 @@
 <?php 
 class User extends AppModel
 {
+    public static $is_blocked = false;
     public static $is_email_exists = false;
     public static $is_username_exists = false;
     public $same_password = true;
@@ -130,14 +131,14 @@ class User extends AppModel
         return $info;
     }
 
-    public static function countAll($string)
+    public static function countUserByStatus($string, $string2)
     {
         $db = DB::conn();
-        $result_count = (int) $db->value("SELECT COUNT(*) FROM users WHERE role = ? AND status= ?", array("0", "0"));
+        $result_count = (int) $db->value("SELECT COUNT(*) FROM users WHERE role = 0 AND status= ?", array("0"));
         return $result_count;
     }
 
-    public function getAll($currentpage, $string)
+    public function getUserByStatus($currentpage, $string)
     {
         $db = DB::conn();
         $lowerlimit = ($currentpage - 1) * ROWS_PER_PAGE;
@@ -153,16 +154,35 @@ class User extends AppModel
         }
     }
 
-    public function unblock($string,$string2)
+    public function changeBlockStatus($user_id)
     {
         $db = DB::conn();
+
+        $row = $db->row("SELECT * FROM users WHERE user_id = ?", array($string));
+        if($row['status'] == false) {
+            self::$is_blocked = true;
+        }
         $param = array(
-            'status' => $string2 
+            'status' => self::$is_blocked
             );
         $whereparam = array(
-            'user_id' => $string
+            'user_id' => $user_id
             );
-        $db->update('users',$param,$whereparam);
+        $db->update('users',$param, $whereparam);
+    }
+
+    public function promoteToAdmin($user_id)
+    {
+        $db = DB::conn();
+
+        $param = array(
+            'role' => true
+            );
+
+        $whereparam = array(
+            'user_id' => $user_id
+            );
+        $db->update('users', $param, $whereparam);
     }
 
 }

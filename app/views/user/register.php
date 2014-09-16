@@ -15,41 +15,51 @@
     <div class="alert alert-danger span5 offset3">
         <h4 class="alert-heading">Validation error!</h4>
         <?php if ($user->validation_errors['name']['length']): ?>
-            <div><em>Name</em> must be  between
-            <?php clean_output($user->validation['name']['length'][1]) ?> and
-            <?php clean_output($user->validation['name']['length'][2]) ?> characters in length.
+            <div>
+                <em>Name</em> must be  between
+                <?php clean_output($user->validation['name']['length'][1]) ?> and
+                <?php clean_output($user->validation['name']['length'][2]) ?> characters in length.
             </div>
         <?php elseif ($user->validation_errors['name']['validname']): ?>
-            <div>Please enter a valid <em>Name</em>
+            <div>
+                Please enter a valid <em>Name</em>
             </div>
         <?php endif ?>
         <?php if ($user->validation_errors['email']['length']): ?>
-            <div><em>Email</em> must be between
-            <?php clean_output($user->validation['email']['length'][1]) ?> and
-            <?php clean_output($user->validation['email']['length'][2]) ?> characters in length.
+            <div>
+                <em>Email</em> must be between
+                <?php clean_output($user->validation['email']['length'][1]) ?> and
+                <?php clean_output($user->validation['email']['length'][2]) ?> characters in length.
             </div>
             <?php elseif ($user->validation_errors['email']['validemail']): ?>
-            <div>Please enter a valid <em>Email</em>
+            <div>
+                Please enter a valid <em>Email</em>
             </div>
         <?php endif ?>
         <?php if ($user->validation_errors['username']['length']): ?>
-            <div><em>Username</em> must be  between
-            <?php clean_output($user->validation['username']['length'][1]) ?> and
-            <?php clean_output($user->validation['username']['length'][2]) ?> characters in length.
+            <div>
+                <em>Username</em> must be  between
+                <?php clean_output($user->validation['username']['length'][1]) ?> and
+                <?php clean_output($user->validation['username']['length'][2]) ?> characters in length.
             </div>
         <?php elseif ($user->validation_errors['username']['validuname']): ?>
-            <div>Please enter a valid <em>Username</em>
+            <div>
+                Please enter a valid <em>Username</em>
             </div>
             <?php endif ?>
         <?php if ($user->validation_errors['password']['length']): ?>
-            <div><em>Password</em> must be  between
-            <?php clean_output(($user->validation['password']['length'][1])) ?> and
-            <?php clean_output(($user->validation['password']['length'][2])) ?> characters in length.
+            <div>
+                <em>Password</em> must be  between
+                <?php clean_output(($user->validation['password']['length'][1])) ?> and
+                <?php clean_output(($user->validation['password']['length'][2])) ?> characters in length.
             </div>
         <?php elseif ($user->validation_errors['password']['validpassword']): ?>
-            <div><em>Password</em> should not contain spaces
+            <div>
+                <em>Password</em> should not contain spaces
+            </div>
         <?php elseif ($user->validation_errors['combined_password']['comparison']): ?>
-            <div>The <em>Passwords</em> do not match. 
+            <div>
+                The <em>Passwords</em> do not match. 
             </div>
         <?php endif ?>
     </div>

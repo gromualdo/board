@@ -1,7 +1,7 @@
 <?php
 class UserController extends AppController 
 {
-    public static $is_blocked = false;
+    
     /**
      * Registration page
      */
@@ -130,14 +130,15 @@ class UserController extends AppController
             redirect('/');
         } 
         is_not_admin('user_session');
+        $user_id = base64_decode(Param::get('u'));
 
         if (isset($_GET['c'])) {
-            self::$is_blocked = true;
+            User::$is_blocked = true;
         }
-        $total_rows = User::countAll(self::$is_blocked);
+        $total_rows = User::countUserByStatus(User::$is_blocked, $user_id);
         $page = Pagination::pageValidator($total_rows);
         $users = new User();
-        $all_users = $users->getAll($page,self::$is_blocked);
+        $all_users = $users->getUserByStatus($page,User::$is_blocked);
         $paged = new Pagination($total_rows, $page);
         $this->set(get_defined_vars());        
     }
@@ -149,7 +150,7 @@ class UserController extends AppController
         } 
     }
 
-    public function unblock()
+    public function promoteToAdmin()
     {
         if (!isset($_SESSION['user_session'])) {
             redirect('/');
@@ -158,11 +159,34 @@ class UserController extends AppController
         $user_id = base64_decode(Param::get('u'));
 
         $users = new User();
-        $users->unblock($user_id, $is_blocked);
+        $users->promoteToAdmin($user_id);
 
-        $success_message = "User Successfully Unblocked";
-        redirect('/user/users?c=blocked&m=$success_message');
+        $success_message = "Promoted User {$user_id} to Admin";
+        redirect("/user/users?m=$success_message");
     }
+
+    public function changeBlockStatus()
+    {
+        if (!isset($_SESSION['user_session'])) {
+            redirect('/');
+        } 
+        is_not_admin('user_session');
+        $user_id = base64_decode(Param::get('u'));
+
+        $users = new User();
+        $users->changeBlockStatus($user_id);
+
+        
+        if (Param::get('c')) {
+            $success_message = "User Successfully Unblocked";
+            redirect("/user/users?c=blocked&m=$success_message");
+        } else {
+            $success_message = "Blocked User ID {$user_id}";
+            redirect("/user/users?m=$success_message");
+        }
+        
+    }
+
 
     /**
      * Logout function,

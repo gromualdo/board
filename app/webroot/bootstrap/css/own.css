@@ -1,5 +1,5 @@
 body,html{
- height:93%;
+ height:92%;
 }
 .container{
  min-height:100%;
@@ -38,4 +38,8 @@ body,html{
     border-left: 0;
     border-right: 0;
     border-bottom: 0;
+}
+
+.lrpadded{
+    padding: 0 70px;
 }

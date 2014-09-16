@@ -23,16 +23,17 @@
   </head>
 
   <body>
+  <!--  <div class="container" > -->
       <div class="navbar navbar-fixed-top navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container" >
+      <div class="navbar-inner row-fluid">
+            <div class="lrpadded">
                 <?php if(!isset($_SESSION['user_session'])): ?>
                         <div class="pull-left">
                             <a  href="<?php clean_output(url('/')); ?>"><img src="/img/logo.png"/></a>
                         </div>
                         <div class="pull-right">
                             <a class="brand" href="<?php clean_output(url('/')); ?>"><i class="icon icon-home icon-white"></i> Home</a>
-                            <a class="brand" href="<?php clean_output(url('user/register')); ?>"><i class="icon icon-icon-list icon-white"></i> Register</a>
+                            <a class="brand" href="<?php clean_output(url('user/register')); ?>"><i class="icon icon-plus-sign icon-white"></i> Register</a>
                         </div>
                 <?php else: ?>
                     <form method="get" action="/topic/search" class="navbar-form">
@@ -59,8 +60,8 @@
                         </div>
                     </form>
                 <?php endif; ?>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="container">
