@@ -25,7 +25,9 @@ class Topic extends AppModel
     {
         $topic_id = Param::get('topic_id');
         $db = DB::conn();
-        $row = $db->row("SELECT *, users.username FROM topics, users 
+        $row = $db->row("SELECT topic_id, topics.user_id, topic_name, 
+            topics.grade_level, created, question, subject_category, 
+            users.username FROM topics, users 
             WHERE topic_id = ? AND topics.user_id = users.user_id", 
             array($id)
             );
@@ -49,7 +51,9 @@ class Topic extends AppModel
         $lowerlimit = ($currentpage - 1) * ROWS_PER_PAGE;
         $limit = "LIMIT $lowerlimit,".ROWS_PER_PAGE;
 
-        $rows = $db->rows("SELECT *
+        $rows = $db->rows("SELECT topic_id, topics.user_id, topic_name, 
+            topics.grade_level, created, question, subject_category, 
+            users.username
             FROM topics, users
             WHERE topics.user_id = users.user_id
             GROUP BY topics.topic_id
@@ -134,6 +138,11 @@ class Topic extends AppModel
         return $result_count;
     }
 
+
+    /**
+     * Delete the topic and its replies
+     * @param $string
+     */
     public function delete($string)
     {
         $db = DB::conn();

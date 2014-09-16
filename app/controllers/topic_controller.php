@@ -34,8 +34,7 @@ class TopicController extends AppController
         $session = $_SESSION['user_session'];
         $user_id = $session['user_id'];
 
-        $topic = new Topic;
-        $reply = new Reply;
+        $topic = new Topic();
         $page = Param::get('page_next', 'create');
 
         switch ($page) {
@@ -68,7 +67,7 @@ class TopicController extends AppController
     {
         $session = $_SESSION['user_session'];
         $search_item = Param::get('searchbar');
-        $topic = new Topic;
+        $topic = new Topic();
         if(!$search_item) {
             redirect($_SERVER['HTTP_REFERER']);
         } else {
@@ -85,10 +84,13 @@ class TopicController extends AppController
         $this->set(get_defined_vars());
     }
 
+    /**
+     * Delete Topic
+     */
     public function delete()
     {
         $topic_id = base64_decode(Param::get('topic_id'));
-        $topic = new Topic;
+        $topic = new Topic();
         $topic->delete($topic_id);
         $this->set(get_defined_vars());
         $confirmation = "Your Topic has been Deleted";

@@ -75,8 +75,8 @@
                     <?php for($i = 1; $i<=6; $i++): ?>
                         <option value="<?php echo $i; ?>"
                             <?php if ($grade_level == $i): ?>
-                                selected="selected">
-                            <?php endif ?>
+                                selected="selected"
+                            <?php endif ?>>
                         <?php echo $i; ?></option>
                     <?php endfor ?>
                 </select>

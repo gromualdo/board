@@ -15,7 +15,7 @@
             <tr>
                 <td colspan=2 >
                     <br />
-                    <div class="clipped"><p><?php echo(readable_text($topic->question)); ?></p></div>
+                    <div style="word-wrap:break-word;"><p style="max-width:380px;"><?php echo(readable_text($topic->question)); ?></p></div>
                 </td>
             </tr>
         </table>
@@ -26,7 +26,7 @@
         <div class="alert alert-error span5" style="margin-left:0; padding: 19px;">
             <h4 class="alert-heading">Validation error!</h4>
             <?php if ($reply->validation_errors['body']['length']): ?>
-                <div><em>Comment</em> must be between
+                <div><em>Reply</em> must be between
                     <?php clean_output($reply->validation['body']['length'][1]) ?> and
                     <?php clean_output($reply->validation['body']['length'][2]) ?> characters in length.
                 </div>
@@ -38,11 +38,15 @@
     <div class="well" style="float:left; margin-left:0;">
     <form  method="post" action="<?php clean_output(url('reply/view')) ?>">
         <label>Your Answer</label>
-        <textarea class="span5" name="body"  style="resize:none" rows="6"></textarea>
+        <textarea class="span5" name="body"  style="resize:none" rows="6" 
+        placeholder="<?php clean_output(ReplyController::$placeholder); ?>"
+        <?php clean_output(ReplyController::$disabled); ?>></textarea>
         <br />
         <input type="hidden" name="topic_id" value="<?php echo base64_encode($topic->topic_id) ?>">
         <input type="hidden" name="page_next" value="write_end">
-        <button type="submit" class="btn btn-inverse pull-right">Submit</button>
+        <button type="submit" class="btn btn-inverse pull-right" 
+        <?php clean_output(ReplyController::$disabled); ?>>
+        Submit</button>
     </form>
     </div>
 </div>

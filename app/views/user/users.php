@@ -10,6 +10,9 @@
         $query_string2 = "?c=blocked";
         $link2 = "Show all Blocked Users";
         $alert = "alert-info";
+        $option = null;
+        $hide_btn1 = "display:none;";
+        $hide_btn2 = "display:none;";
     } elseif (isset($_GET['c'])) {
         $header = "Blocked Users";
         $query_string1 = "?r=admin";
@@ -17,6 +20,10 @@
         $query_string2 = null;
         $link2 = "Show all Cleared Users";
         $alert = "alert-error";
+        $option = "Option";
+        $hide_btn1 = "display:none;";
+        $hide_btn2 = null;
+        $btn2 = "Unblock";
     } else {
         $header = "Cleared Users";
         $query_string1 = "?r=admin";
@@ -24,13 +31,15 @@
         $query_string2 = "?c=blocked";
         $link2 = "Show all Blocked Users";
         $alert = "alert-success";
+        $option = "Options";
+        $btn2 = "Block";
     }
 ?>
     
 <?php if($all_users): ?>
     <h2 class="offset3 center span5"><?php clean_output($header); ?></h2>   
     <?php if (isset($_GET['m'])): ?>
-        <div class="alert alert-success span11 center" style="padding:19px;">
+        <div class="alert span11 center" style="padding:19px;">
         <?php clean_output($_GET['m']); ?>
         </div>
     <?php endif ?>
@@ -54,7 +63,7 @@
                 <th>Name</th>
                 <th>Email Address</th>
                 <th style="text-align: center;">Grade Level</th>
-                <th colspan="2" style="text-align: center;">Options</th>
+                <th colspan="2" style="text-align: center;"><?php clean_output($option); ?></th>
             </tr>
             </thead>
             <?php foreach($all_users as $user): ?>
@@ -65,10 +74,18 @@
                     <td><?php clean_output($user->email) ?></td>
                     <td style="text-align: center;"><?php clean_output($user->grade_level)?></td>
                     <td style="text-align: center;">
-                        <a href="/user/promotetoadmin?u=<?php echo base64_encode($user->user_id); ?>" class="btn btn-info btn-small">Promote</a>
+                        <a href="/user/promotetoadmin?u=<?php echo base64_encode($user->user_id); ?>" 
+                            class="btn btn-info btn-small"
+                            style="<?php clean_output($hide_btn1); ?>">
+                            Promote
+                        </a>
                     </td>
                     <td style="text-align: center;">
-                        <a href="/user/changeblockstatus?u=<?php echo base64_encode($user->user_id); ?>" class="btn btn-danger btn-small">Block</a>
+                        <a href="/user/changeblockstatus?u=<?php echo base64_encode($user->user_id); ?>" 
+                            class="btn btn-danger btn-small"
+                            style="<?php clean_output($hide_btn2); ?>">
+                            <?php clean_output($btn2); ?>
+                        </a>
                     </td>
                 </tr>
             <?php endforeach ?>

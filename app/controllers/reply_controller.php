@@ -4,7 +4,9 @@
  */
 class ReplyController extends AppController 
 {
-        /**
+    public static $disabled = null;   
+    public static $placeholder = null; 
+    /**
      * View all replies with pagination
      * form for adding replies
      */
@@ -17,10 +19,22 @@ class ReplyController extends AppController
         $topic_id = base64_decode(Param::get('topic_id'));
         $topic = Topic::get($topic_id);
         $encrypted_topic_id = base64_encode($topic_id);
-        // start paginated replies 
+
         $session = $_SESSION['user_session'];
-        $username = $session['username'];    
         $user_id = $session['user_id'];
+
+        $user = new User();
+        $infos = $user->getProfile($user_id);
+
+        $username = $infos['username']; 
+        $user_grade_level = $infos['grade_level'];
+           
+        if ($user_grade_level < $topic->grade_level) {
+            ReplyController::$placeholder = "You are not allowed to reply on this Topic";
+            ReplyController::$disabled = "disabled";
+        }
+
+        // start paginated replies 
         $total_rows = Reply::count($topic_id);
         $page = Pagination::pageValidator($total_rows);
         $replies = Reply::getRepliesByTopicId($page, $topic_id);
@@ -28,7 +42,7 @@ class ReplyController extends AppController
             array("topic_id=$encrypted_topic_id"));
         // end paginated replies  
 
-        $reply = new Reply;
+        $reply = new Reply();
         $page = Param::get('page_next', 'view');
 
         switch ($page) {
@@ -54,6 +68,9 @@ class ReplyController extends AppController
         $this->set(get_defined_vars());
     }
 
+    /**
+     * Delete own Comment
+     */
     public function delete()
     {
         $topic_id = Param::get('topic_id');

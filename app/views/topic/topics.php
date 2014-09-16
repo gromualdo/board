@@ -8,7 +8,6 @@
 <h1 class="span7 offset2 center">All<img src="/img/homer.gif" />Topics</h1>
 <div class="span7 offset2">
     <div class="well" style="margin:-23px">
-
             <?php foreach($topics as $v): ?>
                 <div class="alert alert-info">
                     <?php if($session['role'] == 1 || $v->user_id == $session['user_id']): ?>
@@ -20,14 +19,18 @@
                     <?php endif ?>
                     <?php if ($v->subject_category == "Science"): ?>
                         <span class="label label-info">
-                            <?php clean_output($v->subject_category); ?>
+                            Grade <?php clean_output($v->grade_level); ?>:                            
+                            <?php clean_output($v->subject_category); 
+                            ?>
                         </span>
                     <?php elseif ($v->subject_category == "English"): ?>
                         <span class="label label-warning">
+                            Grade <?php clean_output($v->grade_level); ?>:
                             <?php clean_output($v->subject_category); ?>
                         </span>
                     <?php elseif ($v->subject_category == "History"): ?>
                         <span class="label label-important">
+                            Grade <?php clean_output($v->grade_level); ?>:
                             <?php clean_output($v->subject_category); ?>
                         </span>
                     <?php endif ?>&nbsp;

@@ -124,6 +124,11 @@ class User extends AppModel
         $db->update("users", $params, $whereparam);
     }
 
+    /**
+     * Get the updated User Profile
+     * @param $string
+     * @return $info
+     */
     public function getProfile($string)
     {
         $db = DB::conn();
@@ -131,15 +136,30 @@ class User extends AppModel
         return $info;
     }
 
-    public static function countUserByStatus($string, $string2, $role = false)
+    /**
+     * Count the number of Users
+     * based on their status and roles
+     * @param $status
+     * @param $role
+     * @return $result_count
+     */
+    public static function countUserByStatus($status, $role = false)
     {
         $db = DB::conn();
         $result_count = (int) $db->value("SELECT COUNT(*) FROM users 
             WHERE role = ? AND status= ?", 
-            array($role, $string2));
+            array($role, $status));
         return $result_count;
     }
 
+    /**
+     * Get All Users 
+     * based on their status and roles
+     * @param $currentpage
+     * @param $string
+     * @param $role
+     * @return boolean/array
+     */
     public function getUserByStatus($currentpage, $string, $role = false)
     {
         $db = DB::conn();
@@ -161,11 +181,15 @@ class User extends AppModel
         }
     }
 
+    /**
+     * Block/Unblock Users
+     * @param $user_id
+     */
     public function changeBlockStatus($user_id)
     {
         $db = DB::conn();
 
-        $row = $db->row("SELECT * FROM users WHERE user_id = ?", array($string));
+        $row = $db->row("SELECT * FROM users WHERE user_id = ?", array($user_id));
         if($row['status'] == false) {
             self::$is_blocked = true;
         }
@@ -178,6 +202,10 @@ class User extends AppModel
         $db->update('users',$param, $whereparam);
     }
 
+    /** 
+     * Promote user to Admin role
+     * @param $user_id
+     */
     public function promoteToAdmin($user_id)
     {
         $db = DB::conn();

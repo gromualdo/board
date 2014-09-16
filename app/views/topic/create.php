@@ -10,7 +10,7 @@
             </div>
         <?php endif ?>
         <?php if ($topic->validation_errors['question']['length']): ?>
-            <div><em>Reply</em> must be between
+            <div><em>Description</em> must be between
                 <?php clean_output($topic->validation['question']['length'][1]) ?> and
                 <?php clean_output($topic->validation['question']['length'][2]) ?> characters in length.
             </div>

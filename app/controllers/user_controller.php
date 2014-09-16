@@ -124,6 +124,10 @@ class UserController extends AppController
         $this->set(get_defined_vars());
     }
 
+
+    /**
+     * Display all users
+     */
     public function users()
     {
         if (!isset($_SESSION['user_session'])) {
@@ -132,20 +136,18 @@ class UserController extends AppController
         is_not_admin('user_session');
         $user_id = base64_decode(Param::get('u'));
 
+        $users = new User();
         if (isset($_GET['c'])) {
             User::$is_blocked = true;
         }
-        
-        $users = new User();
-
         if (Param::get('r')) {
             $is_admin = true;
-            $total_rows = User::countUserByStatus(User::$is_blocked, $user_id, $is_admin);
+            $total_rows = User::countUserByStatus(User::$is_blocked, $is_admin);
             $page = Pagination::pageValidator($total_rows);
-            $all_users = $users->getUserByStatus($page,User::$is_blocked, $is_admin);
+            $all_users = $users->getUserByStatus($page, User::$is_blocked, $is_admin);
             $paged = new Pagination($total_rows, $page, array("r=admin"));
         } else {
-            $total_rows = User::countUserByStatus(User::$is_blocked, $user_id);
+            $total_rows = User::countUserByStatus(User::$is_blocked);
             $page = Pagination::pageValidator($total_rows);
             $all_users = $users->getUserByStatus($page,User::$is_blocked);
             $paged = new Pagination($total_rows, $page); 
@@ -154,6 +156,11 @@ class UserController extends AppController
         $this->set(get_defined_vars());        
     }
 
+    /**
+     * Calls the notallowed.php view
+     * Displays an access denied error 
+     * for non Admin users
+     */
     public function notAllowed()
     {
         if (!isset($_SESSION['user_session'])) {
@@ -161,6 +168,9 @@ class UserController extends AppController
         } 
     }
 
+    /**
+     * Promote the User to Admin Role
+     */
     public function promoteToAdmin()
     {
         if (!isset($_SESSION['user_session'])) {
@@ -173,9 +183,13 @@ class UserController extends AppController
         $users->promoteToAdmin($user_id);
 
         $success_message = "Promoted User {$user_id} to Admin";
-        redirect("/user/users?m=$success_message");
+        redirect("''?m=$success_message");
     }
 
+
+    /**
+     * Block/Unblock User
+     */
     public function changeBlockStatus()
     {
         if (!isset($_SESSION['user_session'])) {
@@ -187,15 +201,8 @@ class UserController extends AppController
         $users = new User();
         $users->changeBlockStatus($user_id);
 
-        
-        if (Param::get('c')) {
-            $success_message = "User Successfully Unblocked";
-            redirect("/user/users?c=blocked&m=$success_message");
-        } else {
-            $success_message = "Blocked User ID {$user_id}";
-            redirect("/user/users?m=$success_message");
-        }
-        
+        $success_message = "Changed User ID {$user_id}'s status";
+        redirect("/user/users?m=$success_message");
     }
 
 

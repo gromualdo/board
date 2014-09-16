@@ -34,11 +34,6 @@ class Reply extends AppModel
         $db = DB::conn();
         $lowerlimit = ($currentpage - 1) * ROWS_PER_PAGE;
         $limit = "LIMIT $lowerlimit,".ROWS_PER_PAGE;
-        // $limitrows = $db->search("replies",
-        //     "topic_id = ?", array($topic_id), 
-        //     "reply_id DESC", 
-        //     "$limit"
-        //     );
         $limitrows = $db->rows("SELECT * FROM replies, users 
             WHERE topic_id = ? AND replies.user_id = users.user_id
             ORDER BY reply_id DESC
@@ -52,7 +47,7 @@ class Reply extends AppModel
 
     /**
      * Insert new reply
-     * @param $reply Object
+     * @param @topic_id
      */
     public function write($topic_id)
     {
@@ -69,6 +64,10 @@ class Reply extends AppModel
         
     }
 
+    /**
+     * Delete Reply
+     * @param $string
+     */
     public function delete($string)
     {
         $db = DB::conn();
