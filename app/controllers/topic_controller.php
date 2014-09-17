@@ -13,12 +13,14 @@ class TopicController extends AppController
             redirect('/');
         }
         $session = $_SESSION['user_session'];
+
         // start paginated topics 
         $total_rows = Topic::count();
         $page = Pagination::pageValidator($total_rows);
         $topics = Topic::getAll($page);
         $paged = new Pagination($total_rows, $page);
         // end paginated topics        
+
         $this->set(get_defined_vars());
     }
 
@@ -85,16 +87,16 @@ class TopicController extends AppController
     }
 
     /**
-     * Delete Topic
+     * Delete TopicController
      */
     public function delete()
     {
         $topic_id = base64_decode(Param::get('topic_id'));
         $topic = new Topic();
         $topic->delete($topic_id);
-        $this->set(get_defined_vars());
         $confirmation = "Your Topic has been Deleted";
         redirect("/topic/topics?m=$confirmation");
+        $this->set(get_defined_vars());
     }
 
     /**

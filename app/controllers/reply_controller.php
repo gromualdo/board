@@ -15,17 +15,15 @@ class ReplyController extends AppController
         if (!isset($_SESSION['user_session'])) {
             redirect('/');
         }
-
-        $topic_id = base64_decode(Param::get('topic_id'));
-        $topic = Topic::get($topic_id);
-        $encrypted_topic_id = base64_encode($topic_id);
-
         $session = $_SESSION['user_session'];
         $user_id = $session['user_id'];
 
+        $encrypted_topic_id = Param::get('topic_id');
+        $topic_id = base64_decode($encrypted_topic_id);
+        $topic = Topic::get($topic_id);
+
         $user = new User();
         $infos = $user->getProfile($user_id);
-
         $username = $infos['username']; 
         $user_grade_level = $infos['grade_level'];
            
@@ -44,7 +42,6 @@ class ReplyController extends AppController
 
         $reply = new Reply();
         $page = Param::get('page_next', 'view');
-
         switch ($page) {
             case 'view';
                 break;
@@ -54,8 +51,6 @@ class ReplyController extends AppController
                 $reply->body = Param::get('body');
                 try {
                     $reply->write($topic_id);
-                    
-                    echo $encrypted_topic_id;
                     redirect("/reply/view?topic_id=$encrypted_topic_id");
                 } catch (ValidationException $e) {
                     $page = 'view';
@@ -77,8 +72,8 @@ class ReplyController extends AppController
         $reply_id = base64_decode(Param::get('reply_id'));
         $reply = new Reply;
         $reply->delete($reply_id);
-        $this->set(get_defined_vars());
         $confirmation = "Your Reply has been Deleted";
         redirect("/reply/view?topic_id=$topic_id&m=$confirmation");
+        $this->set(get_defined_vars());
     }
 }

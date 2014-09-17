@@ -6,7 +6,17 @@
     <?php clean_output($_GET['m']); ?>
     </div>
 <?php endif ?>
-<?php if ($user->hasError()): ?>
+<?php if (User::$is_email_exists || User::$is_username_exists): ?>
+    <div class="alert alert-danger span5 offset3">
+        <?php if (User::$is_email_exists && User::$is_username_exists): ?>
+            <em>Email Address</em> and <em>Username</em> already exist
+        <?php elseif (User::$is_email_exists): ?>
+            <em>Email Address</em> already exists
+        <?php elseif (User::$is_username_exists): ?>
+            <em>Username</em> already exists
+        <?php endif ?>
+    </div>
+<?php elseif ($user->hasError()): ?>
     <div class="alert alert-danger span5 offset3">
         <h4 class="alert-heading">Validation error!</h4>
         <?php if ($user->validation_errors['name']['length']): ?>

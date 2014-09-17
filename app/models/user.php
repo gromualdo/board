@@ -68,15 +68,15 @@ class User extends AppModel
         if (self::$is_email_exists || self::$is_username_exists) {
             return false;
         } else {
-        $params = array(
-            'name' => $this->name, 
-            'email' => $this->email, 
-            'grade_level' => $this->grade_level,
-            'username' => $this->username, 
-            'password' => md5($this->password)
-            );
-        $db->insert("users", $params); 
-        return true;
+            $params = array(
+                'name' => $this->name, 
+                'email' => $this->email, 
+                'grade_level' => $this->grade_level,
+                'username' => $this->username, 
+                'password' => md5($this->password)
+                );
+            $db->insert("users", $params); 
+            return true;
         }
     }
 
@@ -111,17 +111,35 @@ class User extends AppModel
             throw new ValidationException('invalid name');
         }
         $db = DB::conn();
-        $params = array(
-            'name' => $this->name,
-            'email' => $this->email,
-            'grade_level' => $this->grade_level,
-            'username' => $this->username,
-            'password' => md5($this->password)
-            );
-        $whereparam = array(
-            'user_id' => $this->id
-            );
-        $db->update("users", $params, $whereparam);
+
+        $check_email = $db->row("SELECT * FROM users WHERE email = ? AND user_id != ?",
+            array($this->email, $this->id));
+        $check_username = $db->row("SELECT * FROM users WHERE username = ? AND user_id != ?",
+            array($this->username, $this->id));
+
+        if ($check_email) {
+            self::$is_email_exists = true;
+        } 
+        if ($check_username) {
+            self::$is_username_exists = true;
+        }
+        if (self::$is_email_exists || self::$is_username_exists) {
+            return false;
+        } else {
+            $params = array(
+                'name' => $this->name,
+                'email' => $this->email,
+                'grade_level' => $this->grade_level,
+                'username' => $this->username,
+                'password' => md5($this->password)
+                );
+            $whereparam = array(
+                'user_id' => $this->id
+                );
+            $db->update("users", $params, $whereparam);
+            return true;
+        }
+        
     }
 
     /**

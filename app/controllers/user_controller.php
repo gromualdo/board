@@ -83,17 +83,15 @@ class UserController extends AppController
             redirect('/');
         }
         $session = $_SESSION['user_session'];
-
         $user_id = $session['user_id'];
+
         $user = new User();
         $infos = $user->getProfile($user_id);
-
-
         $name = $infos['name'];
         $email = $infos['email'];
         $grade_level = $infos['grade_level'];
         $username = $infos['username'];
-        $user = new User();
+
         $add_user = Param::get('update', 'updateprofile');
 
         switch ($add_user) {
@@ -109,10 +107,13 @@ class UserController extends AppController
                 $user->password2 = Param::get('password2');
                 $user->combined_password = $user->password." ".$user->password2;
                 try {
-                    $user->update();
-                    session_regenerate_id();
-                    $success_message = "Profile Successfully Updated";
-                    redirect("/user/updateprofile?m=$success_message");
+                    if ($user->update()) {
+                        $success_message = "Profile Successfully Updated";
+                        redirect("/user/updateprofile?m=$success_message");
+                    } else {
+                        $add_user = 'updateprofile';
+                    }
+
                 } catch (ValidationException $e) {
                     $add_user = 'updateprofile';
                 }           
@@ -123,7 +124,6 @@ class UserController extends AppController
         }
         $this->set(get_defined_vars());
     }
-
 
     /**
      * Display all users
@@ -152,9 +152,27 @@ class UserController extends AppController
             $all_users = $users->getUserByStatus($page,User::$is_blocked);
             $paged = new Pagination($total_rows, $page); 
         }
-        
         $this->set(get_defined_vars());        
     }
+
+    /**
+     * Block/Unblock User
+     */
+    public function changeBlockStatus()
+    {
+        if (!isset($_SESSION['user_session'])) {
+            redirect('/');
+        } 
+        is_not_admin('user_session');
+        $user_id = base64_decode(Param::get('u'));
+
+        $users = new User();
+        $users->changeBlockStatus($user_id);
+
+        $success_message = "Changed User ID {$user_id}'s status";
+        redirect("/user/users?m=$success_message");
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+
 
     /**
      * Calls the notallowed.php view
@@ -183,28 +201,8 @@ class UserController extends AppController
         $users->promoteToAdmin($user_id);
 
         $success_message = "Promoted User {$user_id} to Admin";
-        redirect("''?m=$success_message");
-    }
-
-
-    /**
-     * Block/Unblock User
-     */
-    public function changeBlockStatus()
-    {
-        if (!isset($_SESSION['user_session'])) {
-            redirect('/');
-        } 
-        is_not_admin('user_session');
-        $user_id = base64_decode(Param::get('u'));
-
-        $users = new User();
-        $users->changeBlockStatus($user_id);
-
-        $success_message = "Changed User ID {$user_id}'s status";
         redirect("/user/users?m=$success_message");
     }
-
 
     /**
      * Logout function,
