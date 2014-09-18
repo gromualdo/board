@@ -20,7 +20,9 @@ class Reply extends AppModel
     public static function count($topic_id)
     {
         $db = DB::conn();
-        return (int) $db->value("SELECT COUNT(*) FROM replies WHERE topic_id = ?", array($topic_id));
+        return (int) $db->value("SELECT COUNT(*) FROM replies 
+            WHERE topic_id = ?", array($topic_id)
+            );
     }
 
     /**
@@ -41,7 +43,8 @@ class Reply extends AppModel
             WHERE topic_id = ? AND replies.user_id = users.user_id
             ORDER BY reply_id DESC
             $limit",
-            array($topic_id));
+            array($topic_id)
+            );
         foreach($limitrows as $limitrow) {
             $replies[] = new Topic($limitrow);
         }

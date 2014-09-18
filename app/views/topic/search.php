@@ -38,7 +38,7 @@
                         <?php clean_output($v->topic_name) ?></a>
                 </div>
             <?php endforeach ?>
-                <?php echo($paged); ?>
+            <?php echo($paged); ?>
         </div>
     </div>
 <?php endif ?>

@@ -3,6 +3,7 @@
 <p class="alert alert-success">
     You successfully created.
 </p>
-<a href="<?php clean_output(url('reply/view', array('topic_id' => base64_encode($topic->topic_id)))) ?>">
+<a href="<?php clean_output(url('reply/view', 
+    array('topic_id' => base64_encode($topic->topic_id)))) ?>">
     &larr; Go to topic
 </a>

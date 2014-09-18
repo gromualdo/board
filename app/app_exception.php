@@ -2,6 +2,10 @@
 class AppException extends Exception
 {
 }
+class NotFoundException extends DCException
+{
+    
+}
 class ValidationException extends AppException
 {
 }

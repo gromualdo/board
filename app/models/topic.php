@@ -38,7 +38,8 @@ class Topic extends AppModel
             array($id)
             );
         if (!$row) {
-            throw new PageNotFoundException("Cannot find Topic_ID $topic_id");           //will be redirected to pagenotfound if $row=0
+            //will be redirected to pagenotfound if $row=0
+            throw new pagenotfoundException("Cannot find Topic_ID $topic_id");           
         }
         return new self($row);
     }
@@ -119,7 +120,9 @@ class Topic extends AppModel
         $db = DB::conn();
         $lowerlimit = ($currentpage - 1) * ROWS_PER_PAGE;
         $limit = "$lowerlimit,".ROWS_PER_PAGE;
-        $results = $db->search("topics", "topic_name LIKE ?", array("%$string%"), "topic_id DESC", "$limit");
+        $results = $db->search("topics", "topic_name LIKE ?", 
+            array("%$string%"), "topic_id DESC", "$limit"
+            );
         if($results) {
             self::$has_results = true;
             foreach($results as $result) {
@@ -140,7 +143,10 @@ class Topic extends AppModel
     public function countSearchResults($string)
     {
         $db = DB::conn();
-        $result_count = (int) $db->value("SELECT COUNT(*) FROM topics WHERE topic_name LIKE ?", array("%$string%"));
+        $result_count = (int) $db->value("SELECT COUNT(*) FROM topics 
+            WHERE topic_name LIKE ?", 
+            array("%$string%")
+            );
         return $result_count;
     }
 
@@ -154,10 +160,12 @@ class Topic extends AppModel
         $db = DB::conn();
         try {
             $db->begin();
-            $db->query("DELETE FROM topics WHERE topic_id = ?",
+            $db->query("DELETE FROM topics 
+                WHERE topic_id = ?",
                 array($string)
                 );
-            $db->query("DELETE FROM replies WHERE topic_id = ?",
+            $db->query("DELETE FROM replies 
+                WHERE topic_id = ?",
                 array($string)
                 );
             $db->commit();

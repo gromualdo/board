@@ -10,7 +10,7 @@
             </div>
         <?php elseif($topic->validation_errors['topic_name']['valid_topic']): ?>
             <div>
-                Please do not start with space for <em>Title</em>
+                Please do not start <em>Title</em> with space
             </div>
         <?php endif ?>
         <?php if ($topic->validation_errors['question']['length']): ?>
@@ -20,7 +20,7 @@
             </div>
         <?php elseif($topic->validation_errors['question']['valid_question']): ?>
             <div>
-                Please do not start with space for <em>Question</em>
+                Please do not start <em>Question</em> with space
             </div>
     <?php endif ?>
 </div>

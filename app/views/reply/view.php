@@ -32,7 +32,7 @@
                 </div>
             <?php elseif($reply->validation_errors['body']['valid_reply']): ?>
                 <div>
-                    Please do not start with space for <em>Answer</em>
+                    Please do not start <em>Answer</em> with space
                 </div>
             <?php endif ?>
         </div>

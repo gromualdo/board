@@ -54,10 +54,14 @@ class User extends AppModel
 
         $db = DB::conn();
 
-        $check_email = $db->row("SELECT * FROM users WHERE email = ?",
-            array($this->email));
-        $check_username = $db->row("SELECT * FROM users WHERE username = ?",
-            array($this->username));
+        $check_email = $db->row("SELECT * FROM users 
+            WHERE email = ?",
+            array($this->email)
+            );
+        $check_username = $db->row("SELECT * FROM users 
+            WHERE username = ?",
+            array($this->username)
+            );
 
         if ($check_email) {
             self::$is_email_exists = true;
@@ -112,10 +116,14 @@ class User extends AppModel
         }
         $db = DB::conn();
 
-        $check_email = $db->row("SELECT * FROM users WHERE email = ? AND user_id != ?",
-            array($this->email, $this->id));
-        $check_username = $db->row("SELECT * FROM users WHERE username = ? AND user_id != ?",
-            array($this->username, $this->id));
+        $check_email = $db->row("SELECT * FROM users 
+            WHERE email = ? AND user_id != ?",
+            array($this->email, $this->id)
+            );
+        $check_username = $db->row("SELECT * FROM users 
+            WHERE username = ? AND user_id != ?",
+            array($this->username, $this->id)
+            );
 
         if ($check_email) {
             self::$is_email_exists = true;
@@ -150,7 +158,10 @@ class User extends AppModel
     public function getProfile($string)
     {
         $db = DB::conn();
-        $info = $db->row("SELECT * FROM users WHERE user_id = ?", array($string));
+        $info = $db->row("SELECT * FROM users 
+            WHERE user_id = ?", 
+            array($string)
+            );
         return $info;
     }
 
@@ -207,7 +218,10 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row("SELECT * FROM users WHERE user_id = ?", array($user_id));
+        $row = $db->row("SELECT * FROM users 
+            WHERE user_id = ?", 
+            array($user_id)
+            );
         if($row['status'] == false) {
             self::$is_blocked = true;
         }
