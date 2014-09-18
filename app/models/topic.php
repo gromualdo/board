@@ -7,10 +7,16 @@ class Topic extends AppModel
             'length' => array(
                 'is_between', 1, 50,
                 ),
+            'valid_topic' => array(
+                'has_space_at_beginning'
+                ),
             ),
         'question' => array(
             'length' => array(
-                'is_between', 1, 500,
+                'is_between', 1, 1000,
+                ),
+            'valid_question' => array(
+                'has_space_at_beginning'
                 ),
             ),
         );

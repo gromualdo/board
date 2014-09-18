@@ -8,11 +8,19 @@
                 <?php clean_output($topic->validation['topic_name']['length'][1]) ?> and
                 <?php clean_output($topic->validation['topic_name']['length'][2]) ?> characters in length.
             </div>
+        <?php elseif($topic->validation_errors['topic_name']['valid_topic']): ?>
+            <div>
+                Please do not start with space for <em>Title</em>
+            </div>
         <?php endif ?>
         <?php if ($topic->validation_errors['question']['length']): ?>
             <div><em>Description</em> must be between
                 <?php clean_output($topic->validation['question']['length'][1]) ?> and
                 <?php clean_output($topic->validation['question']['length'][2]) ?> characters in length.
+            </div>
+        <?php elseif($topic->validation_errors['question']['valid_question']): ?>
+            <div>
+                Please do not start with space for <em>Question</em>
             </div>
     <?php endif ?>
 </div>
@@ -21,7 +29,7 @@
 <form method="post" action="<?php clean_output(url('')) ?>">
     <div class="span8">
         <label>Topic Title</label>
-        <input type="text" class="span7" name="title" value="<?php clean_output(Param::get('title')) ?>">
+        <input type="text" maxlength="50" class="span7" name="title" value="<?php clean_output(Param::get('title')) ?>">
     </div>
     <div class="span4">
         <label>Grade Level</label>
@@ -42,7 +50,7 @@
     <div class="span9">
         <input type="hidden" class="span6" name="user_id" value="<?php clean_output($user_id); ?>" readonly>
         <label>Description</label>
-        <textarea name="questions" style="resize:none" class="span7"></textarea>
+        <textarea name="questions" style="resize:none" class="span7" maxlength="1000"></textarea>
         <br />
         <input type="hidden" name="page_next" value="create_end">
         <button type="submit" class="btn btn-primary">Submit</button>

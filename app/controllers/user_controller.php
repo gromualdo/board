@@ -46,6 +46,7 @@ class UserController extends AppController
         needLogoutError('user_session');
         $login = new User();
         $login_error = false;
+        $blocked_error = false;
         $user_login = Param::get('checklogin', 'index');
         switch ($user_login) {
             case 'index':
@@ -55,10 +56,13 @@ class UserController extends AppController
                 $login->password = Param::get('password');
                 try {
                     $uname = $login->checkLogin();
-                    echo $uname;
                     if ($uname) {
-                        $_SESSION['user_session'] = $uname;
-                        redirect('/topic/topics');
+                        if ($uname['status'] == true) {
+                            $blocked_error = true;
+                        } else {
+                            $_SESSION['user_session'] = $uname;
+                            redirect('/topic/topics');
+                        }
                      } else {
                         $login_error = true;
                      }

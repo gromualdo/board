@@ -55,10 +55,11 @@
             </a>
         </div>
     </div>
-    <div class="<?php clean_output($alert); ?> span11" style="padding:25px;">
+    <div class="<?php clean_output($alert); ?> span11 curved" style="padding:25px;">
         <table class="table table-hover">
             <thead>
             <tr>
+                <th style="text-align: center;">User ID</th>
                 <th>Username</th>
                 <th>Name</th>
                 <th>Email Address</th>
@@ -69,6 +70,7 @@
             <?php foreach($all_users as $user): ?>
                 <tbody>
                 <tr>
+                    <td style="text-align: center;"><?php clean_output($user->user_id) ?></td>
                     <td><?php clean_output($user->username) ?></td>
                     <td><?php clean_output($user->name) ?></td>
                     <td><?php clean_output($user->email) ?></td>

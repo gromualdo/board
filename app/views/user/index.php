@@ -1,7 +1,7 @@
 <?php $title = "Login Page";?>
 <br />  
 <h2 class="offset3 span5 center">Login</h2> 
-    <?php if ($login->hasError() || $login_error): ?>
+    <?php if ($login->hasError() || $login_error || $blocked_error): ?>
         <div class="offset3 span5 center">
             <img src="img/bartnlisa.gif" />
         </div> 
@@ -9,7 +9,9 @@
             <?php if (empty($login->username) || empty($login->password)): ?>
                 <div>Please fill up all the fields</div>
             <?php elseif ($login_error): ?>
-                <div>Incorrect Username/Password</div>    
+                <div>Incorrect Username/Password</div> 
+            <?php elseif ($blocked_error): ?>
+                <div>You have been blocked by the admins</div>  
             <?php endif ?>
         </div>
     <?php endif ?>
@@ -19,12 +21,12 @@
         <table align="center">
             <tr>
                 <td align="right">Username: </td>
-                <td><input type="text" name="username"/>
+                <td><input type="text" name="username" maxlength="30"/>
                 <font class="text-error">*</font></td>
             </tr>
             <tr>
                 <td align="right">Password: </td>
-                <td><input type="password" name="password" />
+                <td><input type="password" name="password" maxlength="30"/>
                 <font class="text-error">*</font></td>
             </tr>
             <tr>

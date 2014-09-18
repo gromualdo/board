@@ -6,6 +6,9 @@ class Reply extends AppModel
             'length' => array(
                 'is_between', 1, 1000,
             ),
+            'valid_reply' => array(
+                'has_space_at_beginning'
+            ),
         ),
     );
 

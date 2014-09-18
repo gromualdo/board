@@ -75,12 +75,12 @@
         </tr>
         <tr>
             <td align="right">Name:</td>
-            <td><input type="text" name="name" placeholder="Jet Li"/>
+            <td><input type="text" name="name" placeholder="Jet Li" maxlength="30"/>
             <font class="text-error">*</font></td>
         </tr>
         <tr>
             <td align="right">Email address:</td>
-            <td><input type="text" name="email" placeholder="karate@hollywood.com"/>
+            <td><input type="text" name="email" placeholder="karate@hollywood.com" maxlength="30"/>
             <font class="text-error">*</font></td>
         </tr>
         <tr>
@@ -97,17 +97,17 @@
         </tr>
         <tr>
             <td align="right">Username:</td>
-            <td><input type="text" name="username" placeholder="jetli222"/>
+            <td><input type="text" name="username" placeholder="jetli222" maxlength="30"/>
             <font class="text-error">*</font></td>
         </tr>
         <tr>
             <td align="right">Password:</td>
-            <td><input type="password" name="password"/>
+            <td><input type="password" name="password" maxlength="30"/>
             <font class="text-error">*</font></td>
         </tr>
         <tr>
             <td align="right">Re-Type Password:</td>
-            <td><input type="password" name="password2"/>
+            <td><input type="password" name="password2" maxlength="30"/>
             <font class="text-error">*</font></td>
         </tr>
         <tr>
@@ -119,20 +119,10 @@
     </form> 
 </div>
 <div style="float:left;">
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
+    <br /><br /><br /><br />
+    <br /><br /><br /><br />
+    <br /><br /><br /><br />
+    <br /><br />
     <img src="/img/bartnhomer.gif" />
 </div>
 

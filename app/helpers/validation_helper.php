@@ -22,8 +22,8 @@ function is_between($check, $min, $max)
  */
 function is_valid_email($string)
 {
-    return (preg_match('/[\w._]+@[A-z]+.[A-z]{3}$/', $string) ||        
-       preg_match('/[\w._]+@[A-z]+.[A-z]{3}.?[A-z]{2}?$/', $string));   
+    return (preg_match('/^([\w]+[\._]?)+@[A-z]+\.[A-z]{3}$/', $string) ||        
+       preg_match('/^([\w]+[\._]?)+@[A-z]+\.[A-z]{3}$\.?[A-z]{2}?$/', $string));   
 }
 
 /**
@@ -37,7 +37,7 @@ function is_valid_email($string)
  */
 function is_valid_name($string)
 {
-    return (preg_match('/^[A-z]+[A-z  -]+[A-z]+$/', $string)); 
+    return (preg_match('/^([A-z]+[ -]?){4,7}$/', $string)); 
 }
 
 /**
@@ -73,3 +73,14 @@ function is_valid_password($string)
     return (preg_match('/^[^ ]+$/', $string)); 
 }
 
+/**
+ * Validates the inputted topic,
+ * will reject string if it begins with
+ * space/spaces
+ * @param $string
+ * @return bool
+ */
+function has_space_at_beginning($string)
+{
+    return (preg_match('/^[^ ]/', $string)); 
+}

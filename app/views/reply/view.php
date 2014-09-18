@@ -30,6 +30,10 @@
                     <?php clean_output($reply->validation['body']['length'][1]) ?> and
                     <?php clean_output($reply->validation['body']['length'][2]) ?> characters in length.
                 </div>
+            <?php elseif($reply->validation_errors['body']['valid_reply']): ?>
+                <div>
+                    Please do not start with space for <em>Answer</em>
+                </div>
             <?php endif ?>
         </div>
     <?php endif ?>
@@ -38,7 +42,8 @@
     <div class="well" style="float:left; margin-left:0;">
     <form  method="post" action="<?php clean_output(url('reply/view')) ?>">
         <label>Your Answer</label>
-        <textarea class="span5" name="body"  style="resize:none" rows="6" 
+        <textarea class="span5" name="body"  style="resize:none" 
+        rows="6" maxlength="1000"
         placeholder="<?php clean_output(ReplyController::$placeholder); ?>"
         <?php clean_output(ReplyController::$disabled); ?>></textarea>
         <br />
@@ -83,10 +88,5 @@
             This homework is still unanswered.
         </div>
     <?php endif ?>
-
 <!-- End of List of Comments -->
-
-
-
-
 </div>

@@ -17,7 +17,7 @@
     </style>
     <script>
         $(function() {
-            $( "#tab" ).tabs();
+            $( ".draggable" ).draggable();
             });
     </script>
   </head>
