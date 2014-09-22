@@ -148,8 +148,8 @@ class UserController extends AppController
             $link2 = "Show all Blocked Users";
             $alert = "alert-info";
             $option = null;
-            $hide_btn1 = "display:none;";
-            $hide_btn2 = "display:none;";
+            $hide_button1 = "display:none;";
+            $hide_button2 = "display:none;";
         } elseif (isset($_GET['c'])) {
             $header = "Blocked Users";
             $query_string1 = "?r=admin";
@@ -158,9 +158,12 @@ class UserController extends AppController
             $link2 = "Show all Cleared Users";
             $alert = "alert-error";
             $option = "Option";
-            $hide_btn1 = "display:none;";
-            $hide_btn2 = null;
-            $btn2 = "Unblock";
+            $hide_button1 = "display:none;";
+            $hide_button2 = null;
+            $button2 = "Unblock";
+            $display_message = "Nope, no blocked accounts";
+            $back_button = "&larr; back to Cleared Users";
+            $back_link = "/user/users";
         } else {
             $header = "Cleared Users";
             $query_string1 = "?r=admin";
@@ -169,7 +172,10 @@ class UserController extends AppController
             $link2 = "Show all Blocked Users";
             $alert = "alert-success";
             $option = "Options";
-            $btn2 = "Block";
+            $button2 = "Block";
+            $display_message = "We Have No Users Yet :(";
+            $back_button = "Invite your friends now";
+            $back_link = "https://kcw.kddi.ne.jp/#!rid20868499";
         }
 
         $users = new User();

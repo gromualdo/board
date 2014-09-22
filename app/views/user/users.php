@@ -1,24 +1,24 @@
 <?php $title = "Users"; ?>
 <br />
-<?php if($all_users): ?>
-    <h2 class="offset3 center span5"><?php clean_output($header); ?></h2>   
-    <?php if (isset($_GET['m'])): ?>
-        <div class="alert span11 center" style="padding:19px;">
-        <?php clean_output($_GET['m']); ?>
-        </div>
-    <?php endif ?>
-
-    <div class="span11" style="padding:0 40px;">
-        <div class="pull-right">
-            <a href="/user/users<?php clean_output($query_string1); ?>">
-                <?php clean_output($link1); ?>
-            </a>
-            <font class="alike"> &#183; </font>
-            <a href="/user/users<?php clean_output($query_string2); ?>">
-                <?php clean_output($link2); ?>
-            </a>
-        </div>
+<h2 class="offset3 center span5"><?php clean_output($header); ?></h2>   
+<?php if (isset($_GET['m'])): ?>
+    <div class="alert span11 center" style="padding:19px;">
+    <?php clean_output($_GET['m']); ?>
     </div>
+<?php endif ?>
+
+<div class="span11" style="padding:0 40px;">
+    <div class="pull-right">
+        <a href="/user/users<?php clean_output($query_string1); ?>">
+            <?php clean_output($link1); ?>
+        </a>
+        <font class="alike"> &#183; </font>
+        <a href="/user/users<?php clean_output($query_string2); ?>">
+            <?php clean_output($link2); ?>
+        </a>
+    </div>
+</div>
+<?php if($all_users): ?>
     <div class="<?php clean_output($alert); ?> span11 curved" style="padding:25px;">
         <table class="table table-hover">
             <thead>
@@ -42,15 +42,15 @@
                     <td style="text-align: center;">
                         <a href="/user/promotetoadmin?u=<?php echo base64_encode($user->user_id); ?>" 
                             class="btn btn-info btn-small"
-                            style="<?php clean_output($hide_btn1); ?>">
+                            style="<?php clean_output($hide_button1); ?>">
                             Promote
                         </a>
                     </td>
                     <td style="text-align: center;">
                         <a href="/user/changeblockstatus?u=<?php echo base64_encode($user->user_id); ?>" 
                             class="btn btn-danger btn-small"
-                            style="<?php clean_output($hide_btn2); ?>">
-                            <?php clean_output($btn2); ?>
+                            style="<?php clean_output($hide_button2); ?>">
+                            <?php clean_output($button2); ?>
                         </a>
                     </td>
                 </tr>
@@ -61,9 +61,11 @@
     </div>
 <?php else: ?>
     <div class="alert-error span11 center" style="padding:25px;">
-        <h4>We Have No Users Yet</h4>
+        <h4> <?php clean_output($display_message); ?></h4>
     </div>
-    <a href="https://kcw.kddi.ne.jp/#!rid20868499" target="blank" style="margin-left:20px;">
-        Invite your friends now
+    <div class="span5 pull-left">
+    <a href="<?php echo $back_link; ?>" style="margin-left:20px;">
+        <?php echo $back_button; ?>
     </a>
+    </div>
 <?php endif ?>

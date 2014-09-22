@@ -59,8 +59,7 @@ class Topic extends AppModel
         $limit = "LIMIT $lowerlimit,".ROWS_PER_PAGE;
 
         $rows = $db->rows("SELECT topic_id, topics.user_id, topic_name, 
-            topics.grade_level, created, question, subject_category, 
-            users.username
+            topics.grade_level, created, question, subject_category
             FROM topics, users
             WHERE topics.user_id = users.user_id
             GROUP BY topics.topic_id
@@ -105,7 +104,8 @@ class Topic extends AppModel
     public static function count()
     {
         $db = DB::conn();
-        return (int) $db->value("SELECT COUNT(*) FROM topics");
+        return (int) $db->value("SELECT COUNT(*) FROM topics, users
+            WHERE topics.user_id = users.user_id");
     }
 
     /**

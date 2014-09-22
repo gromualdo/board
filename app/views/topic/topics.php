@@ -4,10 +4,10 @@
             <?php clean_output(Param::get("m")); ?>
     </div>
 <?php endif ?>
-
 <h1 class="span7 offset2 center">All<img src="/img/homer.gif" />Topics</h1>
 <div class="span7 offset2">
     <div class="well" style="margin:-23px">
+        <?php if($topics): ?>
             <?php foreach($topics as $v): ?>
                 <div class="alert alert-info">
                     <?php if($session['role'] == 1 || $v->user_id == $session['user_id']): ?>
@@ -41,8 +41,14 @@
                 </div>
             <?php endforeach ?>
             <?php echo($paged); ?>
+        <?php else: ?>
+            <div class="alert alert-error center">
+                <h5>We do not have any topics yet.</h5>
+            </div>
+        <?php endif ?>
         <a class="btn btn-primary span4 offset1" href="<?php clean_output(url('topic/create')) ?>"
         >Create</a>
         <br />
     </div>
+
 </div>
