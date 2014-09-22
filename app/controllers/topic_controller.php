@@ -79,7 +79,9 @@ class TopicController extends AppController
                 $total_rows = $topic->countSearchResults($search_item);
                 $page = Pagination::pageValidator($total_rows);
                 $results = $topic->search($page, $search_item);
-                $paged = new Pagination($total_rows, $page, 
+                $paged = new Pagination(
+                    $total_rows, 
+                    $page, 
                     array("searchbar=$search_item"));
             }
         }

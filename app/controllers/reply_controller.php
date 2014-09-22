@@ -23,9 +23,9 @@ class ReplyController extends AppController
         $topic = Topic::get($topic_id);
 
         $user = new User();
-        $infos = $user->getProfile($user_id);
-        $username = $infos['username']; 
-        $user_grade_level = $infos['grade_level'];
+        $infos = $user->getUpdatedProfile($user_id);
+        $username = $infos->username; 
+        $user_grade_level = $infos->grade_level;
            
         if ($user_grade_level < $topic->grade_level) {
             ReplyController::$placeholder = "You are not allowed to reply on this Topic";
@@ -36,7 +36,9 @@ class ReplyController extends AppController
         $total_rows = Reply::count($topic_id);
         $page = Pagination::pageValidator($total_rows);
         $replies = Reply::getRepliesByTopicId($page, $topic_id);
-        $paged = new Pagination($total_rows, $page, 
+        $paged = new Pagination(
+            $total_rows, 
+            $page, 
             array("topic_id=$encrypted_topic_id"));
         // end paginated replies  
 

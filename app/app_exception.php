@@ -12,3 +12,6 @@ class PageNotFoundException
         redirect(url("topic/pagenotfound", array("error_msg"=>$err_msg)));
     }
 }
+class NotFoundException extends AppException
+{
+}

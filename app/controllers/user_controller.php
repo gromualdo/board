@@ -30,7 +30,7 @@ class UserController extends AppController
                 }           
                 break;
             default:
-                throw new NotFoundException("{$adduser} is not found");
+                throw new NotFoundException("{$add_user} is not found");
                 break;
         }
         $this->set(get_defined_vars());
@@ -89,11 +89,11 @@ class UserController extends AppController
         $user_id = $session['user_id'];
 
         $user = new User();
-        $infos = $user->getProfile($user_id);
-        $name = $infos['name'];
-        $email = $infos['email'];
-        $grade_level = $infos['grade_level'];
-        $username = $infos['username'];
+        $infos = $user->getUpdatedProfile($user_id);
+        $name = $infos->name;
+        $email = $infos->email;
+        $grade_level = $infos->grade_level;
+        $username = $infos->username;
 
         $add_user = Param::get('update', 'updateprofile');
 
@@ -122,7 +122,7 @@ class UserController extends AppController
                 }           
                 break;
             default:
-                throw new NotFoundException("{$adduser} is not found");
+                throw new NotFoundException("{$add_user} is not found");
                 break;
         }
         $this->set(get_defined_vars());

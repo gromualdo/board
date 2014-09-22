@@ -54,14 +54,14 @@ class User extends AppModel
 
         $db = DB::conn();
 
-        $check_email = $db->row("SELECT * FROM users 
-            WHERE email = ?",
+        $check_email = $db->row(
+            "SELECT * FROM users WHERE email = ?",
             array($this->email)
-            );
-        $check_username = $db->row("SELECT * FROM users 
-            WHERE username = ?",
+        );
+        $check_username = $db->row(
+            "SELECT * FROM users WHERE username = ?",
             array($this->username)
-            );
+        );
 
         if ($check_email) {
             self::$is_email_exists = true;
@@ -97,8 +97,9 @@ class User extends AppModel
         $param = array(
             $this->username,
             md5($this->password)
-            );
-        $row = $db->row("SELECT * FROM users WHERE 
+        );
+        $row = $db->row(
+            "SELECT * FROM users WHERE 
             username = ? AND
             password = ?",
             $param
@@ -117,14 +118,16 @@ class User extends AppModel
         }
         $db = DB::conn();
 
-        $check_email = $db->row("SELECT * FROM users 
+        $check_email = $db->row(
+            "SELECT * FROM users 
             WHERE email = ? AND user_id != ?",
             array($this->email, $this->id)
-            );
-        $check_username = $db->row("SELECT * FROM users 
+        );
+        $check_username = $db->row(
+            "SELECT * FROM users 
             WHERE username = ? AND user_id != ?",
             array($this->username, $this->id)
-            );
+        );
 
         if ($check_email) {
             self::$is_email_exists = true;
@@ -153,17 +156,18 @@ class User extends AppModel
 
     /**
      * Get the updated User Profile
-     * @param $string
+     * @param $id
      * @return $info
      */
-    public function getProfile($string)
+    public function getUpdatedProfile($user_id)
     {
         $db = DB::conn();
-        $info = $db->row("SELECT * FROM users 
+        $info = $db->row(
+            "SELECT * FROM users 
             WHERE user_id = ?", 
-            array($string)
-            );
-        return $info;
+            array($user_id)
+        );
+        return new self($info);
     }
 
     /**
@@ -176,9 +180,11 @@ class User extends AppModel
     public static function countUserByStatus($status, $role = false)
     {
         $db = DB::conn();
-        $result_count = (int) $db->value("SELECT COUNT(*) FROM users 
+        $result_count = (int) $db->value(
+            "SELECT COUNT(*) FROM users 
             WHERE role = ? AND status= ?", 
-            array($role, $status));
+            array($role, $status)
+        );
         return $result_count;
     }
 
@@ -186,20 +192,21 @@ class User extends AppModel
      * Get All Users 
      * based on their status and roles
      * @param $currentpage
-     * @param $string
+     * @param $status
      * @param $role
      * @return boolean/array
      */
-    public function getUserByStatus($currentpage, $string, $role = false)
+    public function getUserByStatus($currentpage, $status, $role = false)
     {
         $db = DB::conn();
         $lowerlimit = ($currentpage - 1) * ROWS_PER_PAGE;
         $limit = "LIMIT $lowerlimit,".ROWS_PER_PAGE;
-        $rows = $db->rows("SELECT * from users 
+        $rows = $db->rows(
+            "SELECT * from users 
             WHERE role = ? AND status = ? 
             $limit", 
-            array($role,$string)
-            );
+            array($role,$status)
+        );
 
         if (count($rows)>0) {
             foreach($rows as $row) {
@@ -219,19 +226,20 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row("SELECT * FROM users 
+        $row = $db->row(
+            "SELECT * FROM users 
             WHERE user_id = ?", 
             array($user_id)
-            );
+        );
         if($row['status'] == false) {
             self::$is_blocked = true;
         }
         $param = array(
             'status' => self::$is_blocked
-            );
+        );
         $whereparam = array(
             'user_id' => $user_id
-            );
+        );
         $db->update('users',$param, $whereparam);
     }
 
@@ -249,7 +257,7 @@ class User extends AppModel
 
         $whereparam = array(
             'user_id' => $user_id
-            );
+        );
         $db->update('users', $param, $whereparam);
     }
 }
