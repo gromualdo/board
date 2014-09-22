@@ -161,7 +161,7 @@ class UserController extends AppController
             $hide_button1 = "display:none;";
             $hide_button2 = null;
             $button2 = "Unblock";
-            $display_message = "Nope, no blocked accounts";
+            $display_message = "Nope, No Blocked Users";
             $back_button = "&larr; back to Cleared Users";
             $back_link = "/user/users";
         } else {
@@ -255,5 +255,4 @@ class UserController extends AppController
         session_destroy();
         redirect("/");
     }
-
 }             

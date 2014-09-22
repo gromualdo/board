@@ -94,13 +94,14 @@ class User extends AppModel
             throw new ValidationException('invalid name');
         }
         $db = DB::conn();
+        $param = array(
+            $this->username,
+            md5($this->password)
+            );
         $row = $db->row("SELECT * FROM users WHERE 
             username = ? AND
             password = ?",
-            array(
-            $this->username,
-            md5($this->password)
-            )
+            $param
         );
         return $row;
     }
@@ -251,5 +252,4 @@ class User extends AppModel
             );
         $db->update('users', $param, $whereparam);
     }
-
 }
