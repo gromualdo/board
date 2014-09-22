@@ -92,8 +92,9 @@ class TopicController extends AppController
     public function delete()
     {
         $topic_id = base64_decode(Param::get('topic_id'));
+        $user_id = $_SESSION['user_session']['user_id'];
         $topic = new Topic();
-        $topic->delete($topic_id);
+        $topic->delete($topic_id, $user_id);
         $confirmation = "Your Topic has been Deleted";
         redirect("/topic/topics?m=$confirmation");
         $this->set(get_defined_vars());

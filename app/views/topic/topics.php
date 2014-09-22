@@ -41,9 +41,8 @@
                 </div>
             <?php endforeach ?>
             <?php echo($paged); ?>
-        <a class="btn btn-primary span4 offset1" href="<?php clean_output(url('topic/create')) ?>">
-            Create
-        </a>
+        <a class="btn btn-primary span4 offset1" href="<?php clean_output(url('topic/create')) ?>"
+        >Create</a>
         <br />
     </div>
 </div>

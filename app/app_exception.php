@@ -2,14 +2,10 @@
 class AppException extends Exception
 {
 }
-class NotFoundException extends DCException
-{
-    
-}
 class ValidationException extends AppException
 {
 }
-class PageNotFoundException extends DCException
+class PageNotFoundException 
 {
     public function __construct($err_msg)
     {

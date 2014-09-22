@@ -70,7 +70,7 @@ function is_password_same($string)
  */
 function is_valid_password($string)
 {
-    return (preg_match('/^[^ ]+$/', $string)); 
+    return (preg_match('/^[^\s]+$/', $string)); 
 }
 
 /**
@@ -82,5 +82,5 @@ function is_valid_password($string)
  */
 function has_space_at_beginning($string)
 {
-    return (preg_match('/^[^ ]/', $string)); 
+    return (preg_match('/^[^\s]/', $string)); 
 }

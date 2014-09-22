@@ -74,11 +74,11 @@ class Reply extends AppModel
      * Delete Reply
      * @param $string
      */
-    public function delete($string)
+    public function delete($string, $string2)
     {
         $db = DB::conn();
-        $db->query("DELETE FROM replies WHERE reply_id = ?",
-            array($string)
+        $db->query("DELETE FROM replies WHERE reply_id = ? AND user_id",
+            array($string, $string2)
             );
     }
 

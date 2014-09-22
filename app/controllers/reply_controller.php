@@ -71,7 +71,8 @@ class ReplyController extends AppController
         $topic_id = Param::get('topic_id');
         $reply_id = base64_decode(Param::get('reply_id'));
         $reply = new Reply;
-        $reply->delete($reply_id);
+        $user_id = $_SESSION['user_session']['user_id'];
+        $reply->delete($reply_id, $user_id);
         $confirmation = "Your Reply has been Deleted";
         redirect("/reply/view?topic_id=$topic_id&m=$confirmation");
         $this->set(get_defined_vars());

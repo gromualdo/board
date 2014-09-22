@@ -155,18 +155,18 @@ class Topic extends AppModel
      * Delete the topic and its replies
      * @param $string
      */
-    public function delete($string)
+    public function delete($string, $string2)
     {
         $db = DB::conn();
         try {
             $db->begin();
             $db->query("DELETE FROM topics 
-                WHERE topic_id = ?",
-                array($string)
+                WHERE topic_id = ? AND user_id = ?",
+                array($string, $string2)
                 );
             $db->query("DELETE FROM replies 
-                WHERE topic_id = ?",
-                array($string)
+                WHERE topic_id = ? AND user_id = ?",
+                array($string, $string2)
                 );
             $db->commit();
         } catch(ValidationException $e) {

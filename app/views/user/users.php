@@ -1,41 +1,5 @@
 <?php $title = "Users"; ?>
 <br />
-
-<?php 
-    // Sets text to be displayed
-    if (isset($_GET['r'])) {
-        $header = "Admins";
-        $query_string1 = null;
-        $link1 = "Show all Cleared Users";
-        $query_string2 = "?c=blocked";
-        $link2 = "Show all Blocked Users";
-        $alert = "alert-info";
-        $option = null;
-        $hide_btn1 = "display:none;";
-        $hide_btn2 = "display:none;";
-    } elseif (isset($_GET['c'])) {
-        $header = "Blocked Users";
-        $query_string1 = "?r=admin";
-        $link1 = "Show all Admins";
-        $query_string2 = null;
-        $link2 = "Show all Cleared Users";
-        $alert = "alert-error";
-        $option = "Option";
-        $hide_btn1 = "display:none;";
-        $hide_btn2 = null;
-        $btn2 = "Unblock";
-    } else {
-        $header = "Cleared Users";
-        $query_string1 = "?r=admin";
-        $link1 = "Show all Admins";
-        $query_string2 = "?c=blocked";
-        $link2 = "Show all Blocked Users";
-        $alert = "alert-success";
-        $option = "Options";
-        $btn2 = "Block";
-    }
-?>
-    
 <?php if($all_users): ?>
     <h2 class="offset3 center span5"><?php clean_output($header); ?></h2>   
     <?php if (isset($_GET['m'])): ?>
