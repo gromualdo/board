@@ -23,9 +23,8 @@ class ReplyController extends AppController
         $user = new User();
         $infos = $user->getUpdatedProfile($user_id);
         $username = $infos->username; 
-        $user_grade_level = $infos->grade_level;
            
-        if ($user_grade_level < $topic->grade_level) {
+        if ($infos->grade_level < $topic->grade_level) {
             ReplyController::$placeholder = "You are not allowed to reply on this Topic";
             ReplyController::$disabled = "disabled";
         }
