@@ -40,14 +40,14 @@
                     <td><?php clean_output($user->email) ?></td>
                     <td style="text-align: center;"><?php clean_output($user->grade_level)?></td>
                     <td style="text-align: center;">
-                        <a href="/user/promotetoadmin?u=<?php echo base64_encode($user->user_id); ?>" 
+                        <a href="/user/promote_to_admin?u=<?php echo base64_encode($user->user_id); ?>" 
                             class="btn btn-info btn-small"
                             style="<?php clean_output($hide_button1); ?>">
                             Promote
                         </a>
                     </td>
                     <td style="text-align: center;">
-                        <a href="/user/changeblockstatus?u=<?php echo base64_encode($user->user_id); ?>" 
+                        <a href="/user/change_block_status?u=<?php echo base64_encode($user->user_id); ?>" 
                             class="btn btn-danger btn-small"
                             style="<?php clean_output($hide_button2); ?>">
                             <?php clean_output($button2); ?>

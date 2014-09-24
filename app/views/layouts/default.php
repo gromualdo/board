@@ -50,7 +50,7 @@
                                     <a class="brand" href="<?php clean_output(url('user/users')); ?>">
                                         <i class="icon icon-user icon-white"></i>Users</a>  
                                 <?php endif ?>
-                                <a class="brand" href="<?php clean_output(url('user/updateprofile')); ?>">
+                                <a class="brand" href="<?php clean_output(url('user/update_profile')); ?>">
                                     <i class="icon icon-list icon-white"></i>Profile</a>
                                 <a class="brand" href="<?php clean_output(url('topic/topics')); ?>">
                                     <i class="icon icon-list-alt icon-white"></i>Topics</a>

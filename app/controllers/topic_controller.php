@@ -9,7 +9,7 @@ class TopicController extends AppController
      */
     public function topics() 
     {
-        is_logged_in('user_session');
+        check_login_session('user_session');
         $session = $_SESSION['user_session'];
 
         // start paginated topics 
@@ -27,7 +27,7 @@ class TopicController extends AppController
      */
     public function create() 
     {
-        is_logged_in('user_session');
+        check_login_session('user_session');
         $session = $_SESSION['user_session'];
         $user_id = $session['user_id'];
 
@@ -62,12 +62,11 @@ class TopicController extends AppController
      */
     public function search()
     {
-        is_logged_in('user_session');
         $session = $_SESSION['user_session'];
         $search_item = Param::get('searchbar');
         $topic = new Topic();
         if(!$search_item) {
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect(url('topic/topics'));
         } else {
             if($topic->countSearchResults($search_item) > 0)
             {
@@ -94,15 +93,16 @@ class TopicController extends AppController
         $topic = new Topic();
         $topic->delete($topic_id, $user_id);
         $confirmation = "Your Topic has been Deleted";
-        redirect("/topic/topics?m=$confirmation");
+        redirect(url('topic/topics', array('m' => $confirmation)));
         $this->set(get_defined_vars());
     }
 
     /**
      * Catch page when user types in invalid URL
      */
-    public function pageNotFound() 
+    public function page_not_found() 
     {
+        check_login_session('user_session');
         $err_msg = Param::get('error_msg');
         $this->set(get_defined_vars());
     }

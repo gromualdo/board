@@ -12,7 +12,7 @@ class ReplyController extends AppController
      */
     public function view() 
     {
-        is_logged_in('user_session');
+        check_login_session('user_session');
         $session = $_SESSION['user_session'];
         $user_id = $session['user_id'];
 
@@ -51,8 +51,8 @@ class ReplyController extends AppController
                 $reply->body = Param::get('body');
                 try {
                     $reply->write($topic_id);
-                    redirect("/reply/view?topic_id=$encrypted_topic_id");
-                } catch (ValidationException $e) {
+                    redirect(url('reply/view', array('topic_id' => $encrypted_topic_id)));
+                 } catch (ValidationException $e) {
                     $page = 'view';
                 }
                 break;
@@ -74,7 +74,7 @@ class ReplyController extends AppController
         $user_id = $_SESSION['user_session']['user_id'];
         $reply->delete($reply_id, $user_id);
         $confirmation = "Your Reply has been Deleted";
-        redirect("/reply/view?topic_id=$topic_id&m=$confirmation");
+        redirect(url('reply/view', array('topic_id' => $encrypted_topic_id, 'm' => $confirmation)));
         $this->set(get_defined_vars());
     }
 }

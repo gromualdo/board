@@ -35,7 +35,7 @@ function need_logout_error($string)
 function is_not_admin($string)
 {
     if ($_SESSION[$string]['role'] == 0) {
-        redirect("/user/notallowed");
+        redirect("/user/not_allowed");
     }
 }
 
@@ -48,7 +48,7 @@ function redirect($url)
     header("location: {$url} ");
 }
 
-function is_logged_in($string)
+function check_login_session($string)
 {
     if (!isset($_SESSION[$string])) {
         redirect('/');

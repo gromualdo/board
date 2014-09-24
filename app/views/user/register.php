@@ -111,7 +111,7 @@
             <font class="text-error">*</font></td>
         </tr>
         <tr>
-            <td><input type="hidden" name="added" value="signupsuccess" />
+            <td><input type="hidden" name="added" value="signup_success" />
             <input type="submit" class="btn btn-inverse" name="regbtn" /></td>
             <td><font class="text-error">*Required Fields</font></td>
         </tr>

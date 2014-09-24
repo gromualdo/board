@@ -39,7 +39,8 @@ class Topic extends AppModel
         );
         if (!$row) {
             //will be redirected to pagenotfound if $row=0
-            throw new pagenotfoundException("Cannot find Topic_ID $topic_id");           
+            $display_topic_id = Param::get('topic_id');
+            throw new PagenotfoundException("Cannot find Topic_ID $display_topic_id");           
         }
         return new self($row);
     }
