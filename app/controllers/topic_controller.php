@@ -9,9 +9,7 @@ class TopicController extends AppController
      */
     public function topics() 
     {
-        if (!isset($_SESSION['user_session'])) {
-            redirect('/');
-        }
+        is_logged_in('user_session');
         $session = $_SESSION['user_session'];
 
         // start paginated topics 
@@ -29,10 +27,7 @@ class TopicController extends AppController
      */
     public function create() 
     {
-        if (!isset($_SESSION['user_session'])) {
-            redirect('/');
-        }
-
+        is_logged_in('user_session');
         $session = $_SESSION['user_session'];
         $user_id = $session['user_id'];
 
@@ -67,6 +62,7 @@ class TopicController extends AppController
      */
     public function search()
     {
+        is_logged_in('user_session');
         $session = $_SESSION['user_session'];
         $search_item = Param::get('searchbar');
         $topic = new Topic();

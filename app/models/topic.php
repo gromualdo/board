@@ -169,14 +169,20 @@ class Topic extends AppModel
         try {
             $db->begin();
             $db->query(
-                "DELETE FROM topics 
-                WHERE topic_id = ? AND user_id = ?",
-                array($topic_id, $user_id)
+                "DELETE FROM topics
+                WHERE topic_id = ? AND (user_id = ? OR 
+                    (SELECT role FROM users 
+                    WHERE user_id =? AND role=1)
+                    )",
+                array($topic_id, $user_id, $user_id)
             );
             $db->query(
                 "DELETE FROM replies 
-                WHERE topic_id = ? AND user_id = ?",
-                array($topic_id, $user_id)
+                WHERE topic_id = ? AND (user_id = ? OR 
+                    (SELECT role FROM users 
+                    WHERE user_id =? AND role=1)
+                    )",
+                array($topic_id, $user_id, $user_id)
             );
             $db->commit();
         } catch(ValidationException $e) {

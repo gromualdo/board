@@ -12,9 +12,7 @@ class ReplyController extends AppController
      */
     public function view() 
     {
-        if (!isset($_SESSION['user_session'])) {
-            redirect('/');
-        }
+        is_logged_in('user_session');
         $session = $_SESSION['user_session'];
         $user_id = $session['user_id'];
 

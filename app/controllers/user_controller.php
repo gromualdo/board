@@ -6,7 +6,7 @@ class UserController extends AppController
      */
     public function register() 
     {
-        needLogoutError('user_session');
+        need_logout_error('user_session');
         $user = new User();
         $add_user = Param::get('added', 'register');
 
@@ -42,7 +42,7 @@ class UserController extends AppController
      */
     public function index() 
     {
-        needLogoutError('user_session');
+        need_logout_error('user_session');
         $login = new User();
         $login_error = false;
         $blocked_error = false;
@@ -82,9 +82,7 @@ class UserController extends AppController
      */
     public function updateProfile()
     {
-        if (!isset($_SESSION['user_session'])) {
-            redirect('/');
-        }
+        is_logged_in('user_session');        
         $session = $_SESSION['user_session'];
         $user_id = $session['user_id'];
 
@@ -133,9 +131,7 @@ class UserController extends AppController
      */
     public function users()
     {
-        if (!isset($_SESSION['user_session'])) {
-            redirect('/');
-        } 
+        is_logged_in('user_session'); 
         is_not_admin('user_session');
         $user_id = base64_decode(Param::get('u'));
 
@@ -202,9 +198,7 @@ class UserController extends AppController
      */
     public function changeBlockStatus()
     {
-        if (!isset($_SESSION['user_session'])) {
-            redirect('/');
-        } 
+        is_logged_in('user_session'); 
         is_not_admin('user_session');
         $user_id = base64_decode(Param::get('u'));
 
@@ -223,9 +217,7 @@ class UserController extends AppController
      */
     public function notAllowed()
     {
-        if (!isset($_SESSION['user_session'])) {
-            redirect('/');
-        } 
+        is_logged_in('user_session');
     }
 
     /**
@@ -233,9 +225,7 @@ class UserController extends AppController
      */
     public function promoteToAdmin()
     {
-        if (!isset($_SESSION['user_session'])) {
-            redirect('/');
-        } 
+        is_logged_in('user_session');
         is_not_admin('user_session');
         $user_id = base64_decode(Param::get('u'));
 

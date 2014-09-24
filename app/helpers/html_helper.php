@@ -24,7 +24,7 @@ function readable_text($string)
  * login page and registration page
  * while logged in
  */
-function needLogoutError($string)
+function need_logout_error($string)
 {
     if (isset($_SESSION[$string])) {
         $logout_error ="You need to logout first"; 
@@ -46,4 +46,11 @@ function is_not_admin($string)
 function redirect($url)
 {
     header("location: {$url} ");
+}
+
+function is_logged_in($string)
+{
+    if (!isset($_SESSION[$string])) {
+        redirect('/');
+    }
 }
