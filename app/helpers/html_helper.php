@@ -24,11 +24,18 @@ function readable_text($string)
  * login page and registration page
  * while logged in
  */
-function needLogoutError($string)
+function need_logout_error($string)
 {
-    if(isset($_SESSION[$string])) {
+    if (isset($_SESSION[$string])) {
         $logout_error ="You need to logout first"; 
-        redirect(url("thread/threads", array('m'=>$logout_error)));        
+        redirect(url("topic/topics", array('m'=>$logout_error)));        
+    }
+}
+
+function is_not_admin($string)
+{
+    if ($_SESSION[$string]['role'] == 0) {
+        redirect("/user/not_allowed");
     }
 }
 
@@ -39,4 +46,11 @@ function needLogoutError($string)
 function redirect($url)
 {
     header("location: {$url} ");
+}
+
+function check_login_session($string)
+{
+    if (!isset($_SESSION[$string])) {
+        redirect('/');
+    }
 }
